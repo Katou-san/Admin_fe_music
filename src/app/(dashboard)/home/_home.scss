@@ -1,0 +1,79 @@
+.farme-home{
+    width: 100%;
+    height: 100%;
+    max-height:810px;
+    .header-content{
+        display: grid;
+        grid-template-columns: 100%;
+        height: 150px;
+        column-gap: 1%;
+        .content-1{
+            width: 97%;
+            height:100%;
+            border-radius:15px;
+            display: grid;
+            grid-template-columns:25% 25% 25% 25%;
+            align-items: center;
+            column-gap: 1%;
+
+            .Item-status{
+                width:100%;
+                height:90%;
+                background-color:#000;
+                border-radius:15px;
+                color:#fff;
+                padding: 0 20px;
+                .header-status{
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: 50% 50%;
+                    padding : 15px 0 ;
+                    font-size: 19px;
+                    i{
+                        display: grid;
+                        justify-items: end;
+                    }
+                }
+                .content-status{
+                    font-size: 26px;
+                    p{
+                        font-size:14px;
+                        color:#525252;
+                        font-family: 600;
+                    }
+                }
+            }
+        }
+
+        .content-2{
+            width: 97%;
+            height:100%;
+            background-color:#fff;
+            border-radius:15px;
+        }
+    }
+
+
+    .main-content{
+        margin-top: 10px;
+        width: 100%;
+        min-height: 200px;
+        border-radius: 15px;
+        display:grid;
+        grid-template-columns: 49.5% 49.5%;
+        column-gap: 1%;
+        
+        .farme-chart{
+            height: 410px;
+            padding: 30px 0;
+            background-color: #000000;
+            border-radius: 15px;
+        }
+
+        .farme-detail{
+            background-color: #000000;
+            border-radius: 15px;
+        }
+    }
+    
+}
