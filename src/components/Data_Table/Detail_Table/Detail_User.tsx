@@ -1,11 +1,12 @@
 'use client'
 import { CloseIcon } from '@/util/Icons/Icon';
-import { Res_song_Type } from '@/util/song-respone';
-import { Res_User, Res_User_Type } from '@/util/user-respone';
+import { Res_song_Type } from '@/util/respone_Type/song-respone';
+import { Res_User, Res_User_Type } from '@/util/respone_Type/user-respone';
 import { Avatar } from '@nextui-org/react';
 import React from 'react';
-
+import "./_detail.scss"
 const DetailUser = ({ data, event, table }: { data: Res_User_Type, event: any, table: string }) => {
+
     return (
         <div className="Form_Detail">
             <div className="Title_Detail">{table}</div>
@@ -30,11 +31,11 @@ const DetailUser = ({ data, event, table }: { data: Res_User_Type, event: any, t
             <div className="box-detail">
                 <h3>Role</h3>
                 <div className="overflow__Text text-right">
-                    <span className='role_detail '>{data.Roles}</span></div>
+                    <span className='role_detail '>{data.Role}</span></div>
             </div>
             <div className="box-detail">
                 <h3>Premium</h3>
-                <p className="overflow__Text">false</p>
+                <p className="overflow__Text">{String(data.is_Premium)}</p>
             </div>
             <div className="box-detail">
                 <h3>Create date</h3>

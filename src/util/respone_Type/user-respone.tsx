@@ -4,7 +4,7 @@ export const Res_User = [
         User_Email: "",
         User_Name: "",
         Avatar: "",
-        Roles: [],
+        Role: [],
         is_Premium: false,
         createdAt: "",
         Status: 0,

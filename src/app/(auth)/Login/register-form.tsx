@@ -1,5 +1,5 @@
 'use client'
-import { Register_Type, Register_Init } from '@/util/interface-auth';
+import { Register_Type, Register_Init } from '@/util/respone_Type/interface-auth';
 import React, { useState } from 'react'
 
 interface Provider {

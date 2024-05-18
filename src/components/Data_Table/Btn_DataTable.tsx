@@ -1,7 +1,10 @@
 import DeleteTable from '@/components/Data_Table/Delete_Table/DeleteTable';
-import EditTable from '@/components/Data_Table/Update_Table/UpdateTable';
+import UpdateFormSong from '@/components/Data_Table/Update_Table/Update_Song';
+import UpdateFormUser from '@/components/Data_Table/Update_Table/Update_User';
+import EditTable from '@/components/Data_Table/Update_Table/Update_User';
 import { DeleteIcon, EditIcon, EyeIcon } from '@/util/Icons/Icon';
 import { Tooltip, useDisclosure } from '@nextui-org/react';
+import { table } from 'console';
 import React from 'react';
 type Prop = {
     type: string,
@@ -35,7 +38,9 @@ const BtnDataTable = ({ type, event, data }: Prop) => {
                 </span>
             </Tooltip>
             <DeleteTable isOpen={isOpen} onOpenChange={onOpenChange} table={type} data={data} />
-            <EditTable isOpen={isOpen_Edit} onOpenChange={onOpenChange_Edit} table={type} data={data} />
+
+            {type == "user" && <UpdateFormUser isOpen={isOpen_Edit} onOpenChange={onOpenChange_Edit} table={type} data={data} />}
+            {type == "song" && <UpdateFormSong isOpen={isOpen_Edit} onOpenChange={onOpenChange_Edit} table={type} data={data} />}
         </div>
     );
 }

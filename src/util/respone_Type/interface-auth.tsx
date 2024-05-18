@@ -5,7 +5,6 @@ export const Login_Init = {
 export type Login_Type = typeof Login_Init
 
 
-
 export const Register_Init = {
     Email: "",
     Name: "",

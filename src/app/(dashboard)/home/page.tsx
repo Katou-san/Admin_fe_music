@@ -1,4 +1,4 @@
-
+'use client'
 import React from "react";
 import "./_home.scss";
 import ItemList from "@/app/(dashboard)/home/components/ItemList";

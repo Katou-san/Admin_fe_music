@@ -1,0 +1,175 @@
+.Form_Detail {
+    width: 95%;
+    min-height: 560px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 0px;
+    transition: .2s;
+    position: relative;
+
+    .Avatar {
+        width: 100%;
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        margin-top: 20px;
+    }
+
+    .Title_Detail {
+        display: grid;
+        place-items: center;
+        font-weight: 600;
+        font-size: 20px;
+    }
+
+    .CloseIcon {
+        position: absolute;
+        width: 0;
+        right: -5px;
+        top: -5px;
+        transition: .2s;
+    }
+
+    h1 {
+        width: 100%;
+        text-align: center;
+        font-size: 22px;
+        font-weight: 600;
+        margin-top: 15px;
+    }
+
+    .box-detail {
+        margin-top: 16px;
+        display: grid;
+        grid-template-columns: 40% 60%;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+
+        h3 {
+            font-weight: 600;
+        }
+
+        p {
+            text-align: right;
+        }
+
+        span {
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .role_detail {
+            position: relative;
+
+        }
+
+        .role_detail::after {
+            position: absolute;
+            content: " ";
+            top: calc(50% - 7.5px);
+            left: -20%;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: red;
+            z-index: 2;
+        }
+    }
+}
+
+
+.Song_Detail {
+    overflow: hidden;
+
+    .Header_Song_Detail {
+        width: 100%;
+        height: 130px;
+        display: grid;
+        grid-template-columns: 40% 60%;
+        // place-items: center;
+        background-color: aqua;
+        border-radius: 13px;
+        padding: 8px;
+        margin-top: 30px;
+        transition: .2s;
+        position: relative;
+
+        img {
+            width: 100px;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .Content_Header {
+            h2 {
+                font-weight: 600;
+                font-size: 20px;
+            }
+
+            .box-detail {
+                margin-top: 16px;
+                display: grid;
+                grid-template-columns: 40% 60%;
+                width: 100%;
+
+                h3 {
+                    font-weight: 600;
+                }
+
+
+                p,
+                span {
+                    text-align: left !important;
+                }
+
+                span {
+                    padding: 5px 10px;
+                    border-radius: 20px;
+                }
+            }
+        }
+
+        .btn_Audio {
+            position: absolute;
+            bottom: -20%;
+            right: -5%;
+            width: 80px;
+            height: 80px;
+            background-color: rgb(251, 251, 251);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: .2s ease-in-out;
+
+            .frame_Icon {
+                width: 70px;
+                height: 70px;
+                background-color: aquamarine;
+                border-radius: 50%;
+                display: grid;
+                grid-template-columns: 100%;
+                place-items: center;
+                transition: .2s;
+
+                svg {
+                    transform: translateX(18%);
+                }
+            }
+        }
+    }
+
+    .Body_Song_Detail {
+        margin-top: 10px;
+        padding: 10px 20px;
+
+        .list_Tag {
+            width: 100%;
+            display: flex;
+
+        }
+    }
+}

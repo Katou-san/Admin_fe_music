@@ -1,45 +1,48 @@
-.FarmeManage{
+.FarmeManage {
     width: 100%;
     height: 100%;
 
 }
 
 
-.ContentMain{
+.ContentMain {
     width: 100%;
-    display:grid;
+    display: grid;
     grid-template-columns: 100% 0%;
-    transition:.2s;
-    overflow:hidden;
+    transition: .2s;
+    overflow: hidden;
 
-    .ContentLeft{
-        .Header_Content{
+    .ContentLeft {
+        .Header_Content {
             width: 100%;
             height: 40px;
             margin-bottom: 30px;
             display: grid;
             grid-template-columns: 30% 20% 20% 15%;
             column-gap: 10px;
-            .Select-form{
+
+            .Select-form {
                 max-height: 40px;
             }
         }
     }
 
-    .ContentRight{
+    .ContentRight {
         display: flex;
         justify-content: right;
         width: 100%;
         transition: .1s;
-        .Form_Detail{
+
+        .Form_Detail {
             width: 95%;
             min-height: 560px;
             background-color: #fff;
             border-radius: 15px;
             padding: 0px;
             transition: .2s;
-            position:relative;
-            .Avatar{
+            position: relative;
+
+            .Avatar {
                 width: 100%;
                 display: grid;
                 align-items: center;
@@ -47,46 +50,55 @@
                 overflow: hidden;
                 margin-top: 20px;
             }
-            .Title_Detail{
-               display: grid;
-               place-items: center;
+
+            .Title_Detail {
+                display: grid;
+                place-items: center;
             }
-            .CloseIcon{
+
+            .CloseIcon {
                 position: absolute;
                 width: 0;
                 right: -5px;
-                top:-5px;
+                top: -5px;
                 transition: .2s;
             }
-            h1{
+
+            h1 {
                 width: 100%;
                 text-align: center;
                 font-size: 22px;
                 font-weight: 600;
                 margin-top: 15px;
             }
-            .box-detail{
+
+            .box-detail {
                 margin-top: 16px;
                 display: grid;
                 grid-template-columns: 40% 60%;
                 width: 100%;
                 align-items: center;
                 justify-content: space-between;
-                h3{
-                   font-weight: 600;
+
+                h3 {
+                    font-weight: 600;
                 }
-                p{
+
+                p {
                     text-align: right;
                 }
-                span{
+
+                span {
                     padding: 5px 10px;
                     border-radius: 20px;
                 }
-                .role_detail{
-                    position:relative;
-                    
+
+                .role_detail {
+                    position: relative;
+
                 }
-                .role_detail::after{
+
+                .role_detail::after {
                     position: absolute;
                     content: " ";
                     top: calc(50% - 7.5px);
@@ -102,15 +114,16 @@
     }
 }
 
-.ShowDetail{
+.ShowDetail {
     grid-template-columns: 70% 30% !important;
-    .ContentRight{
-        .Form_Detail{
-            padding: 10px 35px !important;
-            .CloseIcon{
-               width: 15%;
+
+    .ContentRight {
+        .Form_Detail {
+            padding: 10px 20px !important;
+
+            .CloseIcon {
+                width: 15%;
             }
         }
     }
 }
-

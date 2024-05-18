@@ -74,11 +74,13 @@ $color-font: #dbd8e3;
     --ring: 212.7 26.8% 83.9%;
   }
 
+  .false,
   .paused {
     background-color: #f3126033;
     color: #f54281;
   }
 
+  .true,
   .active {
     background-color: #18c96433;
     color: #18c964;
@@ -87,6 +89,10 @@ $color-font: #dbd8e3;
   .vacation {
     color: #f5a524;
     background-color: #f5a52433;
+  }
+
+  .none {
+    display: none !important;
   }
 
   .overflow__Text {

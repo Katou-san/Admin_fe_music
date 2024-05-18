@@ -1,16 +1,16 @@
 'use client'
 import React from "react";
-import "./_table.scss"
-import { Res_List_User_Type } from "@/util/user-respone";
+import "../_table.scss"
 import { Column_Song, Column_Song_item__Type } from "@/configs/DataTable_Config";
-import ItemUser from "@/components/Data_Table/Item_Table/Item_User";
+import ItemSong from "@/components/Data_Table/Item_Table/Item_Song";
+import { Res_List_Song_Type } from "@/util/respone_Type/song-respone";
 
 type Prop = {
-    data: Res_List_User_Type,
+    data: Res_List_Song_Type,
     event: (data: any) => void
 }
 
-export default function DataTableUser({ data, event }: Prop) {
+export default function DataTableSong({ data, event }: Prop) {
     return (
         <div className="table_data">
             <div className="header_Table header_Table_user">
@@ -19,7 +19,8 @@ export default function DataTableUser({ data, event }: Prop) {
                 )}
             </div>
             {
-                data.map((user, i) => <ItemUser key={i} user={user} event={event} />
+                data.map((song, i) => (
+                    <ItemSong key={i} song={song} event={event} />)
                 )}
         </div>
     );

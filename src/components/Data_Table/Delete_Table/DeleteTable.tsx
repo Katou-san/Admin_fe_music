@@ -1,7 +1,10 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import "./_Delete_Table.scss"
-import { Modal, ModalContent, ModalBody, ModalFooter, Button } from "@nextui-org/react";
+import { Modal, ModalContent, ModalBody, ModalFooter, Button, radio } from "@nextui-org/react";
+import { Song } from '@/api/Song';
+import { User } from '@/api/User';
+import { toast } from 'react-toastify';
 type Prop = {
     isOpen: boolean,
     onOpenChange: () => void,
@@ -20,7 +23,10 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
             index_Id = array_key.indexOf("User_Id")
             index_Name = array_key.indexOf("User_Email")
             break;
-
+        case "song":
+            index_Id = array_key.indexOf("Song_Id")
+            index_Name = array_key.indexOf("Song_Name")
+            break;
         default:
             break;
     }
@@ -29,9 +35,35 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
         Set_dataProp(data)
     }, [table, data])
 
+
+
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
-        console.log(dataProp[array_key[index_Id]])
+
+        switch (table) {
+            case "user":
+                User.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                    if (res.status === 200) {
+                        toast.success(res.message)
+                    } else {
+                        toast.error(res.message)
+                    }
+                })
+                break;
+            case "song":
+                Song.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                    if (res.status === 200) {
+                        toast.success(res.message)
+                    } else {
+                        toast.error(res.message)
+                    }
+                })
+                break;
+            default:
+                break;
+        }
+
+
         onClose()
     }
     return (
@@ -43,7 +75,7 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
                             <form action="" onSubmit={(e: any) => { SubmitForm(e, onClose) }}>
                                 <ModalBody>
                                     <div className='Title_Delete'>Delete {Title}</div>
-                                    <div className='Boby_Delete'>Do you want delete {dataProp[array_key[index_Name]]}</div>
+                                    <div className='Boby_Delete'>Do you want delete <span className='font-bold'>{dataProp[array_key[index_Name]]}</span></div>
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button color="danger" variant="light" onPress={onClose}>

@@ -1,11 +1,14 @@
 'use client'
-import CreateForm from '@/components/Data_Table/Header_Content/Create_Form';
+import CreateFormSong from '@/components/Data_Table/Create_Form/Form_Song';
+import CreateFormUser from '@/components/Data_Table/Create_Form/Form_User';
+import { Convert_Title } from '@/util/Convert/Table';
 import { PlusIcon, SearchIcon } from '@/util/Icons/Icon';
 import { Button, Select, SelectItem, Input, useDisclosure } from '@nextui-org/react';
 import React, { useEffect, useMemo, useState } from 'react';
 
 
 type Prop = { data: Array<any>, select: Array<string>, table: string, find: string, event: React.Dispatch<any[]> }
+
 
 const HeaderContent = ({ data = [], select, table, find, event }: Prop) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -21,7 +24,7 @@ const HeaderContent = ({ data = [], select, table, find, event }: Prop) => {
         let temp2: Array<any> = []
         data.map((value: data_type) => {
             temp1.push(value[select[0]])
-            if (select2 != undefined) {
+            if (select2 != undefined && select[1] != undefined) {
                 temp2.push(value[select[1]])
             }
             Set_Array_s1(Array.from(new Set(temp1)))
@@ -67,37 +70,42 @@ const HeaderContent = ({ data = [], select, table, find, event }: Prop) => {
             />
             <Select
                 labelPlacement={"inside"}
-                label="Role"
+                label={Convert_Title(select[0])}
                 className="max-w-xs max-h-xs"
                 size="sm"
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => set_Select1(e.target.value)}>
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => set_Select1(e.target.value)}
+            >
                 {Array_s1.map((value: string, i: number) => {
                     return (
-                        <SelectItem key={i} value={value}>
+                        <SelectItem key={i} value={value} textValue={value}>
                             {String(value)}
                         </SelectItem>
                     )
                 })}
             </Select>
-            <Select
+            {select[1] && <Select
                 labelPlacement={"inside"}
-                label="Status"
+                label={Convert_Title(select[1])}
                 className="max-w-xs max-h-xs"
                 size="sm"
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => set_Select2(e.target.value)}
             >
                 {Array_s2.map((value: string, i: number) => {
                     return (
-                        <SelectItem key={i} value={value}>
-                            {value}
+                        <SelectItem key={i} value={value} textValue={value}>
+                            {String(value)}
                         </SelectItem>
                     )
                 })}
-            </Select>
+            </Select>}
+
             <Button color="primary" endContent={<PlusIcon />} size="lg" onClick={onOpen}>
                 Add New
             </Button>
-            <CreateForm isOpen={isOpen} onOpenChange={onOpenChange} table='user' />
+            {table === "user" && <CreateFormUser isOpen={isOpen} onOpenChange={onOpenChange} table={table} />}
+            {table === "song" && <CreateFormSong isOpen={isOpen} onOpenChange={onOpenChange} table={table} />}
+            {/* {table === "user" && <CreateFormUser isOpen={isOpen} onOpenChange={onOpenChange} table={table} />}
+            {table === "user" && <CreateFormUser isOpen={isOpen} onOpenChange={onOpenChange} table={table} />} */}
         </div>
     );
 }

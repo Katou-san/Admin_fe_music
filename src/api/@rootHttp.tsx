@@ -1,4 +1,3 @@
-import { EnvConfig } from "@/configs/Env_Config";
 import axios from "axios";
 
 class HttpError extends Error {
@@ -13,6 +12,7 @@ class HttpError extends Error {
 
 const Validate = (url: string, body?: any) => {
     if (url.length <= 0 || url.includes("undefined")) {
+        console.error(url)
         console.log("Error: url is empty or undefined")
         return false
     }
@@ -20,9 +20,9 @@ const Validate = (url: string, body?: any) => {
 }
 
 export const http = {
-    get: async (url: string, option?: any) => {
+    get: async (url: string, option: any = undefined) => {
         if (Validate(url)) {
-            const request = await axios.get(url, option || undefined)
+            const request = await axios.get(url, option)
             if (request.status !== 200) {
                 return new HttpError(request.data)
             }
@@ -53,9 +53,9 @@ export const http = {
             return request.data
         }
     },
-    delete: async (url: string) => {
+    delete: async (url: string, option: any) => {
         if (Validate(url)) {
-            const request = await axios.put(url)
+            const request = await axios.delete(url, option)
             if (request.status !== 200) {
                 return new HttpError(request.data)
             }

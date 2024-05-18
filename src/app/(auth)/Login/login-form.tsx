@@ -2,7 +2,7 @@
 
 import { Auth } from '@/api/Auth';
 import { LogoFacebook, LogoGoogle } from '@/util/Icons/Logo';
-import { Login_Init, Login_Type } from '@/util/interface-auth';
+import { Login_Init, Login_Type } from '@/util/respone_Type/interface-auth';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
