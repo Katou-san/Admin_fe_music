@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 class HttpError extends Error {
     status: number
@@ -12,8 +13,7 @@ class HttpError extends Error {
 
 const Validate = (url: string, body?: any) => {
     if (url.length <= 0 || url.includes("undefined")) {
-        console.error(url)
-        console.log("Error: url is empty or undefined")
+        toast.error("Error: url is empty or undefined")
         return false
     }
     return true
@@ -24,8 +24,9 @@ export const http = {
         if (Validate(url)) {
             const request = await axios.get(url, option)
             if (request.status !== 200) {
-                return new HttpError(request.data)
+                return new Error("Error: url is not valid")
             }
+
             return request.data
         } else {
             throw new Error("url is not valid")
@@ -35,8 +36,9 @@ export const http = {
     post: async (url: string, body: any, option?: any) => {
         if (Validate(url, body)) {
             const request = await axios.post(url, body, option || undefined)
+
             if (request.status !== 200) {
-                return new HttpError(request.data)
+                return new Error("Error: url is not valid")
             }
             return request.data
         } else {
@@ -47,18 +49,12 @@ export const http = {
     put: async (url: string, body: any, option?: any) => {
         if (Validate(url, body)) {
             const request = await axios.put(url, body, option || undefined)
-            if (request.status !== 200) {
-                return new HttpError(request.data)
-            }
             return request.data
         }
     },
     delete: async (url: string, option: any) => {
         if (Validate(url)) {
             const request = await axios.delete(url, option)
-            if (request.status !== 200) {
-                return new HttpError(request.data)
-            }
             return request.data
         }
     },

@@ -4,28 +4,28 @@ export const Res_song = [
         Song_Id: "",
         Song_Name: "",
         Song_Image: "",
-        Song_Src: "",
+        Song_Audio: "",
+        Artist: "",
         Like: 0,
         User_Id: "",
         Category_Id: "",
         Lyrics: "",
         Tag: "",
         Color: "",
-        Is_Publish: true,
-        createdAt: "",
-        updatedAt: "",
-        __v: 0,
+        is_Publish: true,
+        Create_Date: ""
     },
 ];
 
 export const Init_Create_Song = {
     Song_Name: "",
     Song_Image: null,
-    Song_Src: null,
+    Song_Audio: null,
     Category_Id: "",
     Tag: "",
+    Artist: "",
     Color: "#7ad3e9",
-    Is_Publish: true,
+    is_Publish: true,
 }
 
 
@@ -33,11 +33,12 @@ export const Init_Create_Song = {
 export type Create_Song_Type = {
     Song_Name: string,
     Song_Image: any,
-    Song_Src: any,
+    Song_Audio: any,
     Category_Id: string,
+    Artist: string,
     Tag?: string,
     Color?: string,
-    Is_Publish: true,
+    is_Publish?: boolean,
 }
 export type Res_song_Type = typeof Res_song[0];
 export type Update_Song_Type = typeof FormData

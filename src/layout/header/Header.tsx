@@ -1,11 +1,38 @@
-import React from "react";
-import SearchBar from "@/components/SearchBar/SearchBar";
+'use client'
+import React, { useContext, useEffect, useState } from "react";
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import { BellIcon, LogoutIcon } from "@/util/Icons/Icon";
 import { Avatar } from "@nextui-org/react";
 import "./_header.scss";
+import { contextAuth } from "@/contexts/providerAuth";
+import { Auth_respone } from "@/model/auth";
+import { EnvConfig } from "@/configs/Env_Config";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { Send } from "@/api/Send";
 
 export default function Header() {
+  const { auth, setAuth } = useContext(contextAuth)
+  const router = useRouter()
+  const [url, set_url] = useState("")
+
+  const Logout = () => {
+    setAuth(Auth_respone)
+    localStorage.removeItem(EnvConfig.LocalToken)
+    toast.success('logout successful!')
+    router.push('/auths')
+  }
+
+  useEffect(() => {
+    if (auth.is_Login) {
+      Send.Avatar(auth.Avatar)
+        .then((res) => {
+          set_url(URL.createObjectURL(res))
+        })
+    }
+
+  }, [auth])
+
   return (
     <header>
       <span></span>
@@ -21,14 +48,14 @@ export default function Header() {
               isBordered
               color="default"
               src={
-                "https://cdn.sforum.vn/sforum/wp-content/uploads/2024/01/avartar-anime-12.jpg"
+                url
               }
             />
-            <span>hung</span>
+            <span>{auth.User_Name}</span>
           </div>
         </PopoverTrigger>
         <PopoverContent>
-          <div className="px-1 py-2">
+          <div className="px-1 py-2" onClick={Logout}>
             <div className="Logout_Content cursor-pointer">
               {/* <LogoutIcon /> */}
               <span>Logout</span>

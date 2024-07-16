@@ -82,8 +82,16 @@ $color-font: #dbd8e3;
 
   .true,
   .active {
-    background-color: #18c96433;
-    color: #18c964;
+    background-color: #18c96433 !important;
+    color: #18c964 !important;
+  }
+
+  .dottrue {
+    background-color: #18c964 !important;
+  }
+
+  .dotfalse {
+    background-color: #f54281 !important;
   }
 
   .vacation {

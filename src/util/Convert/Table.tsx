@@ -1,5 +1,4 @@
 export const Convert_Title = (title: string) => {
-
     switch (title.toLowerCase()) {
         case "like":
             return "Like"
@@ -21,8 +20,10 @@ export const Convert_Title = (title: string) => {
             return "Premium"
         case "status":
             return "Status"
-        case "playlist_is_publish":
+        case "is_publish":
             return 'Publish'
+        case "role_name":
+            return "Role"
         default:
             return "Unknown"
     }

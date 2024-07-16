@@ -3,18 +3,20 @@ export const Res_User = [
         User_Id: "",
         User_Email: "",
         User_Name: "",
+        Role_Name: "",
         Avatar: "",
-        Role: [],
         is_Premium: false,
-        createdAt: "",
+        CreateDate: "",
         Status: 0,
+        Role_Id: "",
+        createdAt: ""
     },
 ];
 
 export const Update_User = {
     User_Name: "",
     Roles: 0,
-    Status: "active",
+    Status: 0,
 }
 
 export type Res_User_Type = (typeof Res_User)[0];

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Tooltip } from "@nextui-org/react";
 import {
   LineChart,

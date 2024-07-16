@@ -42,7 +42,7 @@ export default function ContentBox({
         }
         Set_active(index);
       }}>
-        <span>{Vaule.icon}</span>
+        <i>{Vaule.icon}</i>
         <h3>{Vaule.title}</h3>
       </div>
 
@@ -63,8 +63,8 @@ export default function ContentBox({
                 Set_active_children(i)
               }}
             >
-              <div>{detail.icon_item}</div>
-              <div>{detail.title_item}</div>
+              <i>{detail.icon_item}</i>
+              <h2>{detail.title_item}</h2>
             </li>
           );
         })}

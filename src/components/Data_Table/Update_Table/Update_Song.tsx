@@ -11,42 +11,43 @@ import {
 } from "@nextui-org/react";
 import SelectCus from "@/components/Custom/SelectCus";
 import Image from "next/image";
-import { Reducer_Change } from "@/hooks/Reduce_F";
-import { Init_Create_Song } from "@/util/respone_Type/song-respone";
+import { Reducer_Change } from "@/hooks/reducer/action";
+import { Init_Create_Song, Res_song_Type } from "@/util/respone_Type/song-respone";
 import { Validate_Update_Song } from "@/util/Validate/Song";
 import { Song } from "@/api/Song";
 import { toast } from "react-toastify";
 import { Form_Data } from "@/util/FormData/Form_Data";
 import { Send } from "@/api/Send";
+import { Category } from "@/api/Category";
+import { list_cate_respone_type } from "@/model/category";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
     table: string;
-    data?: any;
+    data: Res_song_Type;
+    onReload?: () => void;
 };
 
-const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
+const UpdateFormSong = ({ isOpen, onOpenChange, table, data, onReload = () => { } }: Prop) => {
     const [Title, Set_Title] = useState("");
+    const [List_cate, Set_List_cate] = useState<list_cate_respone_type>([]);
     const [Value_Song, dispacth_song] = useReducer(
         Reducer_Change,
         Init_Create_Song
     );
     const [Change, Set_Change] = useState({})
-    let Array_Status = [
-        { label: "active", value: "active" },
-        { label: "1", value: "1" },
-        { label: "2", value: "2" },
-    ];
-
-
     const [Urlfile, dispacth_url] = useReducer(Reducer_Change, {
         img: null,
         audio: null,
     });
     useEffect(() => {
         Set_Title(table)
+        Category.Get_All()
+            .then((res) => {
+                Set_List_cate(res.data);
+            })
         dispacth_song({ type: "CHANGE", payload: data })
-        Send.Audio(data.Song_Src)
+        Send.Audio(data.Song_Audio)
             .then((res) => dispacth_url({ type: "CHANGE", payload: { audio: URL.createObjectURL(res) } }))
         Send.Image_S(data.Song_Image)
             .then((res) => dispacth_url({ type: "CHANGE", payload: { img: URL.createObjectURL(res) } }))
@@ -59,15 +60,16 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
         const Error_Check = Validate_Update_Song(
-            Value_Song.Song_Name,
+            Value_Song.Song_Name
         );
 
 
         if (!Error_Check.status) {
-            const formdata = Form_Data({ ...Change, Song_Src: "", Category_Id: Value_Song.Category_Id });
+            const formdata = Form_Data({ ...Change, Song_Audio: "", Category_Id: Value_Song.Category_Id });
             Song.Update(Value_Song.Song_Id, formdata).then((res) => {
                 if (res.status == 200) {
                     toast.success(res.message);
+                    onReload();
                     onClose();
                 } else {
                     toast.error(res.message);
@@ -144,9 +146,9 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                     <div className="right">
                                         <div className="select_group">
                                             <SelectCus
-                                                array={Array_Status}
-                                                lables={["label", "value"]}
-                                                Title="Role"
+                                                array={List_cate}
+                                                lables={["Category_Name", "Category_Id"]}
+                                                Title="Category"
                                                 event={dispacth_song}
                                             />
                                         </div>
@@ -163,24 +165,18 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                     </div>
                                 </div>
                                 <div className="Content2_FormSong">
-                                    <div className="colorFarme">
-                                        <div
-                                            className={`resultColor `}
-                                            style={{ backgroundColor: `${Value_Song.Color}` }}
-                                        ></div>
-                                        <input
-                                            type="color"
-                                            id="ColorFarme"
-                                            className="none"
-                                            onChange={(e: any) => {
-                                                dispacth_song({
-                                                    type: "CHANGE",
-                                                    payload: { Color: e.target.value },
-                                                });
-                                                Set_Change({ ...Change, Tag: e.target.value })
-                                            }}
-                                        />
-                                    </div>
+                                    <Input
+                                        type="text"
+                                        label="Artist"
+                                        value={Value_Song?.Artist}
+                                        onChange={(e) => {
+                                            dispacth_song({
+                                                type: "CHANGE",
+                                                payload: { Artist: e.target.value },
+                                            });
+                                            Set_Change({ ...Change, Artist: e.target.value })
+                                        }}
+                                    />
                                     <Input
                                         type="text"
                                         label="Tag"

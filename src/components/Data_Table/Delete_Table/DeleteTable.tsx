@@ -5,6 +5,10 @@ import { Modal, ModalContent, ModalBody, ModalFooter, Button, radio } from "@nex
 import { Song } from '@/api/Song';
 import { User } from '@/api/User';
 import { toast } from 'react-toastify';
+import { Playlist } from '@/api/Playlist';
+import { Role } from '@/api/Role';
+import { Category } from '@/api/Category';
+import { Partner } from '@/api/Partner';
 type Prop = {
     isOpen: boolean,
     onOpenChange: () => void,
@@ -19,6 +23,7 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
     let index_Id = 0
     let index_Name = 0
     switch (table) {
+
         case "user":
             index_Id = array_key.indexOf("User_Id")
             index_Name = array_key.indexOf("User_Email")
@@ -27,6 +32,27 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
             index_Id = array_key.indexOf("Song_Id")
             index_Name = array_key.indexOf("Song_Name")
             break;
+        case "playlist":
+            index_Id = array_key.indexOf("Playlist_Id")
+            index_Name = array_key.indexOf("Playlist_Name")
+            break;
+        case "role":
+            index_Id = array_key.indexOf("Role_Id")
+            index_Name = array_key.indexOf("Role_Name")
+            break;
+        case "cate":
+            index_Id = array_key.indexOf("Category_Id")
+            index_Name = array_key.indexOf("Category_Name")
+            break;
+        case "bill":
+            index_Id = array_key.indexOf("Bill_Id")
+            index_Name = array_key.indexOf("Category_Name")
+            break;
+        case "partner":
+            index_Id = array_key.indexOf("Partner_Id")
+            index_Name = array_key.indexOf("Partner_Name")
+            break;
+
         default:
             break;
     }
@@ -59,11 +85,45 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
                     }
                 })
                 break;
+            case "playlist":
+                Playlist.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                    if (res.status === 200) {
+                        toast.success(res.message)
+                    } else {
+                        toast.error(res.message)
+                    }
+                })
+                break;
+            case "role":
+                Role.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                    if (res.status === 200) {
+                        toast.success(res.message)
+                    } else {
+                        toast.error(res.message)
+                    }
+                })
+                break;
+            case "cate":
+                Category.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                    if (res.status === 200) {
+                        toast.success(res.message)
+                    } else {
+                        toast.error(res.message)
+                    }
+                })
+                break;
+            case 'partner':
+                Partner.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                    if (res.status === 200) {
+                        toast.success(res.message)
+                    } else {
+                        toast.error(res.message)
+                    }
+                })
+                break;
             default:
                 break;
         }
-
-
         onClose()
     }
     return (

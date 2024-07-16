@@ -4,8 +4,8 @@ function CompleteIcon({ w, color }: { w?: number, color?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       width={w || 24}
       height={w || 24}
       fill={color || "green"}

@@ -25,6 +25,12 @@
         height: 60px;
         align-items: center;
 
+        .index_Table {
+            padding-left: 10px;
+            font-size: 16px;
+            font-size: 600;
+        }
+
         .Name_Item {
             font-weight: 600;
 
@@ -38,7 +44,8 @@
 
         .btn-Table {
             display: grid;
-            grid-template-columns: 15% 15% 15% 65%;
+            align-items: center;
+            grid-template-columns: 15% 15% 15% 15% 40%;
 
         }
     }
@@ -91,7 +98,7 @@
 
     .listItem {
         height: 100%;
-        min-height: 300px;
+        min-height: 320px;
     }
 
     .numberpage {
@@ -99,4 +106,25 @@
         display: flex;
         justify-content: center;
     }
+
+
+
+    .header_Table_role {
+        display: grid;
+        grid-template-columns: 8% 25% 47% 20%;
+    }
+
+    .Item_Table_role {
+        grid-template-columns: 8% 25% 47% 20%;
+
+        .Role_Item,
+        .Status_Item {
+            span {
+                font-size: 14px;
+                padding: 5px 7px;
+                border-radius: 30px;
+            }
+        }
+    }
+
 }

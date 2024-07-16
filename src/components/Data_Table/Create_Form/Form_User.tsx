@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, ModalContent, ModalBody, ModalFooter, Button, Input } from "@nextui-org/react";
 import SelectCus from '@/components/Custom/SelectCus';
-import { User } from '@/api/User';
 type Prop = {
     isOpen: boolean,
     onOpenChange: () => void,

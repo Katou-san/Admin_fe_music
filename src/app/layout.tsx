@@ -4,6 +4,9 @@ import NextUI from "@/configs/NextUi";
 import "./globals.scss";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { ProviderStore } from "@/hooks/redux/provider";
+import { ProviderAuth } from "@/contexts/providerAuth";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NextUI>{children}</NextUI>
+        <ProviderStore>
+          <ProviderAuth>
+            <NextUI>{children}</NextUI>
+          </ProviderAuth>
+        </ProviderStore>
         <ToastContainer />
       </body>
-
     </html>
   );
 }

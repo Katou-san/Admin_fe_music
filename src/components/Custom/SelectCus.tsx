@@ -21,8 +21,8 @@ const SelectCus = ({ array, Title, event, lables }: Prop) => {
             onChange={Get_Select}
         >
             {array.map((item, i) => (
-                <SelectItem key={item[lables[0]]} value={item[lables[0]]} textValue={undefined}>
-                    {item[lables[1]]}
+                <SelectItem key={item[lables[0]]} value={item[lables[1]]} textValue={undefined}>
+                    {item[lables[0]]}
                 </SelectItem>
             ))}
         </Select>

@@ -13,12 +13,14 @@ import SelectCus from "@/components/Custom/SelectCus";
 import "./_Create_Form.scss";
 import Image from "next/image";
 import { AudioLineIcon } from "@/util/Icons/Icon";
-import { Reducer_Change } from "@/hooks/Reduce_F";
+import { Reducer_Change } from "@/hooks/reducer/action";
 import { Init_Create_Song } from "@/util/respone_Type/song-respone";
 import { Validate_Create_Song } from "@/util/Validate/Song";
 import { Song } from "@/api/Song";
 import { toast } from "react-toastify";
 import { Form_Data } from "@/util/FormData/Form_Data";
+import { Category } from "@/api/Category";
+import { list_cate_respone_type } from "@/model/category";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
@@ -28,10 +30,10 @@ type Prop = {
 
 const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
     const [Title, Set_Title] = useState("");
+    const [List_cate, Set_List_cate] = useState<list_cate_respone_type>([]);
     let Array_Status = [
-        { label: "active", value: "active" },
-        { label: "1", value: "1" },
-        { label: "2", value: "2" },
+        { label: "public", value: true },
+        { label: "private", value: false },
     ];
     const [Value_Song, dispacth_song] = useReducer(
         Reducer_Change,
@@ -43,13 +45,19 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
     });
     useEffect(() => {
         Set_Title(table);
+        Category.Get_All()
+            .then((res) => {
+                Set_List_cate(res.data);
+            })
     }, [table, data]);
 
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
+
         const Error_Check = Validate_Create_Song(
             Value_Song.Song_Name,
-            Value_Song.Song_Src
+            Value_Song.Song_Audio,
+            Value_Song.Artist
         );
         if (!Error_Check.status) {
             const formdata = Form_Data(Value_Song);
@@ -134,15 +142,15 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                     <div className="right">
                                         <div className="select_group">
                                             <SelectCus
-                                                array={Array_Status}
-                                                lables={["label", "value"]}
-                                                Title="Role"
+                                                array={List_cate}
+                                                lables={["Category_Name", "Category_Id"]}
+                                                Title="Category"
                                                 event={dispacth_song}
                                             />
                                         </div>
                                         <div className="tag_Audio">
-                                            {!Value_Song.Song_Src && <AudioLineIcon w={30} />}
-                                            {Value_Song.Song_Src && (
+                                            {!Value_Song.Song_Audio && <AudioLineIcon w={30} />}
+                                            {Value_Song.Song_Audio && (
                                                 <audio
                                                     src={Urlfile.audio ? Urlfile.audio : ""}
                                                     controls
@@ -162,7 +170,7 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                                         dispacth_song({
                                                             type: "CHANGE",
                                                             payload: {
-                                                                Song_Src: e.target.files
+                                                                Song_Audio: e.target.files
                                                                     ? e.target.files[0]
                                                                     : null,
                                                             },
@@ -182,23 +190,17 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                     </div>
                                 </div>
                                 <div className="Content2_FormSong">
-                                    <div className="colorFarme">
-                                        <div
-                                            className={`resultColor `}
-                                            style={{ backgroundColor: `${Value_Song.Color}` }}
-                                        ></div>
-                                        <input
-                                            type="color"
-                                            id="ColorFarme"
-                                            className="none"
-                                            onChange={(e: any) => {
-                                                dispacth_song({
-                                                    type: "CHANGE",
-                                                    payload: { Color: e.target.value },
-                                                });
-                                            }}
-                                        />
-                                    </div>
+                                    <Input
+                                        type="text"
+                                        label="Artist"
+                                        value={Value_Song?.Artist}
+                                        onChange={(e) => {
+                                            dispacth_song({
+                                                type: "CHANGE",
+                                                payload: { Artist: e.target.value },
+                                            });
+                                        }}
+                                    />
                                     <Input
                                         type="text"
                                         label="Tag"
@@ -216,7 +218,7 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                 <Button color="danger" variant="light" onPress={onClose}>
                                     Close
                                 </Button>
-                                <Button color="primary" type="submit" disabled={true}>
+                                <Button color="primary" type="submit" disabled={false}>
                                     Action
                                 </Button>
                             </ModalFooter>

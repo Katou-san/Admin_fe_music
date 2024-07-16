@@ -1,0 +1,69 @@
+.PlaylistModal {
+    position: absolute;
+    top: calc(50% - 25px);
+    background-color: #d5d5d5f9;
+    transition: .2s;
+    border-radius: 50%;
+    width: 20px;
+    overflow: hidden;
+    z-index: -1;
+    top: -20%;
+
+    .titleOption {
+        font-size: 20px;
+        color: #363636;
+        font-weight: 600;
+    }
+
+    ul {
+        margin-top: 10px;
+        max-height: 380px;
+        overflow: auto;
+
+        li {
+            padding: 10px 20px;
+            background-color: rgba(164, 164, 164, 0.825);
+            border-radius: 10px;
+            margin-bottom: 3px;
+            transition: .2s;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: 600;
+
+            &:hover {
+                background-color: #0F172A;
+                color: #ebeaea;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+.showOption {
+    width: 200px;
+    height: max-content;
+    right: -60%;
+    padding: 10px;
+    border-radius: 10px;
+    transition: .2s;
+    opacity: 1;
+    visibility: unset;
+    z-index: 3;
+}
+
+.hiddenOption {
+    top: calc(50% - 25px);
+    right: 0%;
+    height: 20px !important;
+    width: 20px;
+    padding: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden;
+    border-radius: 50px;
+    opacity: 0.2;
+    transition: .2s;
+
+    .titleOption {
+        color: #ebeaea;
+    }
+}

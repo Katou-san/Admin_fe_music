@@ -35,15 +35,11 @@ const Validate_SignUp = (email: string, name: string, pass: string, confirmPass:
     return { status, Error };
 };
 
-const Validate_Employess = (email: string, name: string, pass: string) => {
+const Validate_Login = (email: string, pass: string) => {
     const Error: any = {};
     let status = false;
     if (!HandleErrors.isEmail(email)) {
         Error["email"] = "Is not a valid email";
-        status = true;
-    }
-    if (!HandleErrors.CheckLenght(name)) {
-        Error["name"] = "name need more than 4 characters";
         status = true;
     }
 
@@ -55,4 +51,4 @@ const Validate_Employess = (email: string, name: string, pass: string) => {
     return { status, Error };
 };
 
-module.exports = { Validate_SignUp, Validate_Employess };
+export { Validate_SignUp, Validate_Login };

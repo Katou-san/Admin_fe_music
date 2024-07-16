@@ -10,7 +10,7 @@ const HandleErrors_Song = {
     },
 };
 
-const Validate_Create_Song = (name: string, audio: File) => {
+const Validate_Create_Song = (name: string, audio: File, artist: string) => {
 
     const Error: any = {};
     let status = false;
@@ -18,11 +18,14 @@ const Validate_Create_Song = (name: string, audio: File) => {
         Error["name"] = "Name is required";
         status = true;
     }
-
+    if (!HandleErrors_Song.CheckLenght(artist)) {
+        Error["artist"] = "Artist is required";
+        status = true;
+    }
     if (audio !== null) {
         const type = audio?.type.split("/")[0]
         if (type != "audio") {
-            Error["audio"] = "not type audio";
+            Error["audio"] = "file not type audio";
             status = true;
         }
     } else {

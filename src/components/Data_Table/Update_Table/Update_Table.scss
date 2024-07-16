@@ -1,5 +1,10 @@
-.select_group{
+.select_group {
     display: grid;
     grid-template-columns: 48% 48%;
-    column-gap: 20px ;
+    column-gap: 20px;
+}
+
+.name_Update {
+    width: 100%;
+    max-width: 200px;
 }
