@@ -1,6 +1,6 @@
 const HandleErrors_Cate = {
     CheckLenght: (value: string) => {
-        return value.length > 3;
+        return value.length > 2;
     },
     isNotEqual: (value1: string, value2: string) => {
         return value1 === value2;

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, ModalContent, ModalBody, ModalFooter, Button, Input } from "@nextui-org/react";
 import SelectCus from '@/components/Custom/SelectCus';
+import { useReload } from '@/contexts/providerReload';
 type Prop = {
     isOpen: boolean,
     onOpenChange: () => void,
@@ -10,6 +11,7 @@ type Prop = {
 }
 
 const CreateFormSub = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const { set_ReloadSub } = useReload()
     const [Title, Set_Title] = useState("")
     let Array_Status = [
         { label: "public", value: true },
@@ -22,7 +24,7 @@ const CreateFormSub = ({ isOpen, onOpenChange, table, data }: Prop) => {
 
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
-
+        set_ReloadSub()
         onClose()
     }
     return (

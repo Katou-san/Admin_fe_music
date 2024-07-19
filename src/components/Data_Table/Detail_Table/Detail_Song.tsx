@@ -8,8 +8,12 @@ import React, { useEffect, useReducer, useRef, useState } from 'react';
 import { songType } from '@/model/songModel';
 import Image from 'next/image';
 import imgTemp from "../../../../public/temp.jpg"
+import { list_likeType } from '@/model/likeModel';
+import { Like } from '@/api/Like';
+import { Star_Icon } from '@/util/Icons/Icon_Figma';
 const DetailSong = ({ data, event, table }: { data: songType, event: any, table: string }) => {
     const refAudio = useRef<any>()
+    const [list_Like, set_ListLike] = useState<list_likeType>([])
     const [Urlfile, dispacth_url] = useReducer(Reducer_Change, {
         img: null,
         audio: null,
@@ -21,6 +25,11 @@ const DetailSong = ({ data, event, table }: { data: songType, event: any, table:
                 .then((res) => dispacth_url({ type: "CHANGE", payload: { audio: URL.createObjectURL(res) } }))
             Send.Image_S(data.Song_Image)
                 .then((res) => dispacth_url({ type: "CHANGE", payload: { img: URL.createObjectURL(res) } }))
+            Like.Get_Song(data.Song_Id).then((res) => {
+                if (res.status == 200) {
+                    set_ListLike(res.data)
+                }
+            })
         }
 
     }, [data])
@@ -37,6 +46,7 @@ const DetailSong = ({ data, event, table }: { data: songType, event: any, table:
     }
     return (
         <div className="Form_Detail Song_Detail">
+
             <div className="Title_Detail">{table}</div>
             <div className="CloseIcon" onClick={() => event({ status: false, data: Res_song })}><CloseIcon w={50} color="red" /></div>
             <audio src={Urlfile.audio} controls ref={refAudio} className='none' />
@@ -49,15 +59,20 @@ const DetailSong = ({ data, event, table }: { data: songType, event: any, table:
                         <div className={`overflow__Text content_Box`}>
                             <span className={`${String(data.is_Publish)}`}>{String(data.is_Publish)}</span></div>
                     </div>
-                    <div className="box-detail">
-                        <h4>Like</h4>
-                        <p className="overflow__Text">{data.Like}</p>
+                    <div className="starFrame">
+                        <div className="frameIcon">
+                            <Star_Icon w={60} active={true} />
+                            <p className="overflow__Text">{list_Like.length}</p>
+                        </div>
                     </div>
+
+
+
                 </div>
                 <div className="btn_Audio" onClick={HanddlePlay}>
                     <div className="frame_Icon">
-                        {isPlay && <PlayIcon w={40} />}
-                        {!isPlay && <PauseIcon w={40} />}
+                        {isPlay ? <PauseIcon w={40} /> : <PlayIcon w={40} />}
+
                     </div>
                 </div>
             </div>
@@ -65,6 +80,10 @@ const DetailSong = ({ data, event, table }: { data: songType, event: any, table:
                 <div className="box-detail">
                     <h3>Author</h3>
                     <p className="overflow__Text">{data.User_Id}</p>
+                </div>
+                <div className="box-detail">
+                    <h3>Artist</h3>
+                    <p className="overflow__Text">{data.Artist}</p>
                 </div>
                 <div className="box-detail">
                     <h3>Category</h3>

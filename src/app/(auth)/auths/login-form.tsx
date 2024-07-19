@@ -97,6 +97,21 @@ export default function LoginForm({ Value }: { Value: Provider }) {
               : ""} */}
                 </div>
             </div>
+            <div className="inputText">
+                <label htmlFor="Pass">Phone</label>
+                <input
+                    type="text"
+                    required
+                    value={ValueForm.User_Pass}
+                    onChange={(e) => Change_Value_Login({ User_Pass: e.target.value })}
+                />
+
+                <div className="toastInput">
+                    {/* {Object.keys(Check_Error_Login(FormValue).Detail_Error).length > 0
+              ? ValueError.Password
+              : ""} */}
+                </div>
+            </div>
             {/* <div className="selection">
                 <div className="remeber">
                     <input type="checkbox" name="" />

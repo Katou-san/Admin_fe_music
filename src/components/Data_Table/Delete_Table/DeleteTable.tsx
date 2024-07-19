@@ -9,6 +9,7 @@ import { Playlist } from '@/api/Playlist';
 import { Role } from '@/api/Role';
 import { Category } from '@/api/Category';
 import { Partner } from '@/api/Partner';
+import { useReload } from '@/contexts/providerReload';
 type Prop = {
     isOpen: boolean,
     onOpenChange: () => void,
@@ -17,6 +18,7 @@ type Prop = {
 }
 
 const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const { set_ReloadEmploy, set_ReloadSong, set_ReloadSub, set_ReloadCate, set_ReloadPlaylist, set_ReloadRole } = useReload()
     const [Title, Set_Title] = useState("")
     const [dataProp, Set_dataProp] = useState<typeof data>({})
     let array_key: any[] = Object.keys(data)
@@ -27,6 +29,7 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
         case "user":
             index_Id = array_key.indexOf("User_Id")
             index_Name = array_key.indexOf("User_Email")
+
             break;
         case "song":
             index_Id = array_key.indexOf("Song_Id")
@@ -70,6 +73,7 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
             case "user":
                 User.Delete(dataProp[array_key[index_Id]]).then((res) => {
                     if (res.status === 200) {
+                        set_ReloadEmploy()
                         toast.success(res.message)
                     } else {
                         toast.error(res.message)
@@ -79,6 +83,7 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
             case "song":
                 Song.Delete(dataProp[array_key[index_Id]]).then((res) => {
                     if (res.status === 200) {
+                        set_ReloadSong()
                         toast.success(res.message)
                     } else {
                         toast.error(res.message)
@@ -88,6 +93,7 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
             case "playlist":
                 Playlist.Delete(dataProp[array_key[index_Id]]).then((res) => {
                     if (res.status === 200) {
+                        set_ReloadPlaylist()
                         toast.success(res.message)
                     } else {
                         toast.error(res.message)
@@ -97,6 +103,7 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
             case "role":
                 Role.Delete(dataProp[array_key[index_Id]]).then((res) => {
                     if (res.status === 200) {
+                        set_ReloadRole()
                         toast.success(res.message)
                     } else {
                         toast.error(res.message)
@@ -106,6 +113,7 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
             case "cate":
                 Category.Delete(dataProp[array_key[index_Id]]).then((res) => {
                     if (res.status === 200) {
+                        set_ReloadCate()
                         toast.success(res.message)
                     } else {
                         toast.error(res.message)

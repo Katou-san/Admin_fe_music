@@ -20,15 +20,18 @@ import { Form_Data } from "@/util/FormData/Form_Data";
 import { Send } from "@/api/Send";
 import { Category } from "@/api/Category";
 import { list_cate_respone_type } from "@/model/category";
+import { useReload } from "@/contexts/providerReload";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
     table: string;
     data: Res_song_Type;
-    onReload?: () => void;
+
 };
 
-const UpdateFormSong = ({ isOpen, onOpenChange, table, data, onReload = () => { } }: Prop) => {
+const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const { set_ReloadSong } = useReload()
+
     const [Title, Set_Title] = useState("");
     const [List_cate, Set_List_cate] = useState<list_cate_respone_type>([]);
     const [Value_Song, dispacth_song] = useReducer(
@@ -69,7 +72,7 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data, onReload = () => { 
             Song.Update(Value_Song.Song_Id, formdata).then((res) => {
                 if (res.status == 200) {
                     toast.success(res.message);
-                    onReload();
+                    set_ReloadSong()
                     onClose();
                 } else {
                     toast.error(res.message);

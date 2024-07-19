@@ -20,6 +20,7 @@ const create_Employess = {
     User_Email: "",
     User_Pass: "",
     User_Name: "",
+    User_ConfirmPass: "",
     Phone: "",
     Role_Id: "",
     CCCD: "",

@@ -7,16 +7,13 @@ import {
     ModalFooter,
     Button,
     Input,
-    Checkbox,
-    Image
 } from "@nextui-org/react";
 
 import { toast } from "react-toastify";
 import { Validate_Playlist } from "@/util/Validate/Playlist";
-import { Playlist } from "@/api/Playlist";
-import { Send } from "@/api/Send";
 import { Res_role, Res_Role_Type } from "@/util/respone_Type/role-respone";
 import { Role } from "@/api/Role";
+import { useReload } from "@/contexts/providerReload";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
@@ -25,6 +22,8 @@ type Prop = {
 };
 
 const UpdateFormRole = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const { set_ReloadRole } = useReload()
+
     const [Title, Set_Title] = useState("");
     const [Value_Role, Set_Value_Role] = useState<Res_Role_Type>(
         Res_role[0]
@@ -45,6 +44,7 @@ const UpdateFormRole = ({ isOpen, onOpenChange, table, data }: Prop) => {
             Role.Update(Value_Role.Role_Id, Change)
                 .then(res => {
                     if (res.status == 200) {
+                        set_ReloadRole()
                         toast.success(res.message);
                         onClose();
                     } else {

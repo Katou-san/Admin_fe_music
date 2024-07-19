@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { Create_Cate_Type, Init_Cate } from '@/util/respone_Type/category-respone copy';
 import { Validate_Create_Cate } from '@/util/Validate/Category';
 import { Category } from '@/api/Category';
+import { useReload } from '@/contexts/providerReload';
 type Prop = {
     isOpen: boolean,
     onOpenChange: () => void,
@@ -13,6 +14,7 @@ type Prop = {
 }
 
 const CreateFormCate = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const { set_ReloadCate } = useReload()
     const [Title, Set_Title] = useState("")
     const [Value_Cate, Set_Value_Cate] = useState<Create_Cate_Type>(
         Init_Cate
@@ -27,6 +29,7 @@ const CreateFormCate = ({ isOpen, onOpenChange, table, data }: Prop) => {
         if (!Error_Check.status) {
             Category.Create(Value_Cate).then((res) => {
                 if (res.status == 200) {
+                    set_ReloadCate()
                     toast.success(res.message);
                     onClose();
                 } else {

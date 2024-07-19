@@ -6,15 +6,20 @@ import { Avatar } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import "./_Item.scss"
 import { getStatusUser } from '@/util/Convert/Status';
+import { userType } from '@/model/userModel';
+import { Role } from '@/api/Role';
+import { roleModel, roleType } from '@/model/roleModel';
 
-const ItemUser = ({ user, event }: { user: Res_User_Type, event: any }) => {
+const ItemUser = ({ user, event }: { user: userType, event: any }) => {
     const [url, Set_url] = useState("")
+    const [role, set_Role] = useState<roleType>(roleModel.init)
     useEffect(() => {
         Send.Avatar(user.Avatar)
             .then(res => Set_url(URL.createObjectURL(res)))
+        Role.Get_Id(user.Role_Id).then((res) => res.status == 200 && set_Role(res.data))
     }, [user])
 
-    const Status = getStatusUser(user.Status)
+
     return (
         <div className="Item_Table Item_Table_User">
             <Avatar isBordered radius="md" size="md" src={url} />
@@ -23,10 +28,10 @@ const ItemUser = ({ user, event }: { user: Res_User_Type, event: any }) => {
                 <h6>{user.User_Email}</h6>
             </div>
             <div className="Role_Item">
-                <h4>{user.Role_Name}</h4>
+                <h4>{role.Role_Name}</h4>
             </div>
             <div className="Status_Item">
-                <span className={`${Status}`}> {`${Status}`}</span>
+                <span className={`${getStatusUser(Number(user.Status))}`}> {getStatusUser(Number(user.Status))}</span>
             </div>
 
             <BtnDataTable type="user" event={event} data={user} />

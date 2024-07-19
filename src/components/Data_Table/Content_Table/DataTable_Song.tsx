@@ -13,10 +13,9 @@ import { list_songType } from "@/model/songModel";
 type Prop = {
     data: list_songType;
     event: (data: any) => void;
-    onReload: () => void;
 };
 
-export default function DataTableSong({ data, event, onReload }: Prop) {
+export default function DataTableSong({ data, event, }: Prop) {
     const [current, set_Current] = useState({ index: 0, limit: 4 });
     const lenght =
         data.length % 4 != 0
@@ -36,7 +35,7 @@ export default function DataTableSong({ data, event, onReload }: Prop) {
                             i >= current.index * current.limit &&
                             i < (current.index + 1) * current.limit
                         ) {
-                            return <ItemSong key={i} song={song} event={event} onReload={onReload} />
+                            return <ItemSong key={i} song={song} event={event} />
                         }
                     })}
                 </div>

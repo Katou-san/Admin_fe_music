@@ -21,6 +21,8 @@ const infoUser = {
     Like: ""
 }
 
+
+
 export const userModel = {
     init: list_user_init[0],
     init_info: infoUser,
@@ -29,6 +31,19 @@ export const userModel = {
 
 export type userType = typeof list_user_init[0]
 export type list_userType = typeof list_user_init
+export type update_userType = {
+    User_Id?: string,
+    User_Email?: string,
+    User_Pass?: string,
+    User_Name?: string,
+    Color?: string,
+    Avatar?: string,
+    Phone?: string,
+    Role_Id?: string,
+    CCCD?: string,
+    is_Admin?: boolean,
+    Status?: number,
+}
 export type info_userType = {
     Upload: string,
     Like: string

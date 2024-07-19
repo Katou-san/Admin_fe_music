@@ -6,6 +6,12 @@ import { Role } from '@/api/Role';
 import { list_roleType } from '@/model/roleModel';
 import { create_employessType, EmployessModel, employessType } from '@/model/employessModel';
 import { state_User } from '@/configs/status';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/hooks/redux/store';
+import { User } from '@/api/User';
+import { toast } from 'react-toastify';
+import { Validate_SignUp_Employess } from '@/util/Validate/User';
+import { useReload } from '@/contexts/providerReload';
 type Prop = {
     isOpen: boolean,
     onOpenChange: () => void,
@@ -14,6 +20,8 @@ type Prop = {
 }
 
 const CreateFormEmployess = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const { set_ReloadEmploy } = useReload()
+    const userProvider = useSelector((state: RootState) => state.auth)
     const [Title, Set_Title] = useState("")
     const [employess, set_Employess] = useState<create_employessType>(EmployessModel.init_create)
     const [list_role, set_ListRole] = useState<list_roleType>([])
@@ -30,8 +38,26 @@ const CreateFormEmployess = ({ isOpen, onOpenChange, table, data }: Prop) => {
 
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
-        console.log(employess)
-        onClose()
+        if (userProvider.Access_Token != '' && userProvider.is_Login) {
+            const checkError = Validate_SignUp_Employess(employess.User_Email, employess.User_Name, employess.User_Pass, employess.CCCD, employess.Phone)
+            if (!checkError.status) {
+                User.Create(employess)
+                    .then((res) => {
+                        if (res.status == 200) {
+                            set_ReloadEmploy()
+                            toast.success(res.message)
+                            onClose()
+                        } else {
+                            toast.error(res.message)
+                        }
+
+                    })
+            } else {
+                const getKey = Object.keys(checkError.Error)
+                toast.error(checkError.Error[getKey[0]])
+            }
+        }
+
     }
     return (
         <>
@@ -43,8 +69,8 @@ const CreateFormEmployess = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                 <div className='Title_Delete'>Create {Title}</div>
                                 <Input type="text" label="Email" onChange={(e) => set_Employess({ ...employess, User_Email: e.target.value })} />
                                 <Input type="text" label="Name" onChange={(e) => set_Employess({ ...employess, User_Name: e.target.value })} />
-                                <Input type="password" label="Pass" onChange={(e) => set_Employess({ ...employess, User_Pass: e.target.value })} />
-                                <Input type="text" label="Identification card" onChange={(e) => set_Employess({ ...employess, User_Pass: e.target.value })} />
+                                <Input type="password" label="Pass" onChange={(e) => set_Employess({ ...employess, User_Pass: e.target.value, User_ConfirmPass: e.target.value })} />
+                                <Input type="text" label="Identification card" onChange={(e) => set_Employess({ ...employess, CCCD: e.target.value, })} />
                                 <Input type="text" label="Phone" onChange={(e) => set_Employess({ ...employess, Phone: e.target.value })} />
                                 <div className="select_group">
                                     <Select

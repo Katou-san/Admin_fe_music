@@ -1,18 +1,33 @@
 'use client'
 import { CloseIcon } from '@/util/Icons/Icon';
-import { Res_song_Type } from '@/util/respone_Type/song-respone';
-import { Res_User, Res_User_Type } from '@/util/respone_Type/user-respone';
-import { Avatar } from '@nextui-org/react';
-import React from 'react';
+import { Res_User } from '@/util/respone_Type/user-respone';
+import React, { useEffect, useState } from 'react';
 import "./_detail.scss"
-const DetailUser = ({ data, event, table }: { data: Res_User_Type, event: any, table: string }) => {
+import { userType } from '@/model/userModel';
+import { roleModel, roleType } from '@/model/roleModel';
+import imgTemp from '../../../../public/temp.jpg'
+import { Send } from '@/api/Send';
+import { Role } from '@/api/Role';
+import Image from 'next/image';
+const DetailUser = ({ data, event, table, is_Show }: { data: userType, event: any, table: string, is_Show: boolean }) => {
+    const [url, Set_url] = useState("")
+    const [role, set_Role] = useState<roleType>(roleModel.init)
+    useEffect(() => {
+        if (data.User_Id != '' && data.Avatar != '') {
+            if (is_Show) {
+                Send.Avatar(data.Avatar)
+                    .then(res => Set_url(URL.createObjectURL(res)))
 
+                Role.Get_Id(data.Role_Id).then((res) => res.status == 200 && set_Role(res.data))
+            }
+        }
+    }, [data, is_Show])
     return (
         <div className="Form_Detail">
             <div className="Title_Detail">{table}</div>
             <div className="CloseIcon" onClick={() => event({ status: false, data: Res_User })}><CloseIcon w={50} color="red" /></div>
             <div className="Avatar">
-                <Avatar isBordered color="danger" src="https://i.pravatar.cc/150?u=a04258114e29026708c" className="w-20 h-20 text-large" />
+                <Image src={url || imgTemp} className="w-20 h-20 text-large" width={50} height={50} alt='' loading='lazy' />
             </div>
             <h1>{data.User_Name}</h1>
             <div className="box-detail">
@@ -31,7 +46,7 @@ const DetailUser = ({ data, event, table }: { data: Res_User_Type, event: any, t
             <div className="box-detail">
                 <h3>Role</h3>
                 <div className="overflow__Text text-right">
-                    <span className='role_detail '>{data.Role}</span></div>
+                    <span className='role_detail '>{role.Role_Name}</span></div>
             </div>
             <div className="box-detail">
                 <h3>Premium</h3>

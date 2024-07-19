@@ -17,6 +17,7 @@ import { Res_Playlist, Res_Playlist_Type } from "@/util/respone_Type/playlist-re
 import { Validate_Playlist } from "@/util/Validate/Playlist";
 import { Playlist } from "@/api/Playlist";
 import { Send } from "@/api/Send";
+import { useReload } from "@/contexts/providerReload";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
@@ -25,6 +26,7 @@ type Prop = {
 };
 
 const UpdateFormPlaylist = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const { set_ReloadPlaylist } = useReload()
     const [Title, Set_Title] = useState("");
     const [status, Set_Status] = useState(data.is_Publish)
     const [Value_playlist, Set_Value_playlist] = useState<Res_Playlist_Type>(
@@ -52,6 +54,7 @@ const UpdateFormPlaylist = ({ isOpen, onOpenChange, table, data }: Prop) => {
             const formdata = Form_Data({ ...Change, is_Publish: status });
             Playlist.Update(Value_playlist.Playlist_Id, formdata).then((res) => {
                 if (res.status == 200) {
+                    set_ReloadPlaylist()
                     toast.success(res.message);
                     onClose();
                 } else {

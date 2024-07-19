@@ -1,24 +1,18 @@
 'use client'
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../_manage.scss"
 import HeaderContent from "@/components/Data_Table/Header_Table/HeaderContent";
-import DataTablePlaylist from "@/components/Data_Table/Content_Table/DataTable_Playlist";
-import { Playlist } from "@/api/Playlist";
-import { Res_Playlist } from "@/util/respone_Type/playlist-respone";
-import DetailPlaylist from "@/components/Data_Table/Detail_Table/Detail_Playlist";
 import Loading_Table from "@/util/Icons/Loading/Dot_Loading/DotLoading";
-import { list_bill_respone_type, List_BillRespone } from "@/model/bill";
-import { Bill } from "@/api/Bill";
-import DataTableBill from "@/components/Data_Table/Content_Table/DataTable_Bill";
 import { toast } from "react-toastify";
 import { list_sub_respone_type, List_SubRespone } from "@/model/subscription";
 import { Subcription } from "@/api/Subscription";
 import DataTableSub from "@/components/Data_Table/Content_Table/DataTable_Sub";
+import { useReload } from "@/contexts/providerReload";
 
 
 
 export default function Page() {
-
+    const { reload_Sub } = useReload()
     const [ShowDetails, Set_ShowDetails] = useState({ status: false, data: List_SubRespone[0] })
     const [data, Set_data] = useState<list_sub_respone_type>([])
     const [is_Loading, Set_isLoading] = useState(false)
@@ -42,7 +36,7 @@ export default function Page() {
 
             })
 
-    }, [])
+    }, [reload_Sub])
 
     return (
         <div className={`ContentMain ${ShowDetails.status ? "ShowDetail" : ''}`}>

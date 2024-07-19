@@ -2,16 +2,16 @@
 import React, { useEffect, useState } from "react";
 import HeaderContent from "@/components/Data_Table/Header_Table/HeaderContent";
 import "../_manage.scss"
-import DetailSong from "@/components/Data_Table/Detail_Table/Detail_Song";
 import DataTableRole from "@/components/Data_Table/Content_Table/DataTable_Role";
 import { Role } from "@/api/Role";
 import { Res_role } from "@/util/respone_Type/role-respone";
 import Loading_Table from "@/util/Icons/Loading/Dot_Loading/DotLoading";
+import { useReload } from "@/contexts/providerReload";
 
 
 
 export default function Page() {
-
+    const { reload_Role } = useReload()
     const [ShowDetails, Set_ShowDetails] = useState({ status: false, data: Res_role[0] })
     const [data, Set_data] = useState<typeof Res_role>([])
     const [data_Table, Set_data_Table] = useState<typeof Res_role>([])
@@ -29,7 +29,7 @@ export default function Page() {
                 Set_isLoading(false)
             })
 
-    }, [])
+    }, [reload_Role])
 
     return (
         <div className={`ContentMain ${ShowDetails.status ? "ShowDetail" : ''}`}>

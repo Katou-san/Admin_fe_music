@@ -1,9 +1,9 @@
-const StatusUser = [{ key: 1, value: "active" }, { key: 2, value: "vacation" }, { key: 3, value: "paused" }]
+const StatusUser = [{ key: 0, value: "paused" }, { key: 1, value: "active" }, { key: 2, value: "vacation" }]
 
 export const getStatusUser = (key: Number) => {
     let result;
     StatusUser.map(status => {
-        if (status.key == key) {
+        if (status.key == Number(key)) {
             result = status.value
         }
     })

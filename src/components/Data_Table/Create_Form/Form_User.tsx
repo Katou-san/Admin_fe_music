@@ -12,9 +12,6 @@ type Prop = {
 const CreateFormUser = ({ isOpen, onOpenChange, table, data }: Prop) => {
     const [Title, Set_Title] = useState("")
     let Array_Status = [{ label: "active", value: "active" }]
-    let index_Id = 0
-    let index_Name = 0
-
     useEffect(() => {
         Set_Title(table)
     }, [table, data])

@@ -8,6 +8,35 @@ export function Menu_Icon({ w = 23, color = "#fff" }: { w?: number; color?: stri
     );
 }
 
+
+export function Star_Icon({
+    w = 23,
+    color = "#fff",
+    active = false,
+}: {
+    w?: number;
+    color?: string;
+    active?: boolean;
+}) {
+    return (
+        <svg
+            width={w}
+            height={w}
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                d="M14 10L20 12L14 14L12 20L10 14L4 12L10 10L12 4L14 10Z"
+                stroke={active ? "rgb(229, 229, 91)" : color}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    );
+}
+
 export function Add_Icon({ w = 23, color = "#fff" }: { w?: number; color?: string }) {
     return (
         <svg width={w} height={w} viewBox="0 0 26 26" fill='none' xmlns="http://www.w3.org/2000/svg">

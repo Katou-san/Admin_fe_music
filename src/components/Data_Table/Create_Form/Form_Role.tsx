@@ -5,6 +5,7 @@ import { Role } from '@/api/Role';
 import { Create_Role_Type, Init_Role } from '@/util/respone_Type/role-respone';
 import { toast } from 'react-toastify';
 import { Validate_Create_Role } from '@/util/Validate/Role';
+import { useReload } from '@/contexts/providerReload';
 type Prop = {
     isOpen: boolean,
     onOpenChange: () => void,
@@ -13,6 +14,7 @@ type Prop = {
 }
 
 const CreateFormRole = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const { set_ReloadRole } = useReload()
     const [Title, Set_Title] = useState("")
     const [Value_Role, Set_Value_Role] = useState<Create_Role_Type>(
         Init_Role
@@ -27,6 +29,7 @@ const CreateFormRole = ({ isOpen, onOpenChange, table, data }: Prop) => {
         if (!Error_Check.status) {
             Role.Create(Value_Role).then((res) => {
                 if (res.status == 200) {
+                    set_ReloadRole()
                     toast.success(res.message);
                     onClose();
                 } else {

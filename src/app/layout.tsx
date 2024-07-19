@@ -3,10 +3,10 @@ import { Inter } from "next/font/google";
 import NextUI from "@/configs/NextUi";
 import "./globals.scss";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { ProviderStore } from "@/hooks/redux/provider";
 import { ProviderAuth } from "@/contexts/providerAuth";
-
+import { ProviderReload } from "@/contexts/providerReload";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +25,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <ProviderStore>
           <ProviderAuth>
-            <NextUI>{children}</NextUI>
+            <ProviderReload>
+              <NextUI>{children}</NextUI>
+            </ProviderReload>
           </ProviderAuth>
         </ProviderStore>
         <ToastContainer />

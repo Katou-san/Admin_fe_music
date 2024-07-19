@@ -8,9 +8,10 @@ import {
 } from "@/configs/DataTable_Config";
 import ItemUser from "@/components/Data_Table/Item_Table/Item_User";
 import { Pagination } from "@nextui-org/react";
+import { list_userType } from "@/model/userModel";
 
 type Prop = {
-    data: Res_List_User_Type;
+    data: list_userType;
     event: (data: any) => void;
 };
 

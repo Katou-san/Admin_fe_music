@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import { Form_Data } from "@/util/FormData/Form_Data";
 import { Category } from "@/api/Category";
 import { list_cate_respone_type } from "@/model/category";
+import { useReload } from "@/contexts/providerReload";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
@@ -29,6 +30,7 @@ type Prop = {
 };
 
 const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const { set_ReloadSong } = useReload()
     const [Title, Set_Title] = useState("");
     const [List_cate, Set_List_cate] = useState<list_cate_respone_type>([]);
     let Array_Status = [
@@ -63,6 +65,7 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
             const formdata = Form_Data(Value_Song);
             Song.Create(formdata).then((res) => {
                 if (res.status == 200) {
+                    set_ReloadSong()
                     toast.success(res.message);
                     onClose();
                 } else {

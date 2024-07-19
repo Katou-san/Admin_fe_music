@@ -7,16 +7,13 @@ import {
     ModalFooter,
     Button,
     Input,
-    Checkbox,
-    Image
 } from "@nextui-org/react";
 
 import { toast } from "react-toastify";
-import { Validate_Playlist } from "@/util/Validate/Playlist";
-import { Res_role, Res_Role_Type } from "@/util/respone_Type/role-respone";
 import { Category } from "@/api/Category";
 import { Res_cate, Res_Cate_Type } from "@/util/respone_Type/category-respone copy";
 import { Validate_Update_Cate } from "@/util/Validate/Category";
+import { useReload } from "@/contexts/providerReload";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
@@ -25,6 +22,7 @@ type Prop = {
 };
 
 const UpdateFormCate = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const { set_ReloadCate } = useReload()
     const [Title, Set_Title] = useState("");
     const [Value_Role, Set_Value_Role] = useState<Res_Cate_Type>(
         Res_cate[0]
@@ -45,6 +43,7 @@ const UpdateFormCate = ({ isOpen, onOpenChange, table, data }: Prop) => {
             Category.Update(Value_Role.Category_Id, Change)
                 .then(res => {
                     if (res.status == 200) {
+                        set_ReloadCate()
                         toast.success(res.message);
                         onClose();
                     } else {
@@ -68,7 +67,7 @@ const UpdateFormCate = ({ isOpen, onOpenChange, table, data }: Prop) => {
                     {(onClose) => (
                         <form action="" onSubmit={(e: any) => { SubmitForm(e, onClose) }} className='pt-5'>
                             <ModalBody>
-                                <div className='Title_Delete'>Create {Title}</div>
+                                <div className='Title_Delete'>Update {Title}</div>
                                 <Input type="text" label="Name" value={Value_Role.Category_Name}
                                     onChange={(e) => {
                                         Set_Change({ ...Value_Role, Category_Name: e.target.value })

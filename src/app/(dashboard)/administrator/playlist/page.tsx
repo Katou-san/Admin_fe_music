@@ -8,11 +8,12 @@ import { Res_Playlist } from "@/util/respone_Type/playlist-respone";
 import DetailPlaylist from "@/components/Data_Table/Detail_Table/Detail_Playlist";
 import { Spinner } from "@nextui-org/react";
 import Loading_Table from "@/util/Icons/Loading/Dot_Loading/DotLoading";
+import { useReload } from "@/contexts/providerReload";
 
 
 
 export default function Page() {
-
+    const { reload_Playlist } = useReload()
     const [ShowDetails, Set_ShowDetails] = useState({ status: false, data: Res_Playlist[0] })
     const [data, Set_data] = useState<typeof Res_Playlist>([])
     const [is_Loading, Set_isLoading] = useState(false)
@@ -31,7 +32,7 @@ export default function Page() {
                 Set_isLoading(false)
             })
 
-    }, [])
+    }, [reload_Playlist])
 
     return (
         <div className={`ContentMain ${ShowDetails.status ? "ShowDetail" : ''}`}>

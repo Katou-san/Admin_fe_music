@@ -10,7 +10,7 @@ import imgTemp from "../../../../public/temp.jpg"
 import { cateModel, cateType } from '@/model/cateModel';
 import { Category } from '@/api/Category';
 
-const ItemSong = ({ song, event, onReload }: { song: songType, event: any, onReload: () => void }) => {
+const ItemSong = ({ song, event }: { song: songType, event: any }) => {
     const [url, Set_url] = useState("")
     const [drop_Down, set_Drop] = useState(false)
     const [cateName, set_Cate] = useState<cateType>(cateModel.init)

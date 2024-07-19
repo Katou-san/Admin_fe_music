@@ -6,11 +6,12 @@ import DataTableSong from "@/components/Data_Table/Content_Table/DataTable_Song"
 import { Song } from "@/api/Song";
 import { Res_song } from "@/util/respone_Type/song-respone";
 import DetailSong from "@/components/Data_Table/Detail_Table/Detail_Song";
+import { useReload } from "@/contexts/providerReload";
 
 
 
 export default function Page() {
-
+    const { reload_Song } = useReload()
     const [ShowDetails, Set_ShowDetails] = useState({ status: false, data: Res_song[0] })
     const [data, Set_data] = useState<typeof Res_song>([])
     const [data_Table, Set_data_Table] = useState<typeof Res_song>([])
@@ -25,8 +26,7 @@ export default function Page() {
                 Set_data([...res.data])
                 Set_data_Table([...res.data])
             })
-
-    }, [])
+    }, [reload_Song])
 
     return (
         <div className={`ContentMain ${ShowDetails.status ? "ShowDetail" : ''}`}>

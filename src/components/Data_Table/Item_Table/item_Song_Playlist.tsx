@@ -5,6 +5,7 @@ import { Avatar } from "@nextui-org/react";
 import React, { useEffect, useRef, useState } from "react";
 import "./_Item.scss";
 import { Add_Icon } from "@/util/Icons/Icon_Figma";
+import PlaylistModal from "@/components/Custom/modal/playlistModal/playlistModal";
 
 const ItemSongPlaylist = ({ song }: { song: Res_song_Type }) => {
   const [url, Set_url] = useState("");
@@ -51,19 +52,7 @@ const ItemSongPlaylist = ({ song }: { song: Res_song_Type }) => {
         />
       </div>
 
-      <div
-        className={`yourPlaylist ${
-          dropdown_Open ? "showOption" : "hiddenOption"
-        }`}
-      >
-        <div className="titleOption">Your playlist</div>
-        <ul>
-          <li onClick={handleMouse}>hello</li>
-          <li onClick={handleMouse}>hello</li>
-          <li onClick={handleMouse}>hello</li>
-          <li onClick={handleMouse}>hello</li>
-        </ul>
-      </div>
+      <PlaylistModal drop_Down={dropdown_Open} set_Drop={() => set_Open(false)} song={song} style={{ left: "60%", top: 0 }} />
     </div>
   );
 };

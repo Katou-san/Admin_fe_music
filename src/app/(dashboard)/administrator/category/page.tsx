@@ -6,8 +6,10 @@ import Loading_Table from "@/util/Icons/Loading/Dot_Loading/DotLoading";
 import { Res_cate } from "@/util/respone_Type/category-respone copy";
 import { Category } from "@/api/Category";
 import DataTableCategory from "@/components/Data_Table/Content_Table/DataTable_Category";
+import { useReload } from "@/contexts/providerReload";
 
 export default function Page() {
+    const { reload_Cate } = useReload()
     const [ShowDetails, Set_ShowDetails] = useState({
         status: false,
         data: Res_cate[0],
@@ -22,12 +24,11 @@ export default function Page() {
     useEffect(() => {
         Set_isLoading(true);
         Category.Get_All().then((res) => {
-            console.log(res);
             Set_data([...res.data]);
             Set_data_Table([...res.data]);
             Set_isLoading(false);
         });
-    }, []);
+    }, [reload_Cate]);
 
     return (
         <div className={`ContentMain ${ShowDetails.status ? "ShowDetail" : ""}`}>
