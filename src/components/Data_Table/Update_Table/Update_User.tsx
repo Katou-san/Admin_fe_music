@@ -44,9 +44,10 @@ const UpdateFormUser = ({ isOpen, onOpenChange, table, data }: Prop) => {
             Role.Get_All().then((res) => set_ListRole(res.data));
         }
     }, [isOpen]);
-
+    console.log(userProvider)
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
+
         if (userProvider.Access_Token != '' && userProvider.is_Login) {
             const checkError = Validate_SignUp_Employess(dataUser.User_Email, dataUser.User_Name, '0000000', dataUser.CCCD, dataUser.Phone)
             if (!checkError.status) {

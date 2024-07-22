@@ -1,7 +1,6 @@
 'use client'
 
 import { Auth } from "@/api/Auth";
-import { User } from "@/api/User";
 import { EnvConfig } from "@/configs/Env_Config";
 import useRequest from "@/hooks/axios/request";
 import { login } from "@/hooks/redux/action/auth";
@@ -36,12 +35,14 @@ function Login({ Value }: { Value: any }) {
     if (!is_Loading) {
       Auth.Login(valueFrom)
         .then(res => {
-          if (res.status === 200) {
-            dispacth(login({ ...res.data }))
+          console.log(res)
+          if (res.status == 200) {
+
+            dispacth(login(res.data))
             localStorage.setItem(EnvConfig.LocalToken, res.data?.Access_Token)
             toast.success(res.message);
             router.push('/home', { scroll: false })
-          } else if (res.status === 404) {
+          } else if (res.status == 404) {
             toast.error(res.message);
           }
 

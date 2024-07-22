@@ -24,8 +24,11 @@ export default function Page() {
     useEffect(() => {
         User.Get_User()
             .then(res => {
-                Set_data([...res.data])
-                Set_data_Table([...res.data])
+                if (res.status == 200) {
+                    Set_data([...res.data])
+                    Set_data_Table([...res.data])
+                }
+
             })
 
     }, [reload_Employ])

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useReducer, useState } from "react";
 import img from "@/assets/avatar.jpg";
+import errorImg from '../../../../public/errorImg.png'
 import {
     Modal,
     ModalContent,
@@ -107,7 +108,7 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                 <div className="Form_chosse_File">
                                     <div className="left">
                                         <Image
-                                            src={Urlfile.img ? Urlfile.img : img}
+                                            src={Urlfile.img ? Urlfile.img : errorImg}
                                             alt=""
                                             width={1000}
                                             height={1000}
