@@ -1,10 +1,9 @@
-
 import React from "react";
 type Prop = {
-  title: String,
-  icon: React.ReactElement,
-  string: String
-}
+  title: String;
+  icon: React.ReactElement;
+  string: String;
+};
 
 export default function ItemList({ Value }: { Value: Prop }) {
   return (
@@ -13,10 +12,7 @@ export default function ItemList({ Value }: { Value: Prop }) {
         <h3>{Value.title}</h3>
         <i>{Value.icon}</i>
       </div>
-      <div className="content-status">
-        content
-        <p>contents</p>
-      </div>
+      <div className="content-status">{Value.string}</div>
     </div>
   );
 }
