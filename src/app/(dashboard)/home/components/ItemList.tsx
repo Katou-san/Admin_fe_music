@@ -1,18 +1,18 @@
 import React from "react";
 type Prop = {
   title: String;
-  icon: React.ReactElement;
-  string: String;
+  icon?: React.ReactElement;
+  num: number;
 };
 
-export default function ItemList({ Value }: { Value: Prop }) {
+export default function ItemList({ title, icon, num }: Prop) {
   return (
     <div className="Item-status">
       <div className="header-status">
-        <h3>{Value.title}</h3>
-        <i>{Value.icon}</i>
+        <i>{icon}</i>
+        <h3>{title}</h3>
       </div>
-      <div className="content-status">{Value.string}</div>
+      <div className="content-status">{num}</div>
     </div>
   );
 }
