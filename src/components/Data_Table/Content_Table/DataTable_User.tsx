@@ -13,9 +13,10 @@ import { list_userType } from "@/model/userModel";
 type Prop = {
     data: list_userType;
     event: (data: any) => void;
+    type?: string
 };
 
-export default function DataTableUser({ data, event }: Prop) {
+export default function DataTableUser({ data, event, type = 'user' }: Prop) {
     const [current, set_Current] = useState({ index: 0, limit: 4 });
     const lenght =
         data.length % 4 != 0
@@ -35,7 +36,7 @@ export default function DataTableUser({ data, event }: Prop) {
                             i >= current.index * current.limit &&
                             i < (current.index + 1) * current.limit
                         ) {
-                            return <ItemUser key={i} user={user} event={event} />
+                            return <ItemUser key={i} user={user} event={event} type={type} />
                         }
                     })}
                 </div>

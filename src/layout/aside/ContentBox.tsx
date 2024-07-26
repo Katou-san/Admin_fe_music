@@ -31,7 +31,7 @@ export default function ContentBox({
 
   return (
     <div
-      className={`content-box ${active === index ? (active !== 0 ? "active" : "active no-item") : ""}`}
+      className={`content-box ${active === index ? (active !== 0 ? "actives" : "actives no-item") : ""}`}
     >
       <div className="title-aside" onClick={() => {
         if (Vaule.url != "home") {

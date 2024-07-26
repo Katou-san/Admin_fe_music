@@ -10,7 +10,7 @@ import { userType } from '@/model/userModel';
 import { Role } from '@/api/Role';
 import { roleModel, roleType } from '@/model/roleModel';
 
-const ItemUser = ({ user, event }: { user: userType, event: any }) => {
+const ItemUser = ({ user, event, type = 'user' }: { user: userType, event: any, type?: string }) => {
     const [url, Set_url] = useState("")
     const [role, set_Role] = useState<roleType>(roleModel.init)
     useEffect(() => {
@@ -34,7 +34,7 @@ const ItemUser = ({ user, event }: { user: userType, event: any }) => {
                 <span className={`${getStatusUser(Number(user.Status))}`}> {getStatusUser(Number(user.Status))}</span>
             </div>
 
-            <BtnDataTable type="user" event={event} data={user} />
+            <BtnDataTable type={type} event={event} data={user} />
         </div>
     );
 }

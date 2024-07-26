@@ -5,6 +5,10 @@ import { EnvConfig } from "@/configs/Env_Config";
 export const Role = {
     Get_Id: async (id: string): Promise<any> =>
         await http.get(`${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_ROLE}/${id}`, header()),
+    Get_User: async (): Promise<any> =>
+        await http.get(`${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_ROLES}/user`),
+    Get_Admin: async (): Promise<any> =>
+        await http.get(`${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_ROLES}/admin`),
     Get_All: async () =>
         await http.get(`${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_ROLE}`, header()),
     Create: async (body: any): Promise<any> =>

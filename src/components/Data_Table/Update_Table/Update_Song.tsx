@@ -8,6 +8,8 @@ import {
     ModalFooter,
     Button,
     Input,
+    Select,
+    SelectItem,
 } from "@nextui-org/react";
 import SelectCus from "@/components/Custom/SelectCus";
 import Image from "next/image";
@@ -21,6 +23,7 @@ import { Send } from "@/api/Send";
 import { Category } from "@/api/Category";
 import { list_cate_respone_type } from "@/model/category";
 import { useReload } from "@/contexts/providerReload";
+import { update_songType } from "@/model/songModel";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
@@ -38,7 +41,7 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
         Reducer_Change,
         Init_Create_Song
     );
-    const [Change, Set_Change] = useState({})
+    const [Change, Set_Change] = useState<update_songType>({})
     const [Urlfile, dispacth_url] = useReducer(Reducer_Change, {
         img: null,
         audio: null,
@@ -68,7 +71,7 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
 
 
         if (!Error_Check.status) {
-            const formdata = Form_Data({ ...Change, Song_Audio: "", Category_Id: Value_Song.Category_Id });
+            const formdata = Form_Data({ ...Change, Song_Audio: "" });
             Song.Update(Value_Song.Song_Id, formdata).then((res) => {
                 if (res.status == 200) {
                     toast.success(res.message);
@@ -148,12 +151,29 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                     </div>
                                     <div className="right">
                                         <div className="select_group">
-                                            <SelectCus
-                                                array={List_cate}
-                                                lables={["Category_Name", "Category_Id"]}
-                                                Title="Category"
-                                                event={dispacth_song}
-                                            />
+                                            <Select
+                                                isRequired
+                                                label={Title}
+                                                placeholder="Select"
+                                                className="w-full"
+                                                onChange={(e) => {
+                                                    // set_ValueSub({
+                                                    //     ...valueSub,
+                                                    //     Status: Array_Status[Number(e.target.value)].value,
+                                                    // });
+                                                    Set_Change({ ...Change, Category_Id: List_cate[Number(e.target.value)].Category_Id })
+                                                }}
+                                            >
+                                                {List_cate.map((item, i) => (
+                                                    <SelectItem
+                                                        key={i}
+                                                        value={String(item.Category_Id)}
+                                                        textValue={undefined}
+                                                    >
+                                                        {item.Category_Name}
+                                                    </SelectItem>
+                                                ))}
+                                            </Select>
                                         </div>
                                         <div className="tag_Audio">
                                             <audio

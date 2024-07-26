@@ -46,7 +46,6 @@ const PlaylistModal = ({ drop_Down, set_Drop, style, song }: Props) => {
     }, [])
 
     const handleAddSong = (playlistId: string) => {
-        console.log('hello')
         if (userProvider.Access_Token != '' && userProvider.is_Login) {
             Track.Create({ Playlist_Id: playlistId, Song_Id: song.Song_Id })
                 .then((res) => {

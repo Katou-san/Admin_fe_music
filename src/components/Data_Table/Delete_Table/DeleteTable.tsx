@@ -10,6 +10,10 @@ import { Role } from '@/api/Role';
 import { Category } from '@/api/Category';
 import { Partner } from '@/api/Partner';
 import { useReload } from '@/contexts/providerReload';
+import { Subcription } from '@/api/Subscription';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/hooks/redux/store';
+import { Bill } from '@/api/Bill';
 type Prop = {
     isOpen: boolean,
     onOpenChange: () => void,
@@ -18,18 +22,21 @@ type Prop = {
 }
 
 const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
-    const { set_ReloadEmploy, set_ReloadSong, set_ReloadSub, set_ReloadCate, set_ReloadPlaylist, set_ReloadRole } = useReload()
+    const userProvider = useSelector((state: RootState) => state.auth)
+    const { set_ReloadEmploy, set_ReloadSong, set_ReloadSub, set_ReloadCate, set_ReloadPlaylist, set_ReloadRole, set_ReloadBill } = useReload()
     const [Title, Set_Title] = useState("")
     const [dataProp, Set_dataProp] = useState<typeof data>({})
     let array_key: any[] = Object.keys(data)
     let index_Id = 0
     let index_Name = 0
     switch (table) {
-
         case "user":
             index_Id = array_key.indexOf("User_Id")
             index_Name = array_key.indexOf("User_Email")
-
+            break;
+        case "employess":
+            index_Id = array_key.indexOf("User_Id")
+            index_Name = array_key.indexOf("User_Email")
             break;
         case "song":
             index_Id = array_key.indexOf("Song_Id")
@@ -49,11 +56,15 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
             break;
         case "bill":
             index_Id = array_key.indexOf("Bill_Id")
-            index_Name = array_key.indexOf("Category_Name")
+            index_Name = array_key.indexOf("User_Name")
             break;
         case "partner":
             index_Id = array_key.indexOf("Partner_Id")
             index_Name = array_key.indexOf("Partner_Name")
+            break;
+        case "sub":
+            index_Id = array_key.indexOf("Sub_Id")
+            index_Name = array_key.indexOf("Sub_Title")
             break;
 
         default:
@@ -71,6 +82,16 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
 
         switch (table) {
             case "user":
+                User.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                    if (res.status === 200) {
+                        set_ReloadEmploy()
+                        toast.success(res.message)
+                    } else {
+                        toast.error(res.message)
+                    }
+                })
+                break;
+            case "employess":
                 User.Delete(dataProp[array_key[index_Id]]).then((res) => {
                     if (res.status === 200) {
                         set_ReloadEmploy()
@@ -111,6 +132,7 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
                 })
                 break;
             case "cate":
+                console.log(dataProp[array_key[index_Id]])
                 Category.Delete(dataProp[array_key[index_Id]]).then((res) => {
                     if (res.status === 200) {
                         set_ReloadCate()
@@ -123,6 +145,26 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
             case 'partner':
                 Partner.Delete(dataProp[array_key[index_Id]]).then((res) => {
                     if (res.status === 200) {
+                        toast.success(res.message)
+                    } else {
+                        toast.error(res.message)
+                    }
+                })
+                break;
+            case 'sub':
+                Subcription.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                    if (res.status === 200) {
+                        set_ReloadSub()
+                        toast.success(res.message)
+                    } else {
+                        toast.error(res.message)
+                    }
+                })
+                break;
+            case 'bill':
+                Bill.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                    if (res.status === 200) {
+                        set_ReloadBill()
                         toast.success(res.message)
                     } else {
                         toast.error(res.message)
@@ -143,7 +185,7 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
                             <form action="" onSubmit={(e: any) => { SubmitForm(e, onClose) }}>
                                 <ModalBody>
                                     <div className='Title_Delete'>Delete {Title}</div>
-                                    <div className='Boby_Delete'>Do you want delete <span className='font-bold'>{dataProp[array_key[index_Name]]}</span></div>
+                                    <div className='Boby_Delete'>Do you want delete {Title} {Title == 'bill' && 'for '} <span className='font-bold'>{dataProp[array_key[index_Name]]}</span></div>
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button color="danger" variant="light" onPress={onClose}>

@@ -32,7 +32,12 @@ const CreateFormEmployess = ({ isOpen, onOpenChange, table, data }: Prop) => {
 
     useEffect(() => {
         if (isOpen) {
-            Role.Get_All().then((res) => set_ListRole(res.data))
+            Role.Get_Admin().then((res) => {
+                if (res.status == 200) {
+                    set_ListRole(res.data)
+                }
+
+            })
         }
     }, [isOpen])
 

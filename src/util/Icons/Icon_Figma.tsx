@@ -1,3 +1,38 @@
+export function Lock_Icon({
+  w = 23,
+  color = "#fff",
+}: {
+  w?: number;
+  color?: string;
+}) {
+  return (
+    <svg width={w} height={w} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 13C4 11.1144 4 10.1716 4.58579 9.58579C5.17157 9 6.11438 9 8 9H16C17.8856 9 18.8284 9 19.4142 9.58579C20 10.1716 20 11.1144 20 13V15C20 17.8284 20 19.2426 19.1213 20.1213C18.2426 21 16.8284 21 14 21H10C7.17157 21 5.75736 21 4.87868 20.1213C4 19.2426 4 17.8284 4 15V13Z" stroke={color} strokeWidth="2" />
+      <path d="M16 8V7C16 4.79086 14.2091 3 12 3V3C9.79086 3 8 4.79086 8 7V8" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      <circle cx="12" cy="15" r="2" fill={color} />
+    </svg>
+
+  );
+}
+
+export function Unlock_Icon({
+  w = 23,
+  color = "#fff",
+}: {
+  w?: number;
+  color?: string;
+}) {
+  return (
+    <svg width={w} height={w} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 13.0002C4 11.1146 4 10.1718 4.58579 9.58603C5.17157 9.00024 6.11438 9.00024 8 9.00024H16C17.8856 9.00024 18.8284 9.00024 19.4142 9.58603C20 10.1718 20 11.1146 20 13.0002V15.0002C20 17.8287 20 19.2429 19.1213 20.1216C18.2426 21.0002 16.8284 21.0002 14 21.0002H10C7.17157 21.0002 5.75736 21.0002 4.87868 20.1216C4 19.2429 4 17.8287 4 15.0002V13.0002Z" stroke={color} strokeWidth="2" />
+      <path d="M16.5 9.00006L16.5776 8.37947C16.8365 6.30788 15.9043 4.2675 14.1688 3.10709V3.10709C12.1024 1.72543 9.36732 1.89573 7.48825 3.52305L6.66992 4.23174" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      <circle cx="12" cy="15" r="2" fill={color} />
+    </svg>
+
+  );
+}
+
+
 export function Menu_Icon({
   w = 23,
   color = "#fff",
@@ -74,19 +109,19 @@ export function Add_Icon({
       <path
         d="M6.02201 8.14351C3.70939 11.4581 4.03184 16.0528 6.98938 19.0104C10.3088 22.3298 15.6907 22.3298 19.0102 19.0104C22.3297 15.6909 22.3297 10.309 19.0102 6.98956C16.0527 4.03202 11.4579 3.70957 8.14333 6.02219"
         stroke={color}
-        stroke-linecap="round"
+        strokeLinecap="round"
       />
       <path
         d="M13 9L13 17"
         stroke={color}
-        stroke-width="1.2"
-        stroke-linecap="round"
+        strokeWidth="1.2"
+        strokeLinecap="round"
       />
       <path
         d="M17 13L9 13"
         stroke={color}
-        stroke-width="1.2"
-        stroke-linecap="round"
+        strokeWidth="1.2"
+        strokeLinecap="round"
       />
     </svg>
   );
@@ -111,21 +146,21 @@ export function Close_Icon({
       <path
         d="M17 9L9 17"
         stroke={color}
-        stroke-width="1.2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M9 9L17 17"
         stroke={color}
-        stroke-width="1.2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M6.02201 8.14351C3.70939 11.4581 4.03184 16.0528 6.98938 19.0104C10.3088 22.3298 15.6907 22.3298 19.0102 19.0104C22.3297 15.6909 22.3297 10.309 19.0102 6.98956C16.0527 4.03202 11.4579 3.70957 8.14333 6.02219"
         stroke={color}
-        stroke-linecap="round"
+        strokeLinecap="round"
       />
     </svg>
   );
@@ -149,14 +184,14 @@ export function Check_Icon({
       <path
         d="M12 21C14.0822 21 16.1 20.278 17.7095 18.9571C19.3191 17.6362 20.4209 15.798 20.8271 13.7558C21.2333 11.7136 20.9188 9.59376 19.9373 7.75743C18.9558 5.9211 17.3679 4.48191 15.4442 3.68508C13.5205 2.88826 11.38 2.78311 9.38744 3.38754C7.3949 3.99197 5.67358 5.26858 4.51677 6.99987C3.35997 8.73115 2.83925 10.81 3.04334 12.8822C3.24743 14.9543 4.1637 16.8916 5.63604 18.364"
         stroke={color}
-        stroke-width="2"
-        stroke-linecap="round"
+        strokeWidth="2"
+        strokeLinecap="round"
       />
       <path
         d="M16 10L12.402 14.3175C11.7465 15.1042 11.4187 15.4976 10.9781 15.5176C10.5375 15.5375 10.1755 15.1755 9.45139 14.4514L8 13"
         stroke={color}
-        stroke-width="2"
-        stroke-linecap="round"
+        strokeWidth="2"
+        strokeLinecap="round"
       />
     </svg>
   );

@@ -40,12 +40,13 @@ export const Column_Cate = [
 export type Column_Cate_item__Type = typeof Column_Role[0]
 
 export const Column_Bill = [
-    { name: "INDEX", uid: "index" },
     { name: "INFO", uid: "info" },
-    { name: "STATUS", uid: "status" },
-    { name: "ACTIONS", uid: "actions" }
+    { name: "SUBSCRIPTION", uid: "subcription" },
+    { name: "CREATE DAY", uid: "create" },
+    { name: 'EXPIRATION DAY', uid: "expiration" }
+
 ];
-export type Column_Bill_item__Type = typeof Column_Role[0]
+export type Column_Bill_item__Type = typeof Column_Bill[0]
 
 
 

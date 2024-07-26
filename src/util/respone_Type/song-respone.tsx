@@ -40,6 +40,8 @@ export type Create_Song_Type = {
     Color?: string,
     is_Publish?: boolean,
 }
+
+
 export type Res_song_Type = typeof Res_song[0];
 export type Update_Song_Type = typeof FormData
 export type Res_List_Song_Type = typeof Res_song;

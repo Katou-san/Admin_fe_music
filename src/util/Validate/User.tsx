@@ -1,3 +1,5 @@
+import { update_userType } from "@/model/userModel";
+
 const HandleErrors = {
     isEmail: (value: string) => {
         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);

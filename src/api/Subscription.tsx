@@ -1,6 +1,7 @@
 import header from "@/api/@header";
 import { http } from "@/api/@rootHttp";
 import { EnvConfig } from "@/configs/Env_Config";
+import { create_subType } from "@/model/subsModel";
 
 
 
@@ -14,7 +15,7 @@ export const Subcription = {
             `${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_SUBSCRIPTION}`,
             header()
         ),
-    Create: async (body: any): Promise<any> =>
+    Create: async (body: create_subType): Promise<any> =>
         await http.post(
             `${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_SUBSCRIPTION}`,
             body,

@@ -34,7 +34,7 @@ export default function Page() {
         <div className={`ContentMain ${ShowDetails.status ? "ShowDetail" : ''}`}>
             <div className="ContentLeft">
                 <HeaderContent data={data} select={["Role_Name", "Status"]} table="employess" find="User_Name" event={Set_data_Table} />
-                <DataTableUser data={data_Table} event={DetailProp} />
+                <DataTableUser data={data_Table} event={DetailProp} type={'employess'} />
             </div>
             <div className="ContentRight">
                 <DetailUser data={ShowDetails.data} event={Set_ShowDetails} table="employess" is_Show={ShowDetails.status} />

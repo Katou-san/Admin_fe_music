@@ -3,19 +3,20 @@ import React, { Suspense, useEffect, useState } from "react";
 import "../_manage.scss"
 import HeaderContent from "@/components/Data_Table/Header_Table/HeaderContent";
 import Loading_Table from "@/util/Icons/Loading/Dot_Loading/DotLoading";
-import { list_bill_respone_type, List_BillRespone } from "@/model/bill";
 import { Bill } from "@/api/Bill";
 import DataTableBill from "@/components/Data_Table/Content_Table/DataTable_Bill";
 import { toast } from "react-toastify";
+import { billModel, list_billType } from "@/model/billModel";
+import { useReload } from "@/contexts/providerReload";
 
 
 
 export default function Page() {
-
-    const [ShowDetails, Set_ShowDetails] = useState({ status: false, data: List_BillRespone[0] })
-    const [data, Set_data] = useState<list_bill_respone_type>([])
+    const { reload_Bill } = useReload()
+    const [ShowDetails, Set_ShowDetails] = useState({ status: false, data: billModel.init })
+    const [data, Set_data] = useState<list_billType>([])
     const [is_Loading, Set_isLoading] = useState(false)
-    const [data_Table, Set_data_Table] = useState<list_bill_respone_type>([])
+    const [data_Table, Set_data_Table] = useState<list_billType>([])
 
     const DetailProp = (data: any) => {
         Set_ShowDetails({ status: true, data })
@@ -35,12 +36,12 @@ export default function Page() {
 
             })
 
-    }, [])
+    }, [reload_Bill])
 
     return (
         <div className={`ContentMain ${ShowDetails.status ? "ShowDetail" : ''}`}>
             <div className="ContentLeft">
-                <HeaderContent data={data} select={[""]} table="bill" find="" event={Set_data_Table} create={false} onselect={false} />
+                <HeaderContent data={data} select={[""]} table="bill" find="User_Name" event={Set_data_Table} create={false} onselect={false} />
                 {is_Loading && <Loading_Table />}
                 {!is_Loading && <DataTableBill data={data_Table} event={DetailProp} />}
 

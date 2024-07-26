@@ -7,7 +7,7 @@ import { Update_User_Type } from "@/util/respone_Type/user-respone";
 
 export const User = {
     Get_Id: async (id: string): Promise<any> =>
-        await http.get(`${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_USER}/${id}`, header()),
+        await http.get(`${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_USER}/id/${id}`, header()),
     Get_All: async () =>
         await http.get(`${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_USER}`, header()),
     Get_Admin: async () =>
