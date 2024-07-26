@@ -1,6 +1,7 @@
 "use client";
+
 import React from "react";
-import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 type Enum = {
   cx?: any;
   cy?: any;
@@ -11,12 +12,7 @@ type Enum = {
   index?: any;
 };
 
-const datatemp = [
-  {
-    Time: "Th 0",
-    DT: 0,
-  },
-];
+const datatemp = [{ name: "Group A", value: 400 }];
 
 type Prop = typeof datatemp;
 
@@ -67,6 +63,7 @@ const RenderPieChart = ({ data = datatemp }: { data: Prop }) => {
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
+        <Tooltip />
       </PieChart>
     </ResponsiveContainer>
   );

@@ -5,3 +5,18 @@ export const dashboardModel = {
 };
 
 export type dashboardType = typeof init;
+
+const initChar = [
+  {
+    reve: 0,
+    month: 0,
+    year: 0,
+    title: " ",
+  },
+];
+
+export const dashboardModelChar = {
+  init: initChar,
+};
+
+export type dashboardTypeChar = typeof initChar;

@@ -40,6 +40,7 @@ export const EnvConfig = {
   NEXT_PUBLIC_GET_THUMNAIL_P: "/send/thumbnail",
 
   NEXT_PUBLIC_GET_DASHBOARD_1: "/dashboard_1",
+  NEXT_PUBLIC_GET_DASHBOARD_CHAR_1: "/dashboard_char_1",
 
   LocalToken: "AccessTokenA",
 };

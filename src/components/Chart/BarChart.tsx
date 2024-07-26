@@ -1,10 +1,11 @@
 "use client";
-import { Tooltip } from "@nextui-org/react";
+
 import {
   Bar,
   BarChart,
   CartesianGrid,
   Legend,
+  Tooltip,
   ResponsiveContainer,
   XAxis,
   YAxis,
@@ -12,8 +13,10 @@ import {
 
 const datatemp = [
   {
-    Time: "Th 0",
-    DT: 0,
+    reve: 0,
+    month: 0,
+    year: 0,
+    title: " ",
   },
 ];
 type Prop = typeof datatemp;
@@ -23,11 +26,15 @@ export default function RenderBarChart({ data = datatemp }: { data: Prop }) {
     <ResponsiveContainer width="100%" height="100%">
       <BarChart width={850} height={380} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="Time" />
-        <YAxis />
-        <Tooltip />
+        <XAxis dataKey="title" />
+        <YAxis
+          tickFormatter={(tick) => {
+            return tick.toLocaleString();
+          }}
+        />
+        <Tooltip formatter={(value, name) => value.toLocaleString() + " vnd"} />
         <Legend />
-        <Bar dataKey="DT" fill="#8884d8" />
+        <Bar dataKey="reve" fill="#8884d8" />
       </BarChart>
     </ResponsiveContainer>
   );

@@ -12,7 +12,9 @@ export default function ItemList({ title, icon, num }: Prop) {
         <i>{icon}</i>
         <h3>{title}</h3>
       </div>
-      <div className="content-status">{num}</div>
+      <div className="content-status">
+        {num.toLocaleString()} {title == "Revenues" && "vnd"}
+      </div>
     </div>
   );
 }
