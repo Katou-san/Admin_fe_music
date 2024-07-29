@@ -1,3 +1,7 @@
+.formModalSong {
+    overflow: unset;
+}
+
 .Form_chosse_File {
     width: 100%;
     display: grid;
@@ -23,7 +27,8 @@
                 padding: 8px 30px;
                 border-radius: 10px;
                 font-weight: 600;
-                background-color: aqua;
+                background-color: rgb(146, 146, 146);
+                color: #e9f7ff;
             }
         }
 
@@ -44,7 +49,7 @@
         .tag_Audio {
             height: 50px;
             width: 100%;
-            background-color: aqua;
+            background-color: rgb(166, 166, 166);
             border-radius: 15px;
             display: grid;
             place-items: center;
@@ -93,7 +98,43 @@
             justify-content: center;
             border-radius: 10px;
             font-weight: 600;
-            background-color: aqua;
+            background-color: rgb(195, 198, 198);
+        }
+    }
+
+    .formArtist {
+        position: relative;
+
+        ul {
+            position: absolute;
+            width: 90%;
+            left: 5%;
+            transition: .2s;
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 0 5px 5px 5px;
+            overflow: auto;
+            max-height: 150px;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            li {
+                list-style: none;
+                padding: 10px 10px;
+                background-color: #ececec;
+                width: 100%;
+                border-radius: 10px;
+                margin-top: 6px;
+                cursor: pointer;
+                transition: .2s;
+                font-weight: 600;
+
+                &:hover {
+                    background-color: #d3d3d3;
+                }
+            }
         }
     }
 }

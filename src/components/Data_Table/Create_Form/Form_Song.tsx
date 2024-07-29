@@ -9,13 +9,12 @@ import {
     ModalFooter,
     Button,
     Input,
+    Select,
+    SelectItem,
 } from "@nextui-org/react";
-import SelectCus from "@/components/Custom/SelectCus";
 import "./_Create_Form.scss";
 import Image from "next/image";
 import { AudioLineIcon } from "@/util/Icons/Icon";
-import { Reducer_Change } from "@/hooks/reducer/action";
-import { Init_Create_Song } from "@/util/respone_Type/song-respone";
 import { Validate_Create_Song } from "@/util/Validate/Song";
 import { Song } from "@/api/Song";
 import { toast } from "react-toastify";
@@ -23,6 +22,10 @@ import { Form_Data } from "@/util/FormData/Form_Data";
 import { Category } from "@/api/Category";
 import { list_cate_respone_type } from "@/model/category";
 import { useReload } from "@/contexts/providerReload";
+import { create_songType, SongModel, songType } from "@/model/songModel";
+import useDebounce from "@/hooks/customs/useDebounce";
+import { Artist } from "@/api/Artist";
+import { list_artistType } from "@/model/artistModel";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
@@ -33,19 +36,17 @@ type Prop = {
 const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
     const { set_ReloadSong } = useReload()
     const [Title, Set_Title] = useState("");
+
+    const [list_Artist, Set_ListArtist] = useState<list_artistType>([])
     const [List_cate, Set_List_cate] = useState<list_cate_respone_type>([]);
-    let Array_Status = [
-        { label: "public", value: true },
-        { label: "private", value: false },
-    ];
-    const [Value_Song, dispacth_song] = useReducer(
-        Reducer_Change,
-        Init_Create_Song
-    );
-    const [Urlfile, dispacth_url] = useReducer(Reducer_Change, {
-        img: null,
-        audio: null,
+    const [valueSong, set_ValueSong] = useState<create_songType>(SongModel.init_create)
+    const [Urlfile, set_url] = useState({
+        img: '',
+        audio: '',
     });
+
+    const debounceValue = useDebounce(valueSong.Artist.trim(), 500)
+
     useEffect(() => {
         Set_Title(table);
         Category.Get_All()
@@ -54,16 +55,26 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
             })
     }, [table, data]);
 
+    useEffect(() => {
+        if (valueSong.Artist != '') {
+            Artist.Search(debounceValue)
+                .then((res) => {
+                    if (res.status == 200) {
+                        Set_ListArtist(res.data);
+                    }
+                })
+        }
+    }, [debounceValue])
+
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
-
         const Error_Check = Validate_Create_Song(
-            Value_Song.Song_Name,
-            Value_Song.Song_Audio,
-            Value_Song.Artist
+            valueSong.Song_Name,
+            valueSong.Song_Audio,
+            valueSong.Artist
         );
         if (!Error_Check.status) {
-            const formdata = Form_Data(Value_Song);
+            const formdata = Form_Data(valueSong);
             Song.Create(formdata).then((res) => {
                 if (res.status == 200) {
                     set_ReloadSong()
@@ -80,7 +91,7 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
     };
     return (
         <>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl" className="formModalSong">
                 <ModalContent>
                     {(onClose) => (
                         <form
@@ -96,12 +107,9 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                 <Input
                                     type="text"
                                     label="Song name"
-                                    value={Value_Song?.Song_Name}
+                                    value={valueSong?.Song_Name}
                                     onChange={(e) => {
-                                        dispacth_song({
-                                            type: "CHANGE",
-                                            payload: { Song_Name: e.target.value },
-                                        });
+                                        set_ValueSong({ ...valueSong, Song_Name: e.target.value })
                                     }}
                                 />
 
@@ -122,21 +130,13 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                                 accept="image/*"
                                                 onChange={(e) => {
                                                     if (e.target.files?.length != 0) {
-                                                        dispacth_song({
-                                                            type: "CHANGE",
-                                                            payload: {
-                                                                Song_Image: e.target.files
-                                                                    ? e.target.files[0]
-                                                                    : null,
-                                                            },
-                                                        });
-                                                        dispacth_url({
-                                                            type: "CHANGE",
-                                                            payload: {
-                                                                img: e.target.files
-                                                                    ? URL.createObjectURL(e.target.files[0])
-                                                                    : null,
-                                                            },
+                                                        set_ValueSong({ ...valueSong, Song_Image: e.target?.files ? e.target?.files[0] : null })
+                                                        set_url({
+                                                            ...Urlfile,
+                                                            img: e?.target?.files
+                                                                ? URL.createObjectURL(e.target.files[0])
+                                                                : '',
+
                                                         });
                                                     }
                                                 }}
@@ -145,16 +145,25 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                     </div>
                                     <div className="right">
                                         <div className="select_group">
-                                            <SelectCus
-                                                array={List_cate}
-                                                lables={["Category_Name", "Category_Id"]}
-                                                Title="Category"
-                                                event={dispacth_song}
-                                            />
+                                            <Select
+                                                isRequired
+                                                label={Title}
+                                                placeholder="Select"
+                                                className="w-full"
+                                                onChange={(e) => {
+                                                    set_ValueSong({ ...valueSong, Category_Id: List_cate[Number(e.target.value)].Category_Id })
+                                                }}
+                                            >
+                                                {List_cate.map((item, i) => (
+                                                    <SelectItem key={i} value={item.Category_Id} textValue={undefined}>
+                                                        {item.Category_Name}
+                                                    </SelectItem>
+                                                ))}
+                                            </Select>
                                         </div>
                                         <div className="tag_Audio">
-                                            {!Value_Song.Song_Audio && <AudioLineIcon w={30} />}
-                                            {Value_Song.Song_Audio && (
+                                            {!valueSong.Song_Audio && <AudioLineIcon w={30} />}
+                                            {valueSong.Song_Audio && (
                                                 <audio
                                                     src={Urlfile.audio ? Urlfile.audio : ""}
                                                     controls
@@ -171,21 +180,13 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                                 accept="audio/*"
                                                 onChange={(e) => {
                                                     if (e.target.files?.length != 0) {
-                                                        dispacth_song({
-                                                            type: "CHANGE",
-                                                            payload: {
-                                                                Song_Audio: e.target.files
-                                                                    ? e.target.files[0]
-                                                                    : null,
-                                                            },
-                                                        });
-                                                        dispacth_url({
-                                                            type: "CHANGE",
-                                                            payload: {
-                                                                audio: e.target.files
-                                                                    ? URL.createObjectURL(e.target.files[0])
-                                                                    : null,
-                                                            },
+                                                        set_ValueSong({ ...valueSong, Song_Audio: e.target?.files ? e.target?.files[0] : null })
+                                                        set_url({
+                                                            ...Urlfile,
+                                                            audio: e?.target?.files
+                                                                ? URL.createObjectURL(e.target.files[0])
+                                                                : '',
+
                                                         });
                                                     }
                                                 }}
@@ -194,26 +195,30 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                     </div>
                                 </div>
                                 <div className="Content2_FormSong">
-                                    <Input
-                                        type="text"
-                                        label="Artist"
-                                        value={Value_Song?.Artist}
-                                        onChange={(e) => {
-                                            dispacth_song({
-                                                type: "CHANGE",
-                                                payload: { Artist: e.target.value },
-                                            });
-                                        }}
-                                    />
+                                    <div className="formArtist">
+                                        <Input
+                                            type="text"
+                                            label="Artist"
+                                            value={valueSong?.Artist}
+                                            onChange={(e) => {
+                                                set_ValueSong({ ...valueSong, Artist: e.target.value })
+                                            }}
+                                        />
+
+                                        <ul>
+                                            {list_Artist.length > 0 &&
+                                                list_Artist.map((artist, index) =>
+                                                    <li key={index}>{artist?.Artist_Name}</li>)
+                                            }
+                                        </ul>
+                                    </div>
+
                                     <Input
                                         type="text"
                                         label="Tag"
-                                        value={Value_Song?.Tag}
+                                        value={valueSong?.Tag}
                                         onChange={(e) => {
-                                            dispacth_song({
-                                                type: "CHANGE",
-                                                payload: { Tag: e.target.value },
-                                            });
+                                            set_ValueSong({ ...valueSong, Tag: e.target.value })
                                         }}
                                     />
                                 </div>

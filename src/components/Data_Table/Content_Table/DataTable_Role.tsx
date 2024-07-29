@@ -1,5 +1,5 @@
 'use client'
-import React, { Suspense, useState } from "react";
+import React, { useState } from "react";
 import "../_table.scss"
 import { Column_Role, Column_Role_item__Type } from "@/configs/DataTable_Config";
 import { Pagination } from "@nextui-org/react";

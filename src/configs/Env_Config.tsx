@@ -14,6 +14,7 @@ export const EnvConfig = {
 
   NEXT_PUBLIC_SONG: "/song",
   NEXT_PUBLIC_SONG_MANAGE: "/songs",
+  NEXT_PUBLIC_SONG_CHECK: "/songs-check",
 
   NEXT_PUBLIC_TRACK: "/track",
 
@@ -30,6 +31,10 @@ export const EnvConfig = {
   NEXT_PUBLIC_EMPLOYESS: "/employess",
 
   NEXT_PUBLIC_BILL: "/bill",
+
+  NEXT_PUBLIC_ARTIST: "/artist",
+  NEXT_PUBLIC_ARTISTS: "/artists",
+  NEXT_PUBLIC_ARTIST_SEARCH: "/artist-search",
 
   NEXT_PUBLIC_SUBSCRIPTION: "/sub",
 

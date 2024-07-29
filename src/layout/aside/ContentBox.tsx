@@ -34,7 +34,7 @@ export default function ContentBox({
       className={`content-box ${active === index ? (active !== 0 ? "actives" : "actives no-item") : ""}`}
     >
       <div className="title-aside" onClick={() => {
-        if (Vaule.url != "home") {
+        if (Vaule.url != "/") {
           Set_active_children(0)
           router.push(`/${Vaule.url}/${Vaule.item[0].children_url}`);
         } else {

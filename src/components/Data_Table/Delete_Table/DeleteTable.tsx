@@ -18,10 +18,11 @@ type Prop = {
     isOpen: boolean,
     onOpenChange: () => void,
     table: string,
-    data: any
+    data: any,
+    Noitification?: boolean
 }
 
-const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
+const DeleteTable = ({ isOpen, onOpenChange, table, data, Noitification = false }: Prop) => {
     const userProvider = useSelector((state: RootState) => state.auth)
     const { set_ReloadEmploy, set_ReloadSong, set_ReloadSub, set_ReloadCate, set_ReloadPlaylist, set_ReloadRole, set_ReloadBill } = useReload()
     const [Title, Set_Title] = useState("")
@@ -102,14 +103,28 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data }: Prop) => {
                 })
                 break;
             case "song":
-                Song.Delete(dataProp[array_key[index_Id]]).then((res) => {
-                    if (res.status === 200) {
-                        set_ReloadSong()
-                        toast.success(res.message)
-                    } else {
-                        toast.error(res.message)
+                if (Noitification) {
+                    if (confirm('This song is on many lists! Do you want to delete')) {
+                        Song.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                            if (res.status === 200) {
+                                set_ReloadSong()
+                                toast.success(res.message)
+                            } else {
+                                toast.error(res.message)
+                            }
+                        })
                     }
-                })
+                } else {
+                    Song.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                        if (res.status === 200) {
+                            set_ReloadSong()
+                            toast.success(res.message)
+                        } else {
+                            toast.error(res.message)
+                        }
+                    })
+                }
+
                 break;
             case "playlist":
                 Playlist.Delete(dataProp[array_key[index_Id]]).then((res) => {

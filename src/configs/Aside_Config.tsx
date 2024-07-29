@@ -6,7 +6,7 @@ const AsideConfig = [
     id: 1,
     title: "Dashboard",
     icon: <Menu_Icon />,
-    url: "home",
+    url: "/",
     item: [],
   },
   {
@@ -16,6 +16,7 @@ const AsideConfig = [
     url: "customer",
     item: [
       { title_item: "User", icon_item: <User_Icon />, children_url: "user" },
+      { title_item: "Artist", icon_item: <Playlist_Icon />, children_url: "artist" },
       { title_item: "Song", icon_item: <Sound_Icon />, children_url: "song" },
       { title_item: "Playlist", icon_item: <Playlist_Icon />, children_url: "playlist" },
       { title_item: "Album", icon_item: <Playlist_Icon />, children_url: "album" },
@@ -34,6 +35,14 @@ const AsideConfig = [
       { title_item: "Song", icon_item: <Sound_Icon />, children_url: "song" },
       { title_item: "Playlist", icon_item: <Playlist_Icon />, children_url: "playlist" },
       { title_item: "subscription", icon_item: <Playlist_Icon />, children_url: "subscription" }
+    ],
+  }, {
+    id: 3,
+    title: "Partner",
+    icon: <Admin_Icon w={25} />,
+    url: "partner",
+    item: [
+      { title_item: "Advertisement", icon_item: <User_Icon />, children_url: "advertisement" },
     ],
   }
 ];

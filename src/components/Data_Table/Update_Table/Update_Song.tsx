@@ -11,7 +11,6 @@ import {
     Select,
     SelectItem,
 } from "@nextui-org/react";
-import SelectCus from "@/components/Custom/SelectCus";
 import Image from "next/image";
 import { Reducer_Change } from "@/hooks/reducer/action";
 import { Init_Create_Song, Res_song_Type } from "@/util/respone_Type/song-respone";
@@ -23,7 +22,7 @@ import { Send } from "@/api/Send";
 import { Category } from "@/api/Category";
 import { list_cate_respone_type } from "@/model/category";
 import { useReload } from "@/contexts/providerReload";
-import { update_songType } from "@/model/songModel";
+import { songType, update_songType } from "@/model/songModel";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
@@ -37,26 +36,28 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
 
     const [Title, Set_Title] = useState("");
     const [List_cate, Set_List_cate] = useState<list_cate_respone_type>([]);
-    const [Value_Song, dispacth_song] = useReducer(
-        Reducer_Change,
-        Init_Create_Song
+    const [songValue, set_SongValue] = useState<songType>(
+        data
     );
     const [Change, Set_Change] = useState<update_songType>({})
-    const [Urlfile, dispacth_url] = useReducer(Reducer_Change, {
-        img: null,
-        audio: null,
-    });
+    const [urlAudio, set_urlAudio] = useState('');
+    const [urlImg, set_urlImg] = useState('');
+
     useEffect(() => {
         Set_Title(table)
         Category.Get_All()
             .then((res) => {
                 Set_List_cate(res.data);
             })
-        dispacth_song({ type: "CHANGE", payload: data })
+
         Send.Audio(data.Song_Audio)
-            .then((res) => dispacth_url({ type: "CHANGE", payload: { audio: URL.createObjectURL(res) } }))
+            .then((res) => set_urlAudio(URL.createObjectURL(res)))
+
         Send.Image_S(data.Song_Image)
-            .then((res) => dispacth_url({ type: "CHANGE", payload: { img: URL.createObjectURL(res) } }))
+            .then((res) => set_urlImg(URL.createObjectURL(res)))
+
+
+        set_SongValue(data)
     }, [table, data])
 
 
@@ -65,14 +66,10 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
 
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
-        const Error_Check = Validate_Update_Song(
-            Value_Song.Song_Name
-        );
-
-
+        const Error_Check = Validate_Update_Song(Change);
         if (!Error_Check.status) {
             const formdata = Form_Data({ ...Change, Song_Audio: "" });
-            Song.Update(Value_Song.Song_Id, formdata).then((res) => {
+            Song.Update(songValue.Song_Id, formdata).then((res) => {
                 if (res.status == 200) {
                     toast.success(res.message);
                     set_ReloadSong()
@@ -104,12 +101,9 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                 <Input
                                     type="text"
                                     label="Song name"
-                                    value={Value_Song?.Song_Name}
+                                    value={songValue?.Song_Name}
                                     onChange={(e) => {
-                                        dispacth_song({
-                                            type: "CHANGE",
-                                            payload: { Song_Name: e.target.value },
-                                        });
+                                        set_SongValue({ ...songValue, Song_Name: e.target.value })
                                         Set_Change({ ...Change, Song_Name: e.target.value })
                                     }}
                                 />
@@ -117,7 +111,7 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                 <div className="Form_chosse_File">
                                     <div className="left">
                                         <Image
-                                            src={Urlfile.img ? Urlfile.img : img}
+                                            src={urlImg || img}
                                             alt=""
                                             width={1000}
                                             height={1000}
@@ -131,14 +125,11 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                                 accept="image/*"
                                                 onChange={(e) => {
                                                     if (e.target.files?.length != 0) {
-                                                        dispacth_url({
-                                                            type: "CHANGE",
-                                                            payload: {
-                                                                img: e.target.files
-                                                                    ? URL.createObjectURL(e.target.files[0])
-                                                                    : null,
-                                                            },
-                                                        });
+                                                        set_urlImg(
+                                                            e.target?.files
+                                                                ? URL.createObjectURL(e.target.files[0])
+                                                                : '')
+
                                                         Set_Change({
                                                             ...Change, Song_Image: e.target.files
                                                                 ? e.target.files[0]
@@ -146,6 +137,7 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                                         })
                                                     }
                                                 }}
+
                                             />
                                         </div>
                                     </div>
@@ -156,17 +148,14 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                                 label={Title}
                                                 placeholder="Select"
                                                 className="w-full"
+                                                defaultSelectedKeys={[data.Category_Id]}
                                                 onChange={(e) => {
-                                                    // set_ValueSub({
-                                                    //     ...valueSub,
-                                                    //     Status: Array_Status[Number(e.target.value)].value,
-                                                    // });
-                                                    Set_Change({ ...Change, Category_Id: List_cate[Number(e.target.value)].Category_Id })
+                                                    Set_Change({ ...Change, Category_Id: e.target.value })
                                                 }}
                                             >
                                                 {List_cate.map((item, i) => (
                                                     <SelectItem
-                                                        key={i}
+                                                        key={item.Category_Id}
                                                         value={String(item.Category_Id)}
                                                         textValue={undefined}
                                                     >
@@ -177,7 +166,7 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                         </div>
                                         <div className="tag_Audio">
                                             <audio
-                                                src={Urlfile.audio ? Urlfile.audio : ""}
+                                                src={urlAudio ? urlAudio : ""}
                                                 controls
                                                 className="w-[100%] h-[100%]"
                                             />
@@ -191,24 +180,18 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                     <Input
                                         type="text"
                                         label="Artist"
-                                        value={Value_Song?.Artist}
+                                        value={songValue?.Artist}
                                         onChange={(e) => {
-                                            dispacth_song({
-                                                type: "CHANGE",
-                                                payload: { Artist: e.target.value },
-                                            });
+                                            set_SongValue({ ...songValue, Artist: e.target.value })
                                             Set_Change({ ...Change, Artist: e.target.value })
                                         }}
                                     />
                                     <Input
                                         type="text"
                                         label="Tag"
-                                        value={Value_Song?.Tag}
+                                        value={songValue?.Tag}
                                         onChange={(e) => {
-                                            dispacth_song({
-                                                type: "CHANGE",
-                                                payload: { Tag: e.target.value },
-                                            });
+                                            set_SongValue({ ...songValue, Tag: e.target.value })
                                             Set_Change({ ...Change, Tag: e.target.value })
                                         }}
                                     />

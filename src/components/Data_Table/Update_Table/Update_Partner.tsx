@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useReducer, useState } from "react";
+import img from "@/assets/avatar.jpg";
 import {
     Modal,
     ModalContent,
@@ -10,71 +11,80 @@ import {
     Select,
     SelectItem,
 } from "@nextui-org/react";
-import { partner, partnerCreateType, partnerType } from "@/model/partner";
 import Image from "next/image";
-import { Reducer_Change } from "@/hooks/reducer/action";
-import { Validate_CreatePartner } from "@/util/Validate/Partner";
+import { Res_song_Type } from "@/util/respone_Type/song-respone";
+import { Validate_Update_Song } from "@/util/Validate/Song";
+import { Song } from "@/api/Song";
 import { toast } from "react-toastify";
-import { Partner } from "@/api/Partner";
 import { Form_Data } from "@/util/FormData/Form_Data";
+import { Send } from "@/api/Send";
+import { Category } from "@/api/Category";
+import { list_cate_respone_type } from "@/model/category";
+import { useReload } from "@/contexts/providerReload";
+import { songType, update_songType } from "@/model/songModel";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
     table: string;
-    data: partnerType;
+    data: Res_song_Type;
+
 };
 
-const UpdateFormPartner = ({ isOpen, onOpenChange, table, data }: Prop) => {
+const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const { set_ReloadSong } = useReload()
+
     const [Title, Set_Title] = useState("");
-    const [valuePartner, setValuePartner] = useState<partnerType>(
-        partner.init
+    const [List_cate, Set_List_cate] = useState<list_cate_respone_type>([]);
+    const [adsverValue, set_AdsverValue] = useState<songType>(
+        data
     );
-    const [change, setChange] = useState<any>({ Partner_Image: null, Partner_Audio: null, Logo: null })
-    const [togo, setTogo] = useState(false);
-    let Array_Status = [
-        { label: "advertise", value: 0 },
-        { label: "test", value: 1 },
-    ];
-    const [Urlfile, dispacth_url] = useReducer(Reducer_Change, {
-        img: null,
-        audio: null,
-        logo: null
-    });
-    const url =
-        "https://www.siliconera.com/wp-content/uploads/2024/05/star-rail-hope-is-a-thing-with-feathers-guide.jpg";
+    const [Change, Set_Change] = useState<update_songType>({})
+    const [urlAudio, set_urlAudio] = useState('');
+    const [urlImg, set_urlImg] = useState('');
 
     useEffect(() => {
-        Set_Title(table);
-        setValuePartner(data)
-    }, [table, data]);
+        Set_Title(table)
+        Category.Get_All()
+            .then((res) => {
+                Set_List_cate(res.data);
+            })
 
-    const changeValue = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setValuePartner({ ...valuePartner, Type: Number(e.target.value) });
-    };
+        Send.Audio(data.Song_Audio)
+            .then((res) => set_urlAudio(URL.createObjectURL(res)))
+
+        Send.Image_S(data.Song_Image)
+            .then((res) => set_urlImg(URL.createObjectURL(res)))
+
+
+        set_AdsverValue(data)
+    }, [table, data])
+
+
+
+
 
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
-        const checkError = Validate_CreatePartner(valuePartner)
-        if (!checkError.status) {
-            Partner.Create(Form_Data(valuePartner))
-                .then((res) => {
-                    if (res.status === 200) {
-                        toast.success(res.message)
-                    } else {
-                        toast.error(res.message)
-                    }
-                })
-            onClose()
+        const Error_Check = Validate_Update_Song(Change);
+        if (!Error_Check.status) {
+            const formdata = Form_Data({ ...Change, Song_Audio: "" });
+            Song.Update(adsverValue.Song_Id, formdata).then((res) => {
+                if (res.status == 200) {
+                    toast.success(res.message);
+                    set_ReloadSong()
+                    onClose();
+                } else {
+                    toast.error(res.message);
+                }
+            });
         } else {
-            let Array_Key = Object.keys(checkError.Error);
-            toast.error(checkError.Error[Array_Key[0]]);
+            let Array_Key = Object.keys(Error_Check.Error);
+            toast.error(Error_Check.Error[Array_Key[0]]);
         }
-
-
     };
     return (
         <>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
                 <ModalContent>
                     {(onClose) => (
                         <form
@@ -82,207 +92,110 @@ const UpdateFormPartner = ({ isOpen, onOpenChange, table, data }: Prop) => {
                             onSubmit={(e: any) => {
                                 SubmitForm(e, onClose);
                             }}
+                            className="pt-5"
                             encType="multipart/form-data"
-                            className="pt-5  "
                         >
                             <ModalBody>
-                                <div
-                                    className={`formContent partnerForm ${togo ? "showRightContentPartner" : ""
-                                        }`}
-                                >
-                                    <div className="leftContent">
-                                        <div className="Title_Delete">Create {Title}</div>
-                                        <Input
-                                            type="text"
-                                            label="Partner Name"
-                                            className="input"
-                                            value={valuePartner.Partner_Name}
-                                            onChange={(e) => {
-                                                setValuePartner({
-                                                    ...valuePartner,
-                                                    Partner_Name: e.target.value,
-                                                });
-                                                setChange({ ...change, Partner_Name: e.target.value })
-                                            }}
-                                        />
-                                        <Input
-                                            type="text"
-                                            label="Title"
-                                            className="input"
-                                            onChange={(e) => {
-                                                setChange({ ...change, Title: e.target.value })
-                                                setValuePartner({
-                                                    ...valuePartner,
-                                                    Title: e.target.value,
-                                                });
-                                            }}
-                                        />
-                                        <Input
-                                            type="text"
-                                            label="Content"
-                                            className="input"
-                                            onChange={(e) => {
-                                                setValuePartner({
-                                                    ...valuePartner,
-                                                    Content: e.target.value,
-                                                });
-                                                setChange({ ...change, Content: e.target.value })
+                                <div className="Title_Delete">Update {Title}</div>
+                                <Input
+                                    type="text"
+                                    label="Song name"
+                                    value={adsverValue?.Song_Name}
+                                    onChange={(e) => {
+                                        set_AdsverValue({ ...adsverValue, Song_Name: e.target.value })
+                                        Set_Change({ ...Change, Song_Name: e.target.value })
+                                    }}
+                                />
 
-                                            }}
+                                <div className="Form_chosse_File">
+                                    <div className="left">
+                                        <Image
+                                            src={urlImg || img}
+                                            alt=""
+                                            width={1000}
+                                            height={1000}
                                         />
-                                        <Input
-                                            type="text"
-                                            label="Link"
-                                            className="input"
-                                            onChange={(e) => {
-                                                setValuePartner({
-                                                    ...valuePartner,
-                                                    Link: e.target.value,
-                                                });
-                                                setChange({ ...change, Link: e.target.value })
-                                            }}
-                                        />
+                                        <div className="btn_label">
+                                            <label htmlFor="ImageInput">Img</label>
+                                            <input
+                                                type="file"
+                                                id="ImageInput"
+                                                className="none"
+                                                accept="image/*"
+                                                onChange={(e) => {
+                                                    if (e.target.files?.length != 0) {
+                                                        set_urlImg(
+                                                            e.target?.files
+                                                                ? URL.createObjectURL(e.target.files[0])
+                                                                : '')
+
+                                                        Set_Change({
+                                                            ...Change, Song_Image: e.target.files
+                                                                ? e.target.files[0]
+                                                                : undefined
+                                                        })
+                                                    }
+                                                }}
+
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="right">
                                         <div className="select_group">
                                             <Select
                                                 isRequired
                                                 label={Title}
                                                 placeholder="Select"
-                                                className="w-full input"
-                                                onChange={changeValue}
+                                                className="w-full"
+                                                defaultSelectedKeys={[data.Category_Id]}
+                                                onChange={(e) => {
+                                                    Set_Change({ ...Change, Category_Id: e.target.value })
+                                                }}
                                             >
-                                                {Array_Status.map((item, i) => (
+                                                {List_cate.map((item, i) => (
                                                     <SelectItem
-                                                        key={i}
-                                                        value={item.value}
+                                                        key={item.Category_Id}
+                                                        value={String(item.Category_Id)}
                                                         textValue={undefined}
                                                     >
-                                                        {item.label}
+                                                        {item.Category_Name}
                                                     </SelectItem>
                                                 ))}
                                             </Select>
-                                            <div
-                                                className="btNext"
-                                                onClick={() => setTogo((prev) => !prev)}
-                                            >
-                                                Next
-                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div className="rightContent">
-                                        <div
-                                            className="btnPrev"
-                                            onClick={() => setTogo((prev) => !prev)}
-                                        >
-                                            Previous
+                                        <div className="tag_Audio">
+                                            <audio
+                                                src={urlAudio ? urlAudio : ""}
+                                                controls
+                                                className="w-[100%] h-[100%]"
+                                            />
                                         </div>
-                                        <div className="formInfomationImage">
-                                            <div className="farmeImage">
-                                                <h1>Image</h1>
-                                                <Image src={Urlfile?.img ? Urlfile.img : url} alt="" width={1000} height={1000} />
-                                                <div className="frameLabel">
-                                                    <label htmlFor="inputImage">import</label>
-                                                    <input
-                                                        type="file"
-                                                        id="inputImage"
-                                                        className="none"
-                                                        accept="image/*"
-                                                        onChange={(e) => {
-                                                            setValuePartner({
-                                                                ...valuePartner,
-                                                                Partner_Image: e.target.files
-                                                                    ? e.target.files[0]
-                                                                    : null,
-                                                            });
-                                                            setChange({
-                                                                ...change, Partner_Image: e.target.files
-                                                                    ? e.target.files[0]
-                                                                    : null,
-                                                            })
-
-                                                            dispacth_url({
-                                                                type: "CHANGE",
-                                                                payload: {
-                                                                    img: e.target.files
-                                                                        ? URL.createObjectURL(e.target.files[0])
-                                                                        : null,
-                                                                },
-                                                            });
-                                                        }}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="farmeLogo">
-                                                <h1>Logo</h1>
-                                                <Image src={Urlfile?.logo ? Urlfile.logo : url} alt="" width={1000} height={1000} />
-                                                <div className="frameLabel">
-                                                    <label htmlFor="inputLogo">import</label>
-                                                    <input
-                                                        type="file"
-                                                        id="inputLogo"
-                                                        className="none"
-                                                        accept="image/*"
-                                                        onChange={(e) => {
-                                                            setValuePartner({
-                                                                ...valuePartner,
-                                                                Logo: e.target.files
-                                                                    ? e.target.files[0]
-                                                                    : null,
-                                                            });
-                                                            setChange({
-                                                                ...change, Logo: e.target.files
-                                                                    ? e.target.files[0]
-                                                                    : null,
-                                                            })
-                                                            dispacth_url({
-                                                                type: "CHANGE",
-                                                                payload: {
-                                                                    logo: e.target.files
-                                                                        ? URL.createObjectURL(e.target.files[0])
-                                                                        : null,
-                                                                },
-                                                            });
-                                                        }}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="farmeAudio">
-                                            <div className="frameAudio">
-                                                <audio src={Urlfile?.audio ? Urlfile.audio : ""} controls />
-                                            </div>
-
-                                            <div className="frameLabel">
-                                                <label htmlFor="inputAudio">import</label>
-                                                <input
-                                                    type="file"
-                                                    id="inputAudio"
-                                                    className="none"
-                                                    accept="audio/*"
-                                                    onChange={(e) => {
-                                                        setValuePartner({
-                                                            ...valuePartner,
-                                                            Partner_Audio: e.target.files
-                                                                ? e.target.files[0]
-                                                                : null,
-                                                        });
-
-                                                        dispacth_url({
-                                                            type: "CHANGE",
-                                                            payload: {
-                                                                audio: e.target.files
-                                                                    ? URL.createObjectURL(e.target.files[0])
-                                                                    : null,
-                                                            },
-                                                        });
-                                                    }}
-                                                />
-                                            </div>
+                                        <div className="btn_label">
+                                            <label htmlFor="AudioInput">Audio</label>
                                         </div>
                                     </div>
                                 </div>
+                                <div className="Content2_FormSong">
+                                    <Input
+                                        type="text"
+                                        label="Artist"
+                                        value={adsverValue?.Artist}
+                                        onChange={(e) => {
+                                            set_AdsverValue({ ...adsverValue, Artist: e.target.value })
+                                            Set_Change({ ...Change, Artist: e.target.value })
+                                        }}
+                                    />
+                                    <Input
+                                        type="text"
+                                        label="Tag"
+                                        value={adsverValue?.Tag}
+                                        onChange={(e) => {
+                                            set_AdsverValue({ ...adsverValue, Tag: e.target.value })
+                                            Set_Change({ ...Change, Tag: e.target.value })
+                                        }}
+                                    />
+                                </div>
                             </ModalBody>
-
                             <ModalFooter>
                                 <Button color="danger" variant="light" onPress={onClose}>
                                     Close
@@ -299,4 +212,4 @@ const UpdateFormPartner = ({ isOpen, onOpenChange, table, data }: Prop) => {
     );
 };
 
-export default UpdateFormPartner;
+export default UpdateFormSong;

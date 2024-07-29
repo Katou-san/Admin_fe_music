@@ -24,6 +24,9 @@ export const Convert_Title = (title: string) => {
             return 'Publish'
         case "role_name":
             return "Role"
+        case "vertify":
+
+            return "Vertify"
         default:
             return "Unknown"
     }

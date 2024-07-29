@@ -1,4 +1,4 @@
-import { partnerCreateType } from "@/model/partner";
+import { partnerCreateType } from "@/model/advserModel";
 
 
 const HandleErrors = {

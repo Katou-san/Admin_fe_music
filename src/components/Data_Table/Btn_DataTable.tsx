@@ -1,4 +1,5 @@
 'use client'
+import { Song } from '@/api/Song';
 import { User } from '@/api/User';
 import DeleteTable from '@/components/Data_Table/Delete_Table/DeleteTable';
 import UpdateFormCate from '@/components/Data_Table/Update_Table/Update_Cate';
@@ -31,7 +32,10 @@ const BtnDataTable = ({ type, event, data, dropdown = () => { }, onReload }: Pro
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { isOpen: isOpen_Edit, onOpen: onOpen_Edit, onOpenChange: onOpenChange_Edit } = useDisclosure();
     const [infoUser, set_Info] = useState(userModel.init)
+    const [check_Info, set_CheckInfo] = useState(false)
+    const [info_CurrentUser, set_CurrentUser] = useState(userModel.init)
     const [reload, set_Reload] = useState(false)
+    const [Noitification, set_Noitification] = useState(false)
     useEffect(() => {
         if (type == 'user') {
             if (data?.User_Id != undefined) {
@@ -39,6 +43,21 @@ const BtnDataTable = ({ type, event, data, dropdown = () => { }, onReload }: Pro
                     .then((res) => {
                         if (res.status == 200) {
                             set_Info(res.data)
+                        }
+                    })
+                // set_CheckInfo(u)
+            }
+        }
+        if (type == 'song') {
+            if (data?.Song_Id != undefined) {
+                Song.Check_Delete(data?.Song_Id)
+                    .then((res) => {
+                        if (res.status == 200) {
+                            set_Noitification(res.data.Noitification)
+                        }
+
+                        if (res.status == 404) {
+                            set_Noitification(res.data.Noitification)
                         }
                     })
             }
@@ -52,7 +71,6 @@ const BtnDataTable = ({ type, event, data, dropdown = () => { }, onReload }: Pro
                     .then((res) => {
                         if (res.status == 200) {
                             toast.success('User updated successfully')
-                            // set_Reload(pre => !pre)
                             set_ReloadEmploy()
                         }
                     })
@@ -79,14 +97,14 @@ const BtnDataTable = ({ type, event, data, dropdown = () => { }, onReload }: Pro
                     <EditIcon />
                 </span>
             </Tooltip>}
-
-            <Tooltip color="danger" content="Delete">
-                <span className="text-lg text-danger cursor-pointer active:opacity-50"
-                    onClick={onOpen}
-                >
-                    <DeleteIcon />
-                </span>
-            </Tooltip>
+            {type != 'bill' &&
+                <Tooltip color="danger" content="Delete">
+                    <span className="text-lg text-danger cursor-pointer active:opacity-50"
+                        onClick={onOpen}
+                    >
+                        <DeleteIcon />
+                    </span>
+                </Tooltip>}
 
             {type == 'song' &&
 
@@ -109,7 +127,7 @@ const BtnDataTable = ({ type, event, data, dropdown = () => { }, onReload }: Pro
                     </span>
                 </Tooltip>}
 
-            <DeleteTable isOpen={isOpen} onOpenChange={onOpenChange} table={type} data={data} />
+            <DeleteTable isOpen={isOpen} onOpenChange={onOpenChange} table={type} data={data} Noitification={Noitification} />
 
             {type == "employess" && <UpdateFormEmployess isOpen={isOpen_Edit} onOpenChange={onOpenChange_Edit} table={type} data={data} />}
             {type == "user" && <UpdateFormUser isOpen={isOpen_Edit} onOpenChange={onOpenChange_Edit} table={type} data={data} />}

@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
 import "./_home.scss";
-import ItemList from "@/app/(dashboard)/home/components/ItemList";
+import ItemList from "@/app/(dashboard)/(home)/components/ItemList";
 
 import RenderBarChart from "@/components/Chart/BarChart";
 import RenderPieChart from "@/components/Chart/PieChart";
@@ -13,8 +13,9 @@ import {
   dashboardTypeChar,
 } from "@/model/dashboard";
 import { Sound_Icon, User_Icon } from "@/util/Icons/Icon_Figma";
+import { useEffect, useState } from "react";
 
-export default function page() {
+export default function Page() {
   const ArrayPie = [
     { name: "Group A", value: 400 },
     { name: "Group B", value: 300 },
@@ -34,7 +35,6 @@ export default function page() {
 
     Dashboard.Get_Dashboard_char_1().then((res) => set_CharData_1(res.data));
   }, []);
-  console.log(dashboard_1);
 
   return (
     <div className="farme-home">
@@ -54,12 +54,6 @@ export default function page() {
           />
         </div>
       </div>
-
-      <select>
-        <option value="">2024</option>
-        <option value="a">a</option>
-        <option value="b">b</option>
-      </select>
 
       <div className="main-content">
         <div className="farme-chart">

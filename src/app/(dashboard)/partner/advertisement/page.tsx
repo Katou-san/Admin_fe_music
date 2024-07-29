@@ -4,17 +4,17 @@ import "../_manage.scss"
 import HeaderContent from "@/components/Data_Table/Header_Table/HeaderContent";
 import Loading_Table from "@/util/Icons/Loading/Dot_Loading/DotLoading";
 import DataTableAdvertise from "@/components/Data_Table/Content_Table/DataTable_Advertise";
-import { partner, list_PartnerType } from "@/model/partner";
 import { Partner } from "@/api/Partner";
+import { AdvserModel, list_AdvserType } from "@/model/advserModel";
 
 
 
 export default function Page() {
 
-    const [ShowDetails, Set_ShowDetails] = useState({ status: false, data: partner.init })
-    const [data, Set_data] = useState<list_PartnerType>([])
+    const [ShowDetails, Set_ShowDetails] = useState({ status: false, data: AdvserModel.init })
+    const [data, Set_data] = useState<list_AdvserType>([])
     const [is_Loading, Set_isLoading] = useState(false)
-    const [data_Table, Set_data_Table] = useState<list_PartnerType>([])
+    const [data_Table, Set_data_Table] = useState<list_AdvserType>([])
 
     const DetailProp = (data: any) => {
         Set_ShowDetails({ status: true, data })

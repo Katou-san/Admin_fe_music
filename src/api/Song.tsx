@@ -34,6 +34,11 @@ export const Song = {
             body,
             header()
         ),
+    Check_Delete: async (id: string) =>
+        await http.get(
+            `${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_SONG_CHECK}/${id}`,
+            header()
+        ),
     Delete: async (id: string) =>
         await http.delete(
             `${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_SONG}/${id}`,

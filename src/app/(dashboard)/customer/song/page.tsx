@@ -11,7 +11,7 @@ import { useReload } from "@/contexts/providerReload";
 
 
 export default function Page() {
-    const { reload_Playlist } = useReload()
+    const { reload_Song } = useReload()
     const [ShowDetails, Set_ShowDetails] = useState({ status: false, data: SongModel.init })
     const [data, Set_data] = useState<list_songType>([])
     const [data_Table, Set_data_Table] = useState<list_songType>([])
@@ -28,7 +28,7 @@ export default function Page() {
                 Set_data_Table([...res.data])
             })
 
-    }, [reload_Playlist])
+    }, [reload_Song])
 
     return (
         <div className={`ContentMain ${ShowDetails.status ? "ShowDetail" : ''}`}>

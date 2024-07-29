@@ -5,7 +5,7 @@ import { Res_song_Type } from '@/util/respone_Type/song-respone';
 import { Avatar } from '@nextui-org/react';
 import React, { useEffect, useRef, useState } from 'react';
 import "./_Item.scss"
-import { partnerType } from '@/model/partner';
+import { partnerType } from '@/model/advserModel';
 
 const ItemPartner = ({ partner, event }: { partner: partnerType, event: any }) => {
     const [url, Set_url] = useState("")

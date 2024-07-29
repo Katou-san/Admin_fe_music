@@ -2,20 +2,20 @@
 import React, { useState } from "react";
 import "../_table.scss";
 import {
-    Column_Song,
-    Column_Song_item__Type,
+    Column_Artist,
+    Column_Artist_item__Type,
 } from "@/configs/DataTable_Config";
 import { Pagination } from "@nextui-org/react";
-import ItemPartner from "@/components/Data_Table/Item_Table/Item_Partner";
-import { list_AdvserType } from "@/model/advserModel";
+import { list_artistType } from "@/model/artistModel";
+import ItemArtist from "@/components/Data_Table/Item_Table/Item_Artist";
 
 
 type Prop = {
-    data: list_AdvserType;
+    data: list_artistType;
     event: (data: any) => void;
 };
 
-export default function DataTableAdvertise({ data, event }: Prop) {
+export default function DataTableArtist({ data, event }: Prop) {
     const [current, set_Current] = useState({ index: 0, limit: 4 });
     const lenght =
         data.length % 4 != 0
@@ -24,18 +24,18 @@ export default function DataTableAdvertise({ data, event }: Prop) {
     return (
         <div className="table_data">
             <div className="header_Table header_Table_user">
-                {Column_Song.map((column: Column_Song_item__Type, i: number) => (
+                {Column_Artist.map((column: Column_Artist_item__Type, i: number) => (
                     <div key={i}>{column.name}</div>
                 ))}
             </div>
             {data.length != 0 && (
                 <div className="listItem">
-                    {data.map((partner, i) => {
+                    {data.map((artist, i) => {
                         if (
                             i >= current.index * current.limit &&
                             i < (current.index + 1) * current.limit
                         ) {
-                            return <ItemPartner key={i} partner={partner} event={event} />
+                            return <ItemArtist key={i} artist={artist} event={event} />
                         }
                     })}
                 </div>

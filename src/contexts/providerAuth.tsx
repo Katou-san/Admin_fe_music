@@ -32,7 +32,7 @@ const ProviderAuth = ({ children }: { children: ReactNode }) => {
                         if (res.status === 200) {
                             Set_auth(res.data)
                             dispath(login(res.data))
-                            router.push('/home')
+                            router.push('/')
                         } else {
                             router.push('/auths')
                         }

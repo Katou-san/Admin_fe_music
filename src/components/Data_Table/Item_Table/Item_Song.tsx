@@ -15,6 +15,7 @@ const ItemSong = ({ song, event }: { song: songType, event: any }) => {
     const [drop_Down, set_Drop] = useState(false)
     const [cateName, set_Cate] = useState<cateType>(cateModel.init)
     const itemRef = useRef<HTMLInputElement | null>(null)
+
     useEffect(() => {
         Promise.all([
             Send.Image_S(song.Song_Image)
