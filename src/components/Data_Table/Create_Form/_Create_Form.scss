@@ -234,106 +234,45 @@
     }
 }
 
-.partnerForm {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 100% 0%;
-    overflow: hidden;
-    transition: .2s;
+.formValuePartner {
+    .frameLogo {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 2%;
+        grid-template-columns: 50% 50%;
 
-    .input {
-        margin-top: 10px;
-    }
-
-    .select_group {
-        display: grid;
-        place-items: center;
-
-        .btNext {
-            cursor: pointer;
-            display: grid;
-            align-items: center;
-            justify-content: center;
-            background-color: #0f172a;
-            padding: 10px 20px;
-            color: #e9f7ff;
-            border-radius: 10px;
-
-        }
-
-
-    }
-
-    .rightContent {
-        overflow: hidden;
-
-        .formInfomationImage {
-            display: grid;
-            width: 100%;
-            grid-template-columns: 49% 49%;
-            gap: 1%;
-            justify-content: center;
-
-            h1 {
-                font-size: 18px;
-                font-weight: 600;
-            }
+        .frameImg {
+            width: 70px;
+            height: 70px;
 
             img {
-                height: 150px;
-                width: 300px;
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
                 object-fit: cover;
-                border-radius: 20px;
-            }
-
-            .frameLabel {
-
-                margin-top: 5px;
-                width: 100%;
-                display: grid;
-                justify-content: center;
-
-                label {
-                    cursor: pointer;
-                    padding: 8px 20px;
-                    background-color: #0f172a;
-                    color: #e9f7ff;
-                    border-radius: 10px;
-                }
-            }
-
-
-        }
-
-        .farmeAudio {
-            margin-top: 20px;
-            width: 100%;
-            display: grid;
-            justify-content: center;
-
-            .frameLabel {
-
-                margin-top: 5px;
-                width: 100%;
-                display: grid;
-                justify-content: center;
-
-                label {
-                    cursor: pointer;
-                    padding: 8px 20px;
-                    background-color: #0f172a;
-                    color: #e9f7ff;
-                    border-radius: 10px;
-                }
             }
         }
 
-        .btnPrev {
+        .frameLabel {
+            padding: 5px 10px;
+            background-color: rgba(255, 255, 255, 0);
+            border: 1px solid #000;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
+            transition: .2s;
+
+            &:hover {
+                background-color: #c9c9c9;
+            }
+
+            label {
+                cursor: pointer;
+            }
         }
-
     }
-
 }
 
 .showRightContentPartner {

@@ -12,6 +12,7 @@ const list_song_init = [
         Lyrics: "",
         Tag: "",
         Color: "",
+        Artist_Name: "",
         is_Publish: true,
         Create_Date: ""
     },

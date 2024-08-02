@@ -23,11 +23,14 @@ import { Category } from "@/api/Category";
 import { list_cate_respone_type } from "@/model/category";
 import { useReload } from "@/contexts/providerReload";
 import { songType, update_songType } from "@/model/songModel";
+import { artistModel, list_artistType } from "@/model/artistModel";
+import useDebounce from "@/hooks/customs/useDebounce";
+import { Artist } from "@/api/Artist";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
     table: string;
-    data: Res_song_Type;
+    data: songType;
 
 };
 
@@ -35,13 +38,17 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
     const { set_ReloadSong } = useReload()
 
     const [Title, Set_Title] = useState("");
+    const [list_Artist, Set_ListArtist] = useState<list_artistType>([])
     const [List_cate, Set_List_cate] = useState<list_cate_respone_type>([]);
     const [songValue, set_SongValue] = useState<songType>(
         data
     );
+    const [showArtist, set_ShowArtist] = useState(false)
     const [Change, Set_Change] = useState<update_songType>({})
     const [urlAudio, set_urlAudio] = useState('');
     const [urlImg, set_urlImg] = useState('');
+    const [artistInfo, set_artistInfo] = useState(artistModel.init)
+    const debounceValue = useDebounce(songValue.Artist_Name.trim(), 500)
 
     useEffect(() => {
         Set_Title(table)
@@ -61,6 +68,20 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
     }, [table, data])
 
 
+    useEffect(() => {
+        if (songValue.Artist_Name != '') {
+            Artist.Search(debounceValue)
+                .then((res) => {
+                    if (res.status == 200) {
+                        Set_ListArtist(res.data);
+                        set_ShowArtist(true)
+                    }
+                })
+        } else {
+            Set_ListArtist([])
+            set_ShowArtist(false)
+        }
+    }, [debounceValue])
 
 
 
@@ -177,15 +198,32 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                     </div>
                                 </div>
                                 <div className="Content2_FormSong">
-                                    <Input
-                                        type="text"
-                                        label="Artist"
-                                        value={songValue?.Artist}
-                                        onChange={(e) => {
-                                            set_SongValue({ ...songValue, Artist: e.target.value })
-                                            Set_Change({ ...Change, Artist: e.target.value })
-                                        }}
-                                    />
+                                    <div className="formArtistSongUpdate">
+                                        <Input
+                                            type="text"
+                                            label="Artist"
+                                            value={songValue?.Artist_Name}
+                                            onChange={(e) => {
+                                                set_SongValue({ ...songValue, Artist_Name: e.target.value })
+                                                Set_Change({ ...Change, Artist: e.target.value })
+                                            }}
+                                        />
+                                        {showArtist &&
+                                            <ul>
+                                                {list_Artist.length > 0 &&
+                                                    list_Artist.map((artist, index) =>
+                                                        <li key={index}
+                                                            onClick={() => {
+                                                                set_SongValue({ ...songValue, Artist_Name: artist.Artist_Name })
+                                                                Set_Change({ ...Change, Artist: artist.Artist_Id })
+                                                                set_artistInfo(artist)
+                                                                set_ShowArtist(false)
+                                                            }}
+                                                        >{artist?.Artist_Name}</li>)
+                                                }
+                                            </ul>}
+                                    </div>
+
                                     <Input
                                         type="text"
                                         label="Tag"

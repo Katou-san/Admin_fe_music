@@ -23,13 +23,13 @@ export default function DataTableArtist({ data, event }: Prop) {
             : Math.floor(data.length / 4);
     return (
         <div className="table_data">
-            <div className="header_Table header_Table_user">
+            <div className="header_Table header_Table_user ">
                 {Column_Artist.map((column: Column_Artist_item__Type, i: number) => (
                     <div key={i}>{column.name}</div>
                 ))}
             </div>
             {data.length != 0 && (
-                <div className="listItem">
+                <div className="listItem ">
                     {data.map((artist, i) => {
                         if (
                             i >= current.index * current.limit &&

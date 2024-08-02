@@ -1,5 +1,5 @@
 
-import { Admin_Icon, Category_Icon, Menu_Icon, People_Icon, Playlist_Icon, Role_Icon, Sound_Icon, User_Icon } from "@/util/Icons/Icon_Figma";
+import { Admin_Icon, Ads_Icon, Bookmark_Icon, Category_Icon, Menu_Icon, People_Icon, Playlist_Icon, Role_Icon, Sound_Icon, User_Icon } from "@/util/Icons/Icon_Figma";
 
 const AsideConfig = [
   {
@@ -39,10 +39,11 @@ const AsideConfig = [
   }, {
     id: 3,
     title: "Partner",
-    icon: <Admin_Icon w={25} />,
+    icon: <Bookmark_Icon />,
     url: "partner",
     item: [
-      { title_item: "Advertisement", icon_item: <User_Icon />, children_url: "advertisement" },
+      { title_item: "Ads", icon_item: <Ads_Icon />, children_url: "advertisement" },
+      { title_item: "Partner", icon_item: <User_Icon />, children_url: "partner" },
     ],
   }
 ];

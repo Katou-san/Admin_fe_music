@@ -3,18 +3,18 @@ import React, { useEffect, useState } from "react";
 import "../_manage.scss"
 import HeaderContent from "@/components/Data_Table/Header_Table/HeaderContent";
 import Loading_Table from "@/util/Icons/Loading/Dot_Loading/DotLoading";
-import DataTableAdvertise from "@/components/Data_Table/Content_Table/DataTable_Advertise";
 import { Partner } from "@/api/Partner";
-import { AdsModel, list_AdsType } from "@/model/advserModel";
+import { list_PartnerType, PartnerModel } from "@/model/partnerModel";
+import DataTablePartner from "@/components/Data_Table/Content_Table/DataTable_Partner";
 
 
 
 export default function Page() {
 
-    const [ShowDetails, Set_ShowDetails] = useState({ status: false, data: AdsModel.init })
-    const [data, Set_data] = useState<list_AdsType>([])
+    const [ShowDetails, Set_ShowDetails] = useState({ status: false, data: PartnerModel.init })
+    const [data, Set_data] = useState<list_PartnerType>([])
     const [is_Loading, Set_isLoading] = useState(false)
-    const [data_Table, Set_data_Table] = useState<list_AdsType>([])
+    const [data_Table, Set_data_Table] = useState<list_PartnerType>([])
 
     const DetailProp = (data: any) => {
         Set_ShowDetails({ status: true, data })
@@ -36,7 +36,7 @@ export default function Page() {
             <div className="ContentLeft">
                 <HeaderContent data={data} select={["is_Publish"]} table="partner" find="Playlist_Name" event={Set_data_Table} />
                 {is_Loading && <Loading_Table />}
-                {!is_Loading && <DataTableAdvertise data={data_Table} event={DetailProp} />}
+                {!is_Loading && <DataTablePartner data={data_Table} event={DetailProp} />}
 
             </div>
             <div className="ContentRight">

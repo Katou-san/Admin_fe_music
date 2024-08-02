@@ -14,6 +14,7 @@ import { Subcription } from '@/api/Subscription';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/hooks/redux/store';
 import { Bill } from '@/api/Bill';
+import { Artist } from '@/api/Artist';
 type Prop = {
     isOpen: boolean,
     onOpenChange: () => void,
@@ -24,7 +25,7 @@ type Prop = {
 
 const DeleteTable = ({ isOpen, onOpenChange, table, data, Noitification = false }: Prop) => {
     const userProvider = useSelector((state: RootState) => state.auth)
-    const { set_ReloadEmploy, set_ReloadSong, set_ReloadSub, set_ReloadCate, set_ReloadPlaylist, set_ReloadRole, set_ReloadBill } = useReload()
+    const { set_ReloadEmploy, set_ReloadSong, set_ReloadSub, set_ReloadCate, set_ReloadPlaylist, set_ReloadRole, set_ReloadBill, set_ReloadArtist } = useReload()
     const [Title, Set_Title] = useState("")
     const [dataProp, Set_dataProp] = useState<typeof data>({})
     let array_key: any[] = Object.keys(data)
@@ -66,6 +67,10 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data, Noitification = false 
         case "sub":
             index_Id = array_key.indexOf("Sub_Id")
             index_Name = array_key.indexOf("Sub_Title")
+            break;
+        case "artist":
+            index_Id = array_key.indexOf("Artist_Id")
+            index_Name = array_key.indexOf("Artist_Name")
             break;
 
         default:
@@ -180,6 +185,16 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data, Noitification = false 
                 Bill.Delete(dataProp[array_key[index_Id]]).then((res) => {
                     if (res.status === 200) {
                         set_ReloadBill()
+                        toast.success(res.message)
+                    } else {
+                        toast.error(res.message)
+                    }
+                })
+                break;
+            case 'artist':
+                Artist.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                    if (res.status === 200) {
+                        set_ReloadArtist()
                         toast.success(res.message)
                     } else {
                         toast.error(res.message)

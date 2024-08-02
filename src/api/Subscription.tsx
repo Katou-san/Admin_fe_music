@@ -12,7 +12,7 @@ export const Subcription = {
         ),
     Get_Sub: async () =>
         await http.get(
-            `${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_SUBSCRIPTION}`,
+            `${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_SUBSCRIPTIONS}`,
             header()
         ),
     Create: async (body: create_subType): Promise<any> =>

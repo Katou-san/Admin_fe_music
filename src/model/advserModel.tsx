@@ -1,4 +1,4 @@
-const list_Advser_init = [
+const list_Ads_init = [
     {
         _id: "",
         Song_Id: "",
@@ -7,7 +7,7 @@ const list_Advser_init = [
         Song_Audio: "",
         Artist: "",
         Like: 0,
-        User_Id: "",
+        s_Id: "",
         Category_Id: "",
         Lyrics: "",
         Tag: "",
@@ -17,13 +17,13 @@ const list_Advser_init = [
     },
 ];
 
-const create_Advser = {
+const create_Ads = {
     Song_Name: "",
     Song_Image: null,
     Song_Audio: null,
     Artist: "",
     Like: 0,
-    User_Id: "",
+    s_Id: "",
     Category_Id: "",
     Lyrics: "",
     Tag: "",
@@ -31,7 +31,7 @@ const create_Advser = {
     is_Publish: true,
 }
 
-const update_Advser = {
+const update_Ads = {
     Song_Name: "",
     Song_Image: null,
     Artist: "",
@@ -42,22 +42,22 @@ const update_Advser = {
     is_Publish: true,
 }
 
-export const AdvserModel = {
-    init: list_Advser_init[0],
-    init_list: list_Advser_init,
-    init_create: create_Advser,
+export const AdsModel = {
+    init: list_Ads_init[0],
+    init_list: list_Ads_init,
+    init_create: create_Ads,
 
 }
 
-export type AdvserType = typeof list_Advser_init[0]
-export type list_AdvserType = typeof list_Advser_init
-export type create_AdvserType = {
+export type AdsType = typeof list_Ads_init[0]
+export type list_AdsType = typeof list_Ads_init
+export type create_AdsType = {
     Song_Name: string,
     Song_Image: any,
     Song_Audio: any,
     Artist: string,
     Like: number,
-    User_Id: string,
+    s_Id: string,
     Category_Id: string,
     Lyrics: string,
     Tag: string,
@@ -65,7 +65,7 @@ export type create_AdvserType = {
     is_Publish: boolean,
 }
 
-export type update_AdvserType = {
+export type update_AdsType = {
     Song_Name?: string,
     Song_Image?: any,
     Song_Audio?: any,

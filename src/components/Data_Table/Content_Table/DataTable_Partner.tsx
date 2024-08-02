@@ -7,15 +7,15 @@ import {
 } from "@/configs/DataTable_Config";
 import { Pagination } from "@nextui-org/react";
 import ItemPartner from "@/components/Data_Table/Item_Table/Item_Partner";
-import { list_AdsType } from "@/model/advserModel";
+import { list_PartnerType } from "@/model/partnerModel";
 
 
 type Prop = {
-    data: list_AdsType;
+    data: list_PartnerType;
     event: (data: any) => void;
 };
 
-export default function DataTableAdvertise({ data, event }: Prop) {
+export default function DataTablePartner({ data, event }: Prop) {
     const [current, set_Current] = useState({ index: 0, limit: 4 });
     const lenght =
         data.length % 4 != 0
@@ -35,8 +35,7 @@ export default function DataTableAdvertise({ data, event }: Prop) {
                             i >= current.index * current.limit &&
                             i < (current.index + 1) * current.limit
                         ) {
-                            return <li key={i}></li>
-                            // return <ItemPartner key={i} partner={partner} event={event} />
+                            return <ItemPartner key={i} partner={partner} event={event} />
                         }
                     })}
                 </div>

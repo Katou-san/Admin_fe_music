@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useReducer, useState } from "react";
-import img from "@/assets/avatar.jpg";
+import imgTemp from "@/assets/avatar.jpg";
 import errorImg from '../../../../public/errorImg.png'
 import {
     Modal,
@@ -15,17 +15,14 @@ import {
 import "./_Create_Form.scss";
 import Image from "next/image";
 import { AudioLineIcon } from "@/util/Icons/Icon";
-import { Validate_Create_Song } from "@/util/Validate/Song";
 import { Song } from "@/api/Song";
 import { toast } from "react-toastify";
 import { Form_Data } from "@/util/FormData/Form_Data";
 import { Category } from "@/api/Category";
 import { list_cate_respone_type } from "@/model/category";
 import { useReload } from "@/contexts/providerReload";
-import { create_songType, SongModel, songType } from "@/model/songModel";
-import useDebounce from "@/hooks/customs/useDebounce";
-import { Artist } from "@/api/Artist";
-import { artistModel, list_artistType } from "@/model/artistModel";
+import { AdsModel, create_AdsType } from "@/model/advserModel";
+
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
@@ -33,20 +30,15 @@ type Prop = {
     data?: any;
 };
 
-const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
+const CreateFormAdvser = ({ isOpen, onOpenChange, table, data }: Prop) => {
     const { set_ReloadSong } = useReload()
     const [Title, Set_Title] = useState("");
-
-    const [list_Artist, Set_ListArtist] = useState<list_artistType>([])
     const [List_cate, Set_List_cate] = useState<list_cate_respone_type>([]);
-    const [valueSong, set_ValueSong] = useState<create_songType>(SongModel.init_create)
-    const [showArtist, set_ShowArtist] = useState(false)
+    const [valueAdvser, set_ValueAdvser] = useState<create_AdsType>(AdsModel.init_create)
     const [Urlfile, set_url] = useState({
         img: '',
         audio: '',
     });
-    const [artistInfo, set_artistInfo] = useState(artistModel.init)
-    const debounceValue = useDebounce(artistInfo.Artist_Name.trim(), 500)
 
     useEffect(() => {
         Set_Title(table);
@@ -56,31 +48,16 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
             })
     }, [table, data]);
 
-    useEffect(() => {
-        if (artistInfo.Artist_Name != '') {
-            Artist.Search(debounceValue)
-                .then((res) => {
-                    if (res.status == 200) {
-                        Set_ListArtist(res.data);
-                        set_ShowArtist(true)
-                    }
-                })
-        } else {
-            Set_ListArtist([])
-            set_ShowArtist(false)
-        }
-    }, [debounceValue])
-
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
-        const Error_Check = Validate_Create_Song(
-            valueSong.Song_Name,
-            valueSong.Song_Audio,
-            valueSong.Artist,
-            valueSong.Song_Image
-        );
-        if (!Error_Check.status) {
-            const formdata = Form_Data(valueSong);
+
+        // const Error_Check = Validate_Create_Song(
+        //     valueAdvser.Song_Name,
+        //     valueAdvser.Song_Audio,
+        //     valueAdvser.Artist
+        // );
+        if (!true) {
+            const formdata = Form_Data(valueAdvser);
             Song.Create(formdata).then((res) => {
                 if (res.status == 200) {
                     set_ReloadSong()
@@ -91,13 +68,13 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                 }
             });
         } else {
-            let Array_Key = Object.keys(Error_Check.Error);
-            toast.error(Error_Check.Error[Array_Key[0]]);
+            // let Array_Key = Object.keys(Error_Check.Error);
+            // toast.error(Error_Check.Error[Array_Key[0]]);
         }
     };
     return (
         <>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl" className="formModalSong">
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
                 <ModalContent>
                     {(onClose) => (
                         <form
@@ -113,9 +90,9 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                 <Input
                                     type="text"
                                     label="Song name"
-                                    value={valueSong?.Song_Name}
+                                    value={valueAdvser?.Song_Name}
                                     onChange={(e) => {
-                                        set_ValueSong({ ...valueSong, Song_Name: e.target.value })
+                                        set_ValueAdvser({ ...valueAdvser, Song_Name: e.target.value })
                                     }}
                                 />
 
@@ -136,7 +113,7 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                                 accept="image/*"
                                                 onChange={(e) => {
                                                     if (e.target.files?.length != 0) {
-                                                        set_ValueSong({ ...valueSong, Song_Image: e.target?.files ? e.target?.files[0] : null })
+                                                        set_ValueAdvser({ ...valueAdvser, Song_Image: e.target?.files ? e.target?.files[0] : null })
                                                         set_url({
                                                             ...Urlfile,
                                                             img: e?.target?.files
@@ -157,7 +134,7 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                                 placeholder="Select"
                                                 className="w-full"
                                                 onChange={(e) => {
-                                                    set_ValueSong({ ...valueSong, Category_Id: List_cate[Number(e.target.value)].Category_Id })
+                                                    set_ValueAdvser({ ...valueAdvser, Category_Id: List_cate[Number(e.target.value)].Category_Id })
                                                 }}
                                             >
                                                 {List_cate.map((item, i) => (
@@ -168,8 +145,8 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                             </Select>
                                         </div>
                                         <div className="tag_Audio">
-                                            {!valueSong.Song_Audio && <AudioLineIcon w={30} />}
-                                            {valueSong.Song_Audio && (
+                                            {!valueAdvser.Song_Audio && <AudioLineIcon w={30} />}
+                                            {valueAdvser.Song_Audio && (
                                                 <audio
                                                     src={Urlfile.audio ? Urlfile.audio : ""}
                                                     controls
@@ -186,7 +163,7 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                                 accept="audio/*"
                                                 onChange={(e) => {
                                                     if (e.target.files?.length != 0) {
-                                                        set_ValueSong({ ...valueSong, Song_Audio: e.target?.files ? e.target?.files[0] : null })
+                                                        set_ValueAdvser({ ...valueAdvser, Song_Audio: e.target?.files ? e.target?.files[0] : null })
                                                         set_url({
                                                             ...Urlfile,
                                                             audio: e?.target?.files
@@ -201,37 +178,20 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                     </div>
                                 </div>
                                 <div className="Content2_FormSong">
-                                    <div className="formArtist">
-                                        <Input
-                                            type="text"
-                                            label="Artist"
-                                            value={artistInfo.Artist_Name}
-                                            onChange={(e) => {
-                                                set_artistInfo({ ...artistInfo, Artist_Name: e.target.value })
-                                                set_ValueSong({ ...valueSong, Artist: e.target.value })
-                                            }}
-                                        />
-                                        {showArtist &&
-                                            <ul>
-                                                {list_Artist.length > 0 &&
-                                                    list_Artist.map((artist, index) =>
-                                                        <li key={index}
-                                                            onClick={() => {
-                                                                set_ValueSong({ ...valueSong, Artist: artist.Artist_Id })
-                                                                set_artistInfo(artist)
-                                                                set_ShowArtist(false)
-                                                            }}
-                                                        >{artist?.Artist_Name}</li>)
-                                                }
-                                            </ul>}
-                                    </div>
-
+                                    <Input
+                                        type="text"
+                                        label="Artist"
+                                        value={valueAdvser?.Artist}
+                                        onChange={(e) => {
+                                            set_ValueAdvser({ ...valueAdvser, Artist: e.target.value })
+                                        }}
+                                    />
                                     <Input
                                         type="text"
                                         label="Tag"
-                                        value={valueSong?.Tag}
+                                        value={valueAdvser?.Tag}
                                         onChange={(e) => {
-                                            set_ValueSong({ ...valueSong, Tag: e.target.value })
+                                            set_ValueAdvser({ ...valueAdvser, Tag: e.target.value })
                                         }}
                                     />
                                 </div>
@@ -252,4 +212,4 @@ const CreateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
     );
 };
 
-export default CreateFormSong;
+export default CreateFormAdvser;

@@ -8,3 +8,61 @@
     width: 100%;
     max-width: 200px;
 }
+
+.bodyUpdateArtist {
+    position: relative;
+
+    ul {
+        max-height: 200px;
+        overflow: auto;
+
+        li {
+            margin-top: 5px;
+            transition: .2s;
+            padding: 10px 10px;
+            background-color: rgb(235, 234, 234);
+            border-radius: 10px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgb(201, 201, 201);
+            }
+        }
+    }
+}
+
+.formArtistSongUpdate {
+    position: relative;
+
+    ul {
+        position: absolute;
+        width: 90%;
+        left: 5%;
+        transition: .2s;
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 0 5px 5px 5px;
+        overflow: auto;
+        max-height: 150px;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        li {
+            list-style: none;
+            padding: 10px 10px;
+            background-color: #ececec;
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 6px;
+            cursor: pointer;
+            transition: .2s;
+            font-weight: 600;
+
+            &:hover {
+                background-color: #d3d3d3;
+            }
+        }
+    }
+}

@@ -9,7 +9,8 @@ export type Auth_respone_type = typeof Auth_respone
 
 export const Login_request = {
     User_Email: "",
-    User_Pass: ""
+    User_Pass: "",
+    Phone: ""
 }
 
 export type Login_request_type = typeof Login_request

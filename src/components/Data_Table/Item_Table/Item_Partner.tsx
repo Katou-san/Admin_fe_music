@@ -5,9 +5,10 @@ import { Res_song_Type } from '@/util/respone_Type/song-respone';
 import { Avatar } from '@nextui-org/react';
 import React, { useEffect, useRef, useState } from 'react';
 import "./_Item.scss"
-import { partnerType } from '@/model/advserModel';
+import { PartnerType } from '@/model/partnerModel';
+import { Partner } from '@/api/Partner';
 
-const ItemPartner = ({ partner, event }: { partner: partnerType, event: any }) => {
+const ItemPartner = ({ partner, event }: { partner: PartnerType, event: any }) => {
     const [url, Set_url] = useState("")
     const [dropdown_Open, set_Open] = useState(false)
     const itemRef = useRef<HTMLInputElement | null>(null)
@@ -35,26 +36,17 @@ const ItemPartner = ({ partner, event }: { partner: partnerType, event: any }) =
         <div className="Item_Table Item_Table_Song" ref={itemRef}>
             <Avatar isBordered radius="md" size="lg" src={url} />
             <div className="Name_Item">
-                <h4 >{partner.Title}</h4>
-                <h6>{partner.Partner_Name}</h6>
+                <h4 >{partner.Partner_Name}</h4>
+                <h6>{partner?.Partner_Id}</h6>
             </div>
             <div className="Category_Item">
-                <h4>{partner.Link}</h4>
-                {/* <h6>{Partner.Category_Id}</h6> */}
+                <h4>{String(partner?.Status)}</h4>
+                <h6>{partner?.Contract_num}</h6>
             </div>
             <div className="Status_Item">
-                {/* <span className={`${Partner.is_Publish}`}> {String(Partner.is_Publish)}</span> */}
+                {partner?.Phone}
             </div>
 
-            <div className={`yourPlaylist ${dropdown_Open ? "showOption" : "hiddenOption"}`}>
-                <div className='titleOption'>Your playlist</div>
-                <ul>
-                    <li onClick={handleMouse}>hello</li>
-                    <li onClick={handleMouse}>hello</li>
-                    <li onClick={handleMouse}>hello</li>
-                    <li onClick={handleMouse}>hello</li>
-                </ul>
-            </div>
             <BtnDataTable type="partner" event={event} data={partner} dropdown={() => { set_Open(prev => !prev) }} />
         </div>
     );

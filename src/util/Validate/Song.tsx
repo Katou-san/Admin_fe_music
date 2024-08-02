@@ -12,7 +12,7 @@ const HandleErrors_Song = {
     },
 };
 
-const Validate_Create_Song = (name: string, audio: File, artist: string) => {
+const Validate_Create_Song = (name: string, audio: File, artist: string, img: File) => {
 
     const Error: any = {};
     let status = false;
@@ -33,6 +33,13 @@ const Validate_Create_Song = (name: string, audio: File, artist: string) => {
     } else {
         Error["audio"] = "input audio is required";
         status = true;
+    }
+
+    if (img != undefined && img != null) {
+        if (img.size > 2097152) {
+            Error["image"] = "Image size must be under 2MB";
+            status = true;
+        }
     }
 
     return { status, Error };
@@ -62,7 +69,6 @@ const Validate_Update_Song = (value: update_songType) => {
             status = true;
         }
     }
-
 
     return { status, Error };
 };

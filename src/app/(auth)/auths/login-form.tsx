@@ -24,16 +24,13 @@ export default function LoginForm({ Value }: { Value: Provider }) {
 
     const [Req_state, Req_dispatch] = useRequest()
     const { is_Loading } = Req_state
-    const Change_Value_Login = (value: Object) => {
-        setValue({ ...ValueForm, ...value });
-    };
 
 
     const LoginSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (!is_Loading) {
             Req_dispatch({ type: "REQUEST" })
-            const checkError = Validate_Login(ValueForm.User_Email, ValueForm.User_Pass)
+            const checkError = Validate_Login(ValueForm)
             if (!checkError.status) {
                 Auth.Login(ValueForm)
                     .then((res) => {
@@ -42,7 +39,7 @@ export default function LoginForm({ Value }: { Value: Provider }) {
                             setAuth(res.data as Auth_respone_type)
                             localStorage.setItem(EnvConfig.LocalToken, res.data.Access_Token)
                             toast.success(res.message)
-                            router.push('/home')
+                            router.push('/')
                         } else {
                             Req_dispatch({ type: "SUCCESS" })
                             toast.error(res.message)
@@ -74,7 +71,7 @@ export default function LoginForm({ Value }: { Value: Provider }) {
                     type="email"
                     required
                     value={ValueForm.User_Email}
-                    onChange={(e) => Change_Value_Login({ User_Email: e.target.value })}
+                    onChange={(e) => setValue({ ...ValueForm, User_Email: e.target.value })}
                 />
                 <div className="toastInput">
                     {/* {Object.keys(Check_Error_Login(FormValue).Detail_Error).length > 0
@@ -88,7 +85,7 @@ export default function LoginForm({ Value }: { Value: Provider }) {
                     type="password"
                     required
                     value={ValueForm.User_Pass}
-                    onChange={(e) => Change_Value_Login({ User_Pass: e.target.value })}
+                    onChange={(e) => setValue({ ...ValueForm, User_Pass: e.target.value })}
                 />
 
                 <div className="toastInput">
@@ -102,8 +99,8 @@ export default function LoginForm({ Value }: { Value: Provider }) {
                 <input
                     type="text"
                     required
-                    value={ValueForm.User_Pass}
-                    onChange={(e) => Change_Value_Login({ User_Pass: e.target.value })}
+                    value={ValueForm.Phone}
+                    onChange={(e) => setValue({ ...ValueForm, Phone: e.target.value })}
                 />
 
                 <div className="toastInput">

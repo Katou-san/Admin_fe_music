@@ -1,3 +1,4 @@
+import { Login_request_type } from "@/model/auth";
 import { update_userType } from "@/model/userModel";
 
 const HandleErrors = {
@@ -11,7 +12,6 @@ const HandleErrors = {
         return value1 === value2;
     },
     lenghtInfo: (value1: string) => {
-        console.log(value1.length)
         return value1.length == 10;
     },
 };
@@ -41,16 +41,21 @@ const Validate_SignUp = (email: string, name: string, pass: string, confirmPass:
     return { status, Error };
 };
 
-const Validate_Login = (email: string, pass: string) => {
+const Validate_Login = (value: Login_request_type) => {
     const Error: any = {};
     let status = false;
-    if (!HandleErrors.isEmail(email)) {
+    if (!HandleErrors.isEmail(value.User_Email)) {
         Error["email"] = "Is not a valid email";
         status = true;
     }
 
-    if (!HandleErrors.CheckLenght(pass)) {
+    if (!HandleErrors.CheckLenght(value.User_Pass)) {
         Error["pass"] = "Please enter password";
+        status = true;
+    }
+
+    if (!HandleErrors.lenghtInfo(value.Phone)) {
+        Error["phone"] = "Please enter phone";
         status = true;
     }
 

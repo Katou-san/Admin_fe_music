@@ -35,9 +35,7 @@ function Login({ Value }: { Value: any }) {
     if (!is_Loading) {
       Auth.Login(valueFrom)
         .then(res => {
-          console.log(res)
           if (res.status == 200) {
-
             dispacth(login(res.data))
             localStorage.setItem(EnvConfig.LocalToken, res.data?.Access_Token)
             toast.success(res.message);

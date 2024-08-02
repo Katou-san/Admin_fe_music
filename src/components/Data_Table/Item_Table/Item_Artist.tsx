@@ -1,7 +1,6 @@
 "use client";
 import { Send } from "@/api/Send";
 import BtnDataTable from "@/components/Data_Table/Btn_DataTable";
-import { Avatar } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import "./_Item.scss";
 import { getStatusUser } from "@/util/Convert/Status";
@@ -39,19 +38,21 @@ const ItemArtist = ({ artist, event, type = "artist" }: Prop) => {
             infoUser?.Avatar != ""
         ) {
             Send.Avatar(infoUser?.Avatar).then((res) => {
-                if (res.status == 200) {
-                    Set_url(URL.createObjectURL(res))
-                }
+                Set_url(URL.createObjectURL(res))
             });
         }
     }, [infoUser]);
 
     return (
-        <div className="Item_Table Item_Table_User Item">
-            <Image width={50} height={50} alt="" src={url || imgTemp} />
-            <div className="Name_Item">
-                <h4>{artist?.Artist_Name}</h4>
-                <h6>{artist?.User_Id != "" ? artist.User_Id : "unkown"}</h6>
+        <div className="Item_Table Item_Table_User Item_Table_Artist">
+
+            <div className="frameImg">
+                <Image width={50} height={50} alt="" src={url || imgTemp} />
+            </div>
+
+            <div className="Name_Item overflow__Text">
+                <h4 className="overflow__Text">{artist?.Artist_Name}</h4>
+                <h6 className="overflow__Text">{artist?.User_Id != "" ? artist.User_Id : "unkown"}</h6>
             </div>
             <div className="Role_Item">
                 <h4>{artist?.Artist_Key}</h4>

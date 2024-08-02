@@ -1,4 +1,5 @@
-import { partnerCreateType } from "@/model/advserModel";
+
+import { create_PartnerType } from "@/model/partnerModel";
 
 
 const HandleErrors = {
@@ -13,32 +14,28 @@ const HandleErrors = {
             '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
             '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
         return !!pattern.test(str);
-    }
+    },
+    lenghtInfo: (value1: string) => {
+        return value1.length == 10;
+    },
 
 };
 
 
-export const Validate_CreatePartner = (data: partnerCreateType) => {
+export const Validate_CreatePartner = (data: create_PartnerType) => {
     const Error: any = {};
     let status = false;
     if (!HandleErrors.CheckLenght(data.Partner_Name)) {
         Error["name"] = "Name is required";
         status = true;
     }
-    if (!HandleErrors.CheckLenght(data.Title)) {
-        Error["title"] = "Tilte is required";
+    if (!HandleErrors.lenghtInfo(data.Phone)) {
+        Error["phone"] = "Phone need 10 characters";
         status = true;
     }
-    if (!HandleErrors.CheckLenght(data.Content)) {
-        Error["content"] = "content is required";
-        status = true;
-    }
-    if (!HandleErrors.CheckLenght(data.Content)) {
-        Error["title"] = "Title is required";
-        status = true;
-    }
-    if (!HandleErrors.CheckLenght(data.Link)) {
-        Error["Link"] = "Link is required";
+
+    if (!HandleErrors.lenghtInfo(data.Contract_num)) {
+        Error["contract"] = "Contract id need 10 characters";
         status = true;
     }
 

@@ -57,7 +57,7 @@ const ItemBill = ({ bill, event }: { bill: billType, event: any }) => {
             </div>
             <div className="subInfo">
                 <h4 className='overflow__Text'>{infoSub?.Sub_Title}</h4>
-                <h6 className='overflow__Text'>{infoSub?.Price}$</h6>
+                <h6 className='overflow__Text'>{infoSub?.Price.toLocaleString()} vnd</h6>
             </div>
             <div className="createDay">
                 <div > <span>{new Date(bill?.Create_Date).toLocaleDateString()} </span></div>

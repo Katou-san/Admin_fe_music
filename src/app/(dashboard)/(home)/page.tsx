@@ -12,7 +12,7 @@ import {
   dashboardType,
   dashboardTypeChar,
 } from "@/model/dashboard";
-import { Sound_Icon, User_Icon } from "@/util/Icons/Icon_Figma";
+import { Money_Icon, Sound_Icon, User_Icon, World_Icon } from "@/util/Icons/Icon_Figma";
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -40,8 +40,8 @@ export default function Page() {
     <div className="farme-home">
       <div className="header-content">
         <div className="content-1">
-          <ItemList title={"Visits"} num={dashboard_1.Visit_num} />
-          <ItemList title={"Revenues"} num={dashboard_1.Revenue_num} />
+          <ItemList title={"Visits"} num={dashboard_1.Visit_num} icon={<World_Icon color="#2f2c2c" w={30} />} />
+          <ItemList title={"Revenues"} num={dashboard_1.Revenue_num} icon={<Money_Icon color="#2f2c2c" w={30} />} />
           <ItemList
             title={"Users"}
             num={dashboard_1.User_num}

@@ -1,4 +1,5 @@
 "use client";
+import CreateFormArtist from "@/components/Data_Table/Create_Form/Form_Artist";
 import CreateFormCate from "@/components/Data_Table/Create_Form/Form_Cate";
 import CreateFormEmployess from "@/components/Data_Table/Create_Form/Form_Employess";
 import CreateFormPlaylist from "@/components/Data_Table/Create_Form/Form_Playlist";
@@ -187,6 +188,14 @@ const HeaderContent = ({ data = [], select, table, find, event, create = true, o
                     table={table}
                 />
             )}
+            {table === "artist" && (
+                <CreateFormArtist
+                    isOpen={isOpen}
+                    onOpenChange={onOpenChange}
+                    table={table}
+                />
+            )}
+
 
             {
                 table === 'partner' && (<CreateFormPartner isOpen={isOpen} onOpenChange={onOpenChange}

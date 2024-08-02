@@ -32,7 +32,7 @@ const ItemSong = ({ song, event }: { song: songType, event: any }) => {
             <Image src={url || imgTemp} height={50} width={50} alt='' />
             <div className="Name_Item">
                 <h4 >{song.Song_Name}</h4>
-                <h6>{song.Artist}</h6>
+                <h6>{song?.Artist_Name}</h6>
             </div>
             <div className="Category_Item">
                 <h4>{cateName?.Category_Name}</h4>

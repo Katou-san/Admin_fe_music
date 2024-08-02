@@ -8,6 +8,7 @@ export const EnvConfig = {
   NEXT_PUBLIC_LOGIN: "/user/login/admin",
   NEXT_PUBLIC_AUTH: "/user/Oauth",
   NEXT_PUBLIC_USER: "/user",
+  NEXT_PUBLIC_SEARCH_CREATOR: '/find-user',
   NEXT_PUBLIC_USER_MANAGE: "/users",
 
   NEXT_PUBLIC_PARTNER: "/partner",
@@ -37,6 +38,7 @@ export const EnvConfig = {
   NEXT_PUBLIC_ARTIST_SEARCH: "/artist-search",
 
   NEXT_PUBLIC_SUBSCRIPTION: "/sub",
+  NEXT_PUBLIC_SUBSCRIPTIONS: "/subs",
 
   NEXT_PUBLIC_GET_AVATAR: "/send/user/avatar",
   NEXT_PUBLIC_GET_AUDIO: "/send/audio",

@@ -6,6 +6,9 @@ import { update_userType } from "@/model/userModel";
 import { Update_User_Type } from "@/util/respone_Type/user-respone";
 
 export const User = {
+
+    Search_Creator: async (Name: string): Promise<any> =>
+        await http.get(`${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_SEARCH_CREATOR}/${Name}`, header()),
     Get_Id: async (id: string): Promise<any> =>
         await http.get(`${EnvConfig.NEXT_PUBLIC_HOST}${EnvConfig.NEXT_PUBLIC_USER}/id/${id}`, header()),
     Get_All: async () =>

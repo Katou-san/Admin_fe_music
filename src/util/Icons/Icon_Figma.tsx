@@ -1,3 +1,34 @@
+
+export function Bookmark_Icon({
+  w = 23,
+  color = "#fff",
+}: {
+  w?: number;
+  color?: string;
+}) {
+  return (
+    <svg width={w} height={w} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 9C4 6.17157 4 4.75736 4.87868 3.87868C5.75736 3 7.17157 3 10 3H14C16.8284 3 18.2426 3 19.1213 3.87868C20 4.75736 20 6.17157 20 9V15.8276C20 18.5109 20 19.8525 19.1557 20.2629C18.3114 20.6733 17.2565 19.8444 15.1465 18.1866L14.4713 17.656C13.2849 16.7239 12.6917 16.2578 12 16.2578C11.3083 16.2578 10.7151 16.7239 9.52871 17.656L8.85346 18.1866C6.74355 19.8444 5.68859 20.6733 4.84429 20.2629C4 19.8525 4 18.5109 4 15.8276V9Z" stroke={color} strokeWidth="2" />
+    </svg>
+
+  );
+}
+
+export function Ads_Icon({
+  w = 23,
+  color = "#fff",
+}: {
+  w?: number;
+  color?: string;
+}) {
+  return (
+    <svg width={w} height={w} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 21L5.81092 17.9747C5.37149 10.9438 10.9554 5 18 5V5L16.7827 5.97387C14.3918 7.88656 13 10.7824 13 13.8442V13.8442C13 15.9831 11.0278 17.5774 8.93642 17.1292L6 16.5" stroke={color} strokeWidth="2" />
+    </svg>
+
+  );
+}
+
 export function Lock_Icon({
   w = 23,
   color = "#fff",
@@ -27,6 +58,42 @@ export function Lock_Icon({
       <circle cx="12" cy="15" r="2" fill={color} />
     </svg>
   );
+}
+
+
+export function Money_Icon({
+  w = 23,
+  color = "#fff",
+}: {
+  w?: number;
+  color?: string;
+}) {
+  return (
+    <svg width={w} height={w} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="6" width="18" height="12" rx="2" stroke={color} strokeWidth="2" />
+      <path d="M6 9H8" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      <path d="M16 15H18" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      <circle cx="12" cy="12" r="2" stroke={color} strokeWidth="2" />
+    </svg>
+
+  )
+}
+
+export function World_Icon({
+  w = 23,
+  color = "#fff",
+}: {
+  w?: number;
+  color?: string;
+}) {
+  return (
+    <svg width={w} height={w} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19.5 6L18.0333 7.1C17.6871 7.35964 17.2661 7.5 16.8333 7.5H13.475C12.8775 7.5 12.3312 7.83761 12.064 8.37206V8.37206C11.7342 9.03161 11.9053 9.83161 12.476 10.2986L14.476 11.9349C16.0499 13.2227 16.8644 15.22 16.6399 17.2412L16.5936 17.6577C16.5314 18.2177 16.4102 18.7695 16.232 19.304L16 20" stroke={color} strokeWidth="2" />
+      <path d="M2.5 10.5L5.7381 9.96032C7.09174 9.73471 8.26529 10.9083 8.03968 12.2619L7.90517 13.069C7.66434 14.514 8.3941 15.9471 9.70437 16.6022V16.6022C10.7535 17.1268 11.2976 18.3097 11.0131 19.4476L10.5 21.5" stroke={color} strokeWidth="2" />
+      <circle cx="12" cy="12" r="9" stroke={color} strokeWidth="2" />
+    </svg>
+
+  )
 }
 
 export function Unlock_Icon({
