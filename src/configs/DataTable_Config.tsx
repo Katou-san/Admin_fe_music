@@ -66,8 +66,10 @@ export const Column_Artist = [
 ];
 export type Column_Artist_item__Type = typeof Column_Role[0]
 
-// Artist_Id: string;
-// Artist_Key: string;
-// Artist_Name: string;
-// User_Id: string;
-// Vertify: boolean;
+export const Column_Partner = [
+    { name: "INFO", uid: "info" },
+    { name: "STATUS", uid: "status" },
+    { name: "CONTRACT", uid: "contract" },
+    { name: "ACTIONS", uid: "actions" }
+];
+export type Column_Partner_item__Type = typeof Column_Role[0]

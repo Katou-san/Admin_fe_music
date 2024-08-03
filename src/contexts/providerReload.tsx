@@ -9,6 +9,10 @@ interface contextType {
     reload_Role: boolean;
     reload_Bill: boolean,
     reload_Artist: boolean,
+    reload_Partner: boolean,
+    reload_Ads: boolean,
+    set_ReloadAds: () => void,
+    set_ReloadPartner: () => void,
     set_ReloadArtist: () => void,
     set_ReloadBill: () => void,
     set_ReloadEmploy: () => void;
@@ -28,6 +32,10 @@ const defaultContext = {
     reload_Role: false,
     reload_Bill: false,
     reload_Artist: false,
+    reload_Partner: false,
+    reload_Ads: false,
+    set_ReloadAds: () => { },
+    set_ReloadPartner: () => { },
     set_ReloadArtist: () => { },
     set_ReloadBill: () => { },
     set_ReloadEmploy: () => { },
@@ -49,6 +57,8 @@ const ProviderReload = ({ children }: { children: ReactNode }) => {
     const [reloadSub, set_Reload_Sub] = useState(false);
     const [reloadBill, set_Reload_Bill] = useState(false);
     const [reloadArtist, set_Reload_Artist] = useState(false);
+    const [reloadPartner, set_Reload_Partner] = useState(false);
+    const [reloadAds, set_Reload_Ads] = useState(false);
 
     return (
         <contextReload.Provider
@@ -61,6 +71,10 @@ const ProviderReload = ({ children }: { children: ReactNode }) => {
                 reload_Role: reloadRole,
                 reload_Bill: reloadBill,
                 reload_Artist: reloadArtist,
+                reload_Partner: reloadPartner,
+                reload_Ads: reloadAds,
+                set_ReloadAds: () => set_Reload_Ads(prev => !prev),
+                set_ReloadPartner: () => set_Reload_Partner(prev => !prev),
                 set_ReloadArtist: () => set_Reload_Artist(prev => !prev),
                 set_ReloadBill: () => set_Reload_Bill(prev => !prev),
                 set_ReloadEmploy: () => set_Reload_Employ(prev => !prev),

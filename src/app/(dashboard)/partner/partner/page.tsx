@@ -6,11 +6,12 @@ import Loading_Table from "@/util/Icons/Loading/Dot_Loading/DotLoading";
 import { Partner } from "@/api/Partner";
 import { list_PartnerType, PartnerModel } from "@/model/partnerModel";
 import DataTablePartner from "@/components/Data_Table/Content_Table/DataTable_Partner";
+import { useReload } from "@/contexts/providerReload";
 
 
 
 export default function Page() {
-
+    const { reload_Partner } = useReload()
     const [ShowDetails, Set_ShowDetails] = useState({ status: false, data: PartnerModel.init })
     const [data, Set_data] = useState<list_PartnerType>([])
     const [is_Loading, Set_isLoading] = useState(false)
@@ -29,12 +30,12 @@ export default function Page() {
                 Set_isLoading(false)
             })
 
-    }, [])
+    }, [reload_Partner])
 
     return (
         <div className={`ContentMain ${ShowDetails.status ? "ShowDetail" : ''}`}>
             <div className="ContentLeft">
-                <HeaderContent data={data} select={["is_Publish"]} table="partner" find="Playlist_Name" event={Set_data_Table} />
+                <HeaderContent data={data} select={["Status"]} table="partner" find="Partner_Name" event={Set_data_Table} />
                 {is_Loading && <Loading_Table />}
                 {!is_Loading && <DataTablePartner data={data_Table} event={DetailProp} />}
 

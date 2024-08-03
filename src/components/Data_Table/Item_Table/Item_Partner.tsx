@@ -1,12 +1,13 @@
 'use client'
 import { Send } from '@/api/Send';
 import BtnDataTable from '@/components/Data_Table/Btn_DataTable';
-import { Res_song_Type } from '@/util/respone_Type/song-respone';
 import { Avatar } from '@nextui-org/react';
+import imgTemp from '../../../../public/errorImg.png'
 import React, { useEffect, useRef, useState } from 'react';
 import "./_Item.scss"
-import { PartnerType } from '@/model/partnerModel';
-import { Partner } from '@/api/Partner';
+import { PartnerType } from '@/model/partnerModel';;
+import { URLValidate } from '@/util/Validate/Url';
+import Image from 'next/image';
 
 const ItemPartner = ({ partner, event }: { partner: PartnerType, event: any }) => {
     const [url, Set_url] = useState("")
@@ -15,10 +16,14 @@ const ItemPartner = ({ partner, event }: { partner: PartnerType, event: any }) =
     const handleMouse = () => {
         set_Open(false)
     }
-    // useEffect(() => {
-    //     Send.Image_S(Partner.Song_Image)
-    //         .then(res => Set_url(URL.createObjectURL(res)))
-    // }, [song])
+    useEffect(() => {
+        if (URLValidate.isUrl(partner.Logo)) {
+            Send.Logo(partner.Logo)
+                .then((res) => Set_url(URL.createObjectURL(res)))
+        } else {
+            Set_url(partner.Logo)
+        }
+    }, [partner])
 
     useEffect(() => {
         let handle = (e: any) => {
@@ -34,15 +39,15 @@ const ItemPartner = ({ partner, event }: { partner: PartnerType, event: any }) =
 
     return (
         <div className="Item_Table Item_Table_Song" ref={itemRef}>
-            <Avatar isBordered radius="md" size="lg" src={url} />
+            <Image alt='' width={50} height={50} src={url || imgTemp} />
             <div className="Name_Item">
                 <h4 >{partner.Partner_Name}</h4>
-                <h6>{partner?.Partner_Id}</h6>
+                <h6>Phone: {partner?.Phone}</h6>
             </div>
-            <div className="Category_Item">
-                <h4>{String(partner?.Status)}</h4>
-                <h6>{partner?.Contract_num}</h6>
+            <div className={`Status_Item Status_Partner ${String(partner?.Status)}`}>
+                {String(partner?.Status)}
             </div>
+
             <div className="Status_Item">
                 {partner?.Phone}
             </div>

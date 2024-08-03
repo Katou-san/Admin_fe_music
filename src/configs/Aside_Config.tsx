@@ -42,8 +42,8 @@ const AsideConfig = [
     icon: <Bookmark_Icon />,
     url: "partner",
     item: [
-      { title_item: "Ads", icon_item: <Ads_Icon />, children_url: "advertisement" },
-      { title_item: "Partner", icon_item: <User_Icon />, children_url: "partner" },
+      { title_item: "Ads", icon_item: <Ads_Icon color="#000" />, children_url: "advertisement" },
+      { title_item: "Partner", icon_item: <User_Icon color="#000" />, children_url: "partner" },
     ],
   }
 ];

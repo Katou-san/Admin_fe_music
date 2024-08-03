@@ -1,5 +1,5 @@
 
-import { create_PartnerType } from "@/model/partnerModel";
+import { create_PartnerType, update_PartnerType } from "@/model/partnerModel";
 
 
 const HandleErrors = {
@@ -38,6 +38,34 @@ export const Validate_CreatePartner = (data: create_PartnerType) => {
         Error["contract"] = "Contract id need 10 characters";
         status = true;
     }
+
+    return { status, Error };
+}
+
+export const Validate_UpdatePartner = (data: update_PartnerType) => {
+    const Error: any = {};
+    let status = false;
+    if (data.Partner_Name != undefined) {
+        if (!HandleErrors.CheckLenght(data.Partner_Name)) {
+            Error["name"] = "Name is required";
+            status = true;
+        }
+    }
+    if (data.Phone != undefined) {
+        if (!HandleErrors.lenghtInfo(data.Phone)) {
+            Error["phone"] = "Phone need 10 characters";
+            status = true;
+        }
+    }
+
+
+    if (data.Logo != undefined) {
+        // if (!HandleErrors.lenghtInfo(data.Logo)) {
+        //     Error["contract"] = "Contract id need 10 characters";
+        //     status = true;
+        // }
+    }
+
 
     return { status, Error };
 }

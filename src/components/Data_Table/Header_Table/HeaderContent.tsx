@@ -7,6 +7,7 @@ import CreateFormRole from "@/components/Data_Table/Create_Form/Form_Role";
 import CreateFormSong from "@/components/Data_Table/Create_Form/Form_Song";
 import CreateFormSub from "@/components/Data_Table/Create_Form/Form_Sub";
 import CreateFormUser from "@/components/Data_Table/Create_Form/Form_User";
+import CreateFormAds from "@/components/Data_Table/Create_Form/From_Ads";
 import CreateFormPartner from "@/components/Data_Table/Create_Form/From_Partner";
 import { Convert_Title } from "@/util/Convert/Table";
 import { PlusIcon, SearchIcon } from "@/util/Icons/Icon";
@@ -202,6 +203,13 @@ const HeaderContent = ({ data = [], select, table, find, event, create = true, o
                     table={table}
                 />)
             }
+            {table === "ads" && (
+                <CreateFormAds
+                    isOpen={isOpen}
+                    onOpenChange={onOpenChange}
+                    table={table}
+                />
+            )}
 
 
 

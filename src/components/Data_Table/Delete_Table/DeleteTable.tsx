@@ -25,7 +25,7 @@ type Prop = {
 
 const DeleteTable = ({ isOpen, onOpenChange, table, data, Noitification = false }: Prop) => {
     const userProvider = useSelector((state: RootState) => state.auth)
-    const { set_ReloadEmploy, set_ReloadSong, set_ReloadSub, set_ReloadCate, set_ReloadPlaylist, set_ReloadRole, set_ReloadBill, set_ReloadArtist } = useReload()
+    const { set_ReloadEmploy, set_ReloadSong, set_ReloadSub, set_ReloadCate, set_ReloadPlaylist, set_ReloadRole, set_ReloadBill, set_ReloadArtist, set_ReloadAds, set_ReloadPartner } = useReload()
     const [Title, Set_Title] = useState("")
     const [dataProp, Set_dataProp] = useState<typeof data>({})
     let array_key: any[] = Object.keys(data)
@@ -152,7 +152,6 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data, Noitification = false 
                 })
                 break;
             case "cate":
-                console.log(dataProp[array_key[index_Id]])
                 Category.Delete(dataProp[array_key[index_Id]]).then((res) => {
                     if (res.status === 200) {
                         set_ReloadCate()
@@ -166,6 +165,7 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data, Noitification = false 
                 Partner.Delete(dataProp[array_key[index_Id]]).then((res) => {
                     if (res.status === 200) {
                         toast.success(res.message)
+                        set_ReloadPartner()
                     } else {
                         toast.error(res.message)
                     }

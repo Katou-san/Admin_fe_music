@@ -12,6 +12,7 @@ export const EnvConfig = {
   NEXT_PUBLIC_USER_MANAGE: "/users",
 
   NEXT_PUBLIC_PARTNER: "/partner",
+  NEXT_PUBLIC_PARTNERS: "/partners",
 
   NEXT_PUBLIC_SONG: "/song",
   NEXT_PUBLIC_SONG_MANAGE: "/songs",
@@ -45,6 +46,7 @@ export const EnvConfig = {
   NEXT_PUBLIC_GET_IMAGE: "/send/image",
   NEXT_PUBLIC_GET_IMAGE_P: "/send/image_P",
   NEXT_PUBLIC_GET_THUMNAIL_P: "/send/thumbnail",
+  NEXT_PUBLIC_GET_LOGO: "/send/logo",
 
   NEXT_PUBLIC_GET_DASHBOARD_1: "/dashboard_1",
   NEXT_PUBLIC_GET_DASHBOARD_CHAR_1: "/dashboard_char_1",

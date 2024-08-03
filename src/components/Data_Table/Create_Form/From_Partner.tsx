@@ -9,6 +9,7 @@ import {
     ModalFooter,
     Button,
     Input,
+    Checkbox,
 } from "@nextui-org/react";
 import "./_Create_Form.scss";
 import Image from "next/image";
@@ -28,21 +29,22 @@ type Prop = {
 };
 
 const CreateFormPartner = ({ isOpen, onOpenChange, table, data }: Prop) => {
-    const { set_ReloadSong } = useReload()
+    const { set_ReloadPartner } = useReload()
     const [url, set_Url] = useState("")
     const [valuePartner, set_ValuePartner] = useState<create_PartnerType>(PartnerModel.init_create)
 
 
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
-
         const Error_Check = Validate_CreatePartner(valuePartner);
         if (!Error_Check.status) {
             const formdata = Form_Data(valuePartner);
             Partner.Create(formdata).then((res) => {
                 if (res.status == 200) {
-                    set_ReloadSong()
+                    set_ReloadPartner()
+                    set_Url('')
                     toast.success(res.message);
+                    set_ValuePartner(PartnerModel.init_create)
                     onClose();
                 } else {
                     toast.error(res.message);
@@ -78,6 +80,7 @@ const CreateFormPartner = ({ isOpen, onOpenChange, table, data }: Prop) => {
 
                                     }}
                                 />
+                                <Checkbox onChange={(e) => set_ValuePartner({ ...valuePartner, Status: e.currentTarget.checked })}>Status</Checkbox>
                                 <div className="frameLogo">
                                     <div className="frameImg">
                                         <Image alt="" src={url || errorImg} width={50} height={50} />
@@ -110,7 +113,11 @@ const CreateFormPartner = ({ isOpen, onOpenChange, table, data }: Prop) => {
 
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="danger" variant="light" onPress={onClose}>
+                                <Button color="danger" variant="light" onPress={() => {
+                                    set_ValuePartner(PartnerModel.init_create)
+                                    set_Url('')
+                                    onClose()
+                                }}>
                                     Close
                                 </Button>
                                 <Button color="primary" type="submit" disabled={false}>

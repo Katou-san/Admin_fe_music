@@ -34,7 +34,7 @@ export default function Page() {
     return (
         <div className={`ContentMain ${ShowDetails.status ? "ShowDetail" : ''}`}>
             <div className="ContentLeft">
-                <HeaderContent data={data} select={["is_Publish"]} table="partner" find="Playlist_Name" event={Set_data_Table} />
+                <HeaderContent data={data} select={["is_Publish"]} table="ads" find="Playlist_Name" event={Set_data_Table} />
                 {is_Loading && <Loading_Table />}
                 {!is_Loading && <DataTableAdvertise data={data_Table} event={DetailProp} />}
 

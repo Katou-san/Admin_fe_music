@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useReducer, useState } from "react";
-import imgTemp from "@/assets/avatar.jpg";
 import errorImg from '../../../../public/errorImg.png'
 import {
     Modal,
@@ -9,19 +8,18 @@ import {
     ModalFooter,
     Button,
     Input,
-    Select,
-    SelectItem,
+    Checkbox,
 } from "@nextui-org/react";
 import "./_Create_Form.scss";
 import Image from "next/image";
-import { AudioLineIcon } from "@/util/Icons/Icon";
 import { Song } from "@/api/Song";
 import { toast } from "react-toastify";
 import { Form_Data } from "@/util/FormData/Form_Data";
-import { Category } from "@/api/Category";
-import { list_cate_respone_type } from "@/model/category";
 import { useReload } from "@/contexts/providerReload";
 import { AdsModel, create_AdsType } from "@/model/advserModel";
+import { list_PartnerType, PartnerModel, PartnerType } from "@/model/partnerModel";
+import useDebounce from "@/hooks/customs/useDebounce";
+import { Partner } from "@/api/Partner";
 
 type Prop = {
     isOpen: boolean;
@@ -30,34 +28,45 @@ type Prop = {
     data?: any;
 };
 
-const CreateFormAdvser = ({ isOpen, onOpenChange, table, data }: Prop) => {
+const CreateFormAds = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const [status, Set_Status] = useState(false)
     const { set_ReloadSong } = useReload()
     const [Title, Set_Title] = useState("");
-    const [List_cate, Set_List_cate] = useState<list_cate_respone_type>([]);
-    const [valueAdvser, set_ValueAdvser] = useState<create_AdsType>(AdsModel.init_create)
-    const [Urlfile, set_url] = useState({
+    const [Listpartner, set_ListPartner] = useState<list_PartnerType>([]);
+    const [infoPartner, Set_InfoPartner] = useState<PartnerType>(PartnerModel.init)
+    const [valueAds, set_ValueAds] = useState<create_AdsType>(AdsModel.init_create)
+    const [Urlfile, set_Url] = useState({
         img: '',
         audio: '',
     });
+    const debounceValue = useDebounce(infoPartner?.Partner_Name.trim(), 500)
 
     useEffect(() => {
-        Set_Title(table);
-        Category.Get_All()
-            .then((res) => {
-                Set_List_cate(res.data);
-            })
-    }, [table, data]);
+        if (infoPartner?.Partner_Name != '') {
+            Partner.Find(infoPartner?.Partner_Name)
+                .then((res) => {
+                    if (res.status == 200) {
+                        set_ListPartner(res.data)
+                        Set_Status(true)
+                    }
+                })
+        } else {
+            Set_Status(false)
+            set_ListPartner([])
+            Set_InfoPartner(PartnerModel.init)
+        }
+    }, [debounceValue])
 
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
 
         // const Error_Check = Validate_Create_Song(
-        //     valueAdvser.Song_Name,
-        //     valueAdvser.Song_Audio,
-        //     valueAdvser.Artist
+        //     valueAds.Song_Name,
+        //     valueAds.Song_Audio,
+        //     valueAds.Artist
         // );
         if (!true) {
-            const formdata = Form_Data(valueAdvser);
+            const formdata = Form_Data(valueAds);
             Song.Create(formdata).then((res) => {
                 if (res.status == 200) {
                     set_ReloadSong()
@@ -68,13 +77,11 @@ const CreateFormAdvser = ({ isOpen, onOpenChange, table, data }: Prop) => {
                 }
             });
         } else {
-            // let Array_Key = Object.keys(Error_Check.Error);
-            // toast.error(Error_Check.Error[Array_Key[0]]);
         }
     };
     return (
         <>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="md">
                 <ModalContent>
                     {(onClose) => (
                         <form
@@ -82,119 +89,94 @@ const CreateFormAdvser = ({ isOpen, onOpenChange, table, data }: Prop) => {
                             onSubmit={(e: any) => {
                                 SubmitForm(e, onClose);
                             }}
-                            className="pt-5"
+                            className="pt-5 formAddAds"
                             encType="multipart/form-data"
                         >
                             <ModalBody>
                                 <div className="Title_Delete">Create {Title}</div>
                                 <Input
                                     type="text"
-                                    label="Song name"
-                                    value={valueAdvser?.Song_Name}
+                                    label="Ads name"
+                                    value={valueAds?.Ads_Name}
                                     onChange={(e) => {
-                                        set_ValueAdvser({ ...valueAdvser, Song_Name: e.target.value })
+                                        set_ValueAds({ ...valueAds, Ads_Name: e.target.value })
                                     }}
                                 />
+                                <div className="frameInputPartner">
+                                    <Input
+                                        type="text"
+                                        label="Partner name"
+                                        value={infoPartner.Partner_Name}
+                                        onChange={(e) => {
+                                            Set_InfoPartner({ ...infoPartner, Partner_Name: e.target.value })
+                                        }}
+                                    />
+                                    {status &&
+                                        <ul>
+                                            {Listpartner.map((partner, index) => <li key={index}
+                                                onClick={() => {
+                                                    Set_Status(false)
+                                                    Set_InfoPartner(partner)
+                                                    set_ValueAds({ ...valueAds, Partner_Id: partner.Partner_Id })
+                                                }}>
+                                                {partner?.Partner_Name}</li>)}
+                                        </ul>}
+                                </div>
 
-                                <div className="Form_chosse_File">
-                                    <div className="left">
-                                        <Image
-                                            src={Urlfile.img ? Urlfile.img : errorImg}
-                                            alt=""
-                                            width={1000}
-                                            height={1000}
-                                        />
-                                        <div className="btn_label">
-                                            <label htmlFor="ImageInput">Img</label>
-                                            <input
-                                                type="file"
-                                                id="ImageInput"
-                                                className="none"
-                                                accept="image/*"
+                                <Checkbox > Public</Checkbox>
+                                <div className="frameFile">
+                                    <div className="leftFrameFile">
+                                        <div className="frameImg">
+                                            <Image alt="" src={Urlfile.img || errorImg} width={200} height={50} />
+                                        </div>
+                                        <div className="lableBtn">
+                                            <label htmlFor="inputImgAds">Choose image</label>
+                                            <input type="file" name="" id="inputImgAds" className="none"
                                                 onChange={(e) => {
-                                                    if (e.target.files?.length != 0) {
-                                                        set_ValueAdvser({ ...valueAdvser, Song_Image: e.target?.files ? e.target?.files[0] : null })
-                                                        set_url({
-                                                            ...Urlfile,
-                                                            img: e?.target?.files
-                                                                ? URL.createObjectURL(e.target.files[0])
-                                                                : '',
-
-                                                        });
-                                                    }
+                                                    set_ValueAds({ ...valueAds, Ads_Image: e.target.files ? e.target.files[0] : '' })
+                                                    set_Url({ ...Urlfile, img: e.target.files ? URL.createObjectURL(e.target.files[0]) : '' })
                                                 }}
                                             />
                                         </div>
                                     </div>
-                                    <div className="right">
-                                        <div className="select_group">
-                                            <Select
-                                                isRequired
-                                                label={Title}
-                                                placeholder="Select"
-                                                className="w-full"
-                                                onChange={(e) => {
-                                                    set_ValueAdvser({ ...valueAdvser, Category_Id: List_cate[Number(e.target.value)].Category_Id })
-                                                }}
-                                            >
-                                                {List_cate.map((item, i) => (
-                                                    <SelectItem key={i} value={item.Category_Id} textValue={undefined}>
-                                                        {item.Category_Name}
-                                                    </SelectItem>
-                                                ))}
-                                            </Select>
+                                    <div className="rightFrameFile">
+                                        <div className="frameAudio">
+                                            <audio src={Urlfile.audio} controls />
                                         </div>
-                                        <div className="tag_Audio">
-                                            {!valueAdvser.Song_Audio && <AudioLineIcon w={30} />}
-                                            {valueAdvser.Song_Audio && (
-                                                <audio
-                                                    src={Urlfile.audio ? Urlfile.audio : ""}
-                                                    controls
-                                                    className="w-[100%] h-[100%]"
-                                                />
-                                            )}
-                                        </div>
-                                        <div className="btn_label">
-                                            <label htmlFor="AudioInput">Audio</label>
-                                            <input
-                                                type="file"
-                                                id="AudioInput"
-                                                className="none"
-                                                accept="audio/*"
+                                        <div className="lableBtn">
+                                            <label htmlFor="inputAudioAds">Choose audio</label>
+                                            <input type="file" name="" id="inputAudioAds" className="none"
                                                 onChange={(e) => {
-                                                    if (e.target.files?.length != 0) {
-                                                        set_ValueAdvser({ ...valueAdvser, Song_Audio: e.target?.files ? e.target?.files[0] : null })
-                                                        set_url({
-                                                            ...Urlfile,
-                                                            audio: e?.target?.files
-                                                                ? URL.createObjectURL(e.target.files[0])
-                                                                : '',
-
-                                                        });
-                                                    }
+                                                    set_ValueAds({ ...valueAds, Ads_Audio: e.target.files ? e.target.files[0] : '' })
+                                                    set_Url({ ...Urlfile, audio: e.target.files ? URL.createObjectURL(e.target.files[0]) : '' })
                                                 }}
                                             />
                                         </div>
+
+
                                     </div>
                                 </div>
-                                <div className="Content2_FormSong">
-                                    <Input
-                                        type="text"
-                                        label="Artist"
-                                        value={valueAdvser?.Artist}
-                                        onChange={(e) => {
-                                            set_ValueAdvser({ ...valueAdvser, Artist: e.target.value })
-                                        }}
-                                    />
-                                    <Input
-                                        type="text"
-                                        label="Tag"
-                                        value={valueAdvser?.Tag}
-                                        onChange={(e) => {
-                                            set_ValueAdvser({ ...valueAdvser, Tag: e.target.value })
-                                        }}
-                                    />
+                                <div className="frameFooter">
+                                    <textarea name="" id=""></textarea>
+                                    <div className="frameCalander">
+                                        <div className="frameInputDate">
+                                            <h1>Start date</h1>
+                                            <div className="frameInput">
+                                                <input type="date" onChange={(e) => set_ValueAds({ ...valueAds, Start_time: e.target.value })} />
+                                            </div>
+
+                                        </div>
+                                        <div className="frameInputDate">
+                                            <h1>End date</h1>
+                                            <div className="frameInput">
+                                                <input type="date" onChange={(e) => set_ValueAds({ ...valueAds, End_time: e.target.value })} />
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
+
+
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="danger" variant="light" onPress={onClose}>
@@ -212,4 +194,4 @@ const CreateFormAdvser = ({ isOpen, onOpenChange, table, data }: Prop) => {
     );
 };
 
-export default CreateFormAdvser;
+export default CreateFormAds;

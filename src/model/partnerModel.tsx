@@ -36,12 +36,22 @@ const Create_Partner = {
     Status: false,
 };
 
+const init_Update = {
+    Partner_Name: "",
+    Phone: "",
+    Logo: "",
+    Status: false,
+}
+
 export const PartnerModel = {
     init: list_Partner_init[0],
     init_list: list_Partner_init,
     init_create: Create_Partner,
+    init_update: init_Update,
     temp_list: list_Partner_Temp
 };
+
+
 
 export type PartnerType = (typeof list_Partner_init)[0];
 export type list_PartnerType = typeof list_Partner_init;
@@ -52,3 +62,11 @@ export type create_PartnerType = {
     Contract_num: string,
     Status: boolean,
 }
+
+export type update_PartnerType = {
+    Partner_Name?: string,
+    Phone?: string,
+    Logo: any,
+    Status?: boolean,
+}
+

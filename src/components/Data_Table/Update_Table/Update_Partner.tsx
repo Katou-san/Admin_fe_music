@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import img from "@/assets/avatar.jpg";
 import {
     Modal,
@@ -8,70 +8,59 @@ import {
     ModalFooter,
     Button,
     Input,
-    Select,
-    SelectItem,
+    Checkbox,
 } from "@nextui-org/react";
 import Image from "next/image";
-import { Res_song_Type } from "@/util/respone_Type/song-respone";
-import { Validate_Update_Song } from "@/util/Validate/Song";
-import { Song } from "@/api/Song";
 import { toast } from "react-toastify";
 import { Form_Data } from "@/util/FormData/Form_Data";
+import { PartnerType, update_PartnerType } from "@/model/partnerModel";
+import { Validate_UpdatePartner } from "@/util/Validate/Partner";
+import { Partner } from "@/api/Partner";
+import igmError from "../../../../public/errorImg.png"
+import { URLValidate } from "@/util/Validate/Url";
 import { Send } from "@/api/Send";
-import { Category } from "@/api/Category";
-import { list_cate_respone_type } from "@/model/category";
 import { useReload } from "@/contexts/providerReload";
-import { songType, update_songType } from "@/model/songModel";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
     table: string;
-    data: Res_song_Type;
+    data: PartnerType;
 
 };
 
-const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
-    const { set_ReloadSong } = useReload()
-
-    const [Title, Set_Title] = useState("");
-    const [List_cate, Set_List_cate] = useState<list_cate_respone_type>([]);
-    const [adsverValue, set_AdsverValue] = useState<songType>(
+const UpdateFormPartner = ({ isOpen, onOpenChange, table, data }: Prop) => {
+    const { set_ReloadPartner } = useReload()
+    const [partnerValue, set_PartnerValue] = useState<PartnerType>(
         data
     );
-    const [Change, Set_Change] = useState<update_songType>({})
-    const [urlAudio, set_urlAudio] = useState('');
-    const [urlImg, set_urlImg] = useState('');
+
+    const [Change, Set_Change] = useState<update_PartnerType>({ Logo: '' })
+    const [url, set_Url] = useState('');
+
 
     useEffect(() => {
-        Set_Title(table)
-        Category.Get_All()
-            .then((res) => {
-                Set_List_cate(res.data);
-            })
+        if (data?.Logo != '') {
+            if (URLValidate.isUrl(data.Logo)) {
+                Send.Logo(data.Logo)
+                    .then((res) => set_Url(URL.createObjectURL(res)))
+            } else {
+                set_Url(data.Logo)
+            }
+        }
 
-        Send.Audio(data.Song_Audio)
-            .then((res) => set_urlAudio(URL.createObjectURL(res)))
-
-        Send.Image_S(data.Song_Image)
-            .then((res) => set_urlImg(URL.createObjectURL(res)))
-
-
-        set_AdsverValue(data)
-    }, [table, data])
-
-
+    }, [data])
 
 
 
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
-        const Error_Check = Validate_Update_Song(Change);
+        const Error_Check = Validate_UpdatePartner(Change);
         if (!Error_Check.status) {
             const formdata = Form_Data({ ...Change, Song_Audio: "" });
-            Song.Update(adsverValue.Song_Id, formdata).then((res) => {
+            Partner.Update(partnerValue.Partner_Id, formdata).then((res) => {
                 if (res.status == 200) {
                     toast.success(res.message);
-                    set_ReloadSong()
+                    set_ReloadPartner()
                     onClose();
                 } else {
                     toast.error(res.message);
@@ -84,123 +73,66 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
     };
     return (
         <>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="md">
                 <ModalContent>
                     {(onClose) => (
                         <form
+
                             action=""
                             onSubmit={(e: any) => {
                                 SubmitForm(e, onClose);
                             }}
-                            className="pt-5"
+                            className="pt-5 formValueUpdatePartner"
                             encType="multipart/form-data"
                         >
                             <ModalBody>
-                                <div className="Title_Delete">Update {Title}</div>
+                                <div className="Title_Delete">Update {table}</div>
                                 <Input
                                     type="text"
-                                    label="Song name"
-                                    value={adsverValue?.Song_Name}
+                                    label="Partner name"
+                                    value={partnerValue?.Partner_Name}
                                     onChange={(e) => {
-                                        set_AdsverValue({ ...adsverValue, Song_Name: e.target.value })
-                                        Set_Change({ ...Change, Song_Name: e.target.value })
+                                        set_PartnerValue({ ...partnerValue, Partner_Name: e.target.value })
+                                        Set_Change({ ...Change, Partner_Name: e.target.value })
+                                    }}
+                                />
+                                <Checkbox
+                                    defaultChecked={partnerValue?.Status}
+                                    onChange={(e) => {
+                                        set_PartnerValue({ ...partnerValue, Status: e.currentTarget.checked })
+                                        Set_Change({ ...Change, Status: e.currentTarget.checked })
+                                    }
+
+                                    }>Status</Checkbox>
+                                <div className="frameLogo">
+                                    <div className="frameImg">
+                                        <Image alt="" src={url || igmError} width={50} height={50} />
+                                    </div>
+                                    <div className="frameLabel">
+                                        <label htmlFor="LogoInput">Chosse logo</label>
+                                        <input type="file" name="" id="LogoInput" className="none" onChange={(e) => {
+                                            Set_Change({ ...Change, Logo: e.target?.files ? e.target.files[0] : '' })
+                                            set_Url(e.target?.files ? URL.createObjectURL(e.target.files[0]) : '')
+                                        }} />
+                                    </div>
+                                </div>
+                                <Input
+                                    type="text"
+                                    label="Phone"
+                                    value={partnerValue?.Phone}
+                                    onChange={(e) => {
+                                        set_PartnerValue({ ...partnerValue, Phone: e.target.value })
+                                        Set_Change({ ...Change, Phone: e.target.value })
                                     }}
                                 />
 
-                                <div className="Form_chosse_File">
-                                    <div className="left">
-                                        <Image
-                                            src={urlImg || img}
-                                            alt=""
-                                            width={1000}
-                                            height={1000}
-                                        />
-                                        <div className="btn_label">
-                                            <label htmlFor="ImageInput">Img</label>
-                                            <input
-                                                type="file"
-                                                id="ImageInput"
-                                                className="none"
-                                                accept="image/*"
-                                                onChange={(e) => {
-                                                    if (e.target.files?.length != 0) {
-                                                        set_urlImg(
-                                                            e.target?.files
-                                                                ? URL.createObjectURL(e.target.files[0])
-                                                                : '')
 
-                                                        Set_Change({
-                                                            ...Change, Song_Image: e.target.files
-                                                                ? e.target.files[0]
-                                                                : undefined
-                                                        })
-                                                    }
-                                                }}
-
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="right">
-                                        <div className="select_group">
-                                            <Select
-                                                isRequired
-                                                label={Title}
-                                                placeholder="Select"
-                                                className="w-full"
-                                                defaultSelectedKeys={[data.Category_Id]}
-                                                onChange={(e) => {
-                                                    Set_Change({ ...Change, Category_Id: e.target.value })
-                                                }}
-                                            >
-                                                {List_cate.map((item, i) => (
-                                                    <SelectItem
-                                                        key={item.Category_Id}
-                                                        value={String(item.Category_Id)}
-                                                        textValue={undefined}
-                                                    >
-                                                        {item.Category_Name}
-                                                    </SelectItem>
-                                                ))}
-                                            </Select>
-                                        </div>
-                                        <div className="tag_Audio">
-                                            <audio
-                                                src={urlAudio ? urlAudio : ""}
-                                                controls
-                                                className="w-[100%] h-[100%]"
-                                            />
-                                        </div>
-                                        <div className="btn_label">
-                                            <label htmlFor="AudioInput">Audio</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="Content2_FormSong">
-                                    <Input
-                                        type="text"
-                                        label="Artist"
-                                        value={adsverValue?.Artist}
-                                        onChange={(e) => {
-                                            set_AdsverValue({ ...adsverValue, Artist: e.target.value })
-                                            Set_Change({ ...Change, Artist: e.target.value })
-                                        }}
-                                    />
-                                    <Input
-                                        type="text"
-                                        label="Tag"
-                                        value={adsverValue?.Tag}
-                                        onChange={(e) => {
-                                            set_AdsverValue({ ...adsverValue, Tag: e.target.value })
-                                            Set_Change({ ...Change, Tag: e.target.value })
-                                        }}
-                                    />
-                                </div>
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="danger" variant="light" onPress={onClose}>
                                     Close
                                 </Button>
-                                <Button color="primary" type="submit">
+                                <Button color="primary" type="submit" disabled={false}>
                                     Action
                                 </Button>
                             </ModalFooter>
@@ -212,4 +144,4 @@ const UpdateFormSong = ({ isOpen, onOpenChange, table, data }: Prop) => {
     );
 };
 
-export default UpdateFormSong;
+export default UpdateFormPartner;
