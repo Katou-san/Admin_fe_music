@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/hooks/redux/store';
 import { Bill } from '@/api/Bill';
 import { Artist } from '@/api/Artist';
+import { Ads } from '@/api/Ads';
 type Prop = {
     isOpen: boolean,
     onOpenChange: () => void,
@@ -71,6 +72,10 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data, Noitification = false 
         case "artist":
             index_Id = array_key.indexOf("Artist_Id")
             index_Name = array_key.indexOf("Artist_Name")
+            break;
+        case "ads":
+            index_Id = array_key.indexOf("Ads_Id")
+            index_Name = array_key.indexOf("Ads_Name")
             break;
 
         default:
@@ -195,6 +200,16 @@ const DeleteTable = ({ isOpen, onOpenChange, table, data, Noitification = false 
                 Artist.Delete(dataProp[array_key[index_Id]]).then((res) => {
                     if (res.status === 200) {
                         set_ReloadArtist()
+                        toast.success(res.message)
+                    } else {
+                        toast.error(res.message)
+                    }
+                })
+                break;
+            case 'ads':
+                Ads.Delete(dataProp[array_key[index_Id]]).then((res) => {
+                    if (res.status === 200) {
+                        set_ReloadAds()
                         toast.success(res.message)
                     } else {
                         toast.error(res.message)

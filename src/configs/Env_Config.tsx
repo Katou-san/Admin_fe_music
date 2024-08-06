@@ -34,6 +34,8 @@ export const EnvConfig = {
 
   NEXT_PUBLIC_BILL: "/bill",
 
+  NEXT_PUBLIC_ADS: "/ads",
+
   NEXT_PUBLIC_ARTIST: "/artist",
   NEXT_PUBLIC_ARTISTS: "/artists",
   NEXT_PUBLIC_ARTIST_SEARCH: "/artist-search",
@@ -47,6 +49,8 @@ export const EnvConfig = {
   NEXT_PUBLIC_GET_IMAGE_P: "/send/image_P",
   NEXT_PUBLIC_GET_THUMNAIL_P: "/send/thumbnail",
   NEXT_PUBLIC_GET_LOGO: "/send/logo",
+  NEXT_PUBLIC_GET_IMAGE_A: "/send/ads-image",
+  NEXT_PUBLIC_GET_AUDIO_A: "/send/ads-audio",
 
   NEXT_PUBLIC_GET_DASHBOARD_1: "/dashboard_1",
   NEXT_PUBLIC_GET_DASHBOARD_CHAR_1: "/dashboard_char_1",

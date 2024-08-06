@@ -8,6 +8,7 @@ import {
 import { Pagination } from "@nextui-org/react";
 import ItemPartner from "@/components/Data_Table/Item_Table/Item_Partner";
 import { list_AdsType } from "@/model/advserModel";
+import ItemAds from "@/components/Data_Table/Item_Table/Item_Ads";
 
 
 type Prop = {
@@ -30,13 +31,12 @@ export default function DataTableAdvertise({ data, event }: Prop) {
             </div>
             {data.length != 0 && (
                 <div className="listItem">
-                    {data.map((partner, i) => {
+                    {data.map((ads, i) => {
                         if (
                             i >= current.index * current.limit &&
                             i < (current.index + 1) * current.limit
                         ) {
-                            return <li key={i}></li>
-                            // return <ItemPartner key={i} partner={partner} event={event} />
+                            return <ItemAds key={i} ads={ads} event={event} />
                         }
                     })}
                 </div>

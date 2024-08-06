@@ -9,13 +9,19 @@ import { getStatusUser } from '@/util/Convert/Status';
 import { userType } from '@/model/userModel';
 import { Role } from '@/api/Role';
 import { roleModel, roleType } from '@/model/roleModel';
+import { URLValidate } from '@/util/Validate/Url';
 
 const ItemUser = ({ user, event, type = 'user' }: { user: userType, event: any, type?: string }) => {
     const [url, Set_url] = useState("")
     const [role, set_Role] = useState<roleType>(roleModel.init)
     useEffect(() => {
-        Send.Avatar(user.Avatar)
-            .then(res => Set_url(URL.createObjectURL(res)))
+        if (URLValidate.isUrl(user.Avatar)) {
+            Send.Avatar(user.Avatar)
+                .then(res => Set_url(URL.createObjectURL(res)))
+        } else {
+            Set_url(user.Avatar)
+        }
+
         Role.Get_Id(user.Role_Id).then((res) => res.status == 200 && set_Role(res.data))
     }, [user])
 

@@ -2,6 +2,7 @@
 import { Song } from '@/api/Song';
 import { User } from '@/api/User';
 import DeleteTable from '@/components/Data_Table/Delete_Table/DeleteTable';
+import UpdateFormAds from '@/components/Data_Table/Update_Table/Update_Ads';
 import UpdateFormArtist from '@/components/Data_Table/Update_Table/Update_Artist';
 import UpdateFormCate from '@/components/Data_Table/Update_Table/Update_Cate';
 import UpdateFormEmployess from '@/components/Data_Table/Update_Table/Update_Employess';
@@ -139,6 +140,7 @@ const BtnDataTable = ({ type, event, data, dropdown = () => { }, onReload }: Pro
             {type == "partner" && <UpdateFormPartner isOpen={isOpen_Edit} onOpenChange={onOpenChange_Edit} table={type} data={data} />}
             {type == "sub" && <UpdateFormSub isOpen={isOpen_Edit} onOpenChange={onOpenChange_Edit} table={type} data={data} />}
             {type == "artist" && <UpdateFormArtist isOpen={isOpen_Edit} onOpenChange={onOpenChange_Edit} table={type} data={data} />}
+            {type == "ads" && <UpdateFormAds isOpen={isOpen_Edit} onOpenChange={onOpenChange_Edit} table={type} data={data} />}
 
         </div>
     );
