@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useRouter } from 'next/navigation'
+import { hash64 } from "../../util/Convert/Hash";
 
 
 function Login({ Value }: { Value: any }) {
@@ -33,7 +34,7 @@ function Login({ Value }: { Value: any }) {
     e.preventDefault();
     Req_dispatch({ type: "REQUEST" })
     if (!is_Loading) {
-      Auth.Login(valueFrom)
+      Auth.Login({ ...valueFrom, User_Pass: hash64(valueFrom.User_Pass) })
         .then(res => {
           if (res.status == 200) {
             dispacth(login(res.data))
