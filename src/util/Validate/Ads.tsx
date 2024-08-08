@@ -18,6 +18,9 @@ const HandleErrors_Ads = {
     },
     checkSize: (value: File) => {
         return value.size < 2097152
+    },
+    checkSizeAudio: (value: File) => {
+        return value.size < 5097152
     }
 };
 
@@ -63,7 +66,7 @@ const Validate_Create_Ads = (value: create_AdsType) => {
 
 
     if (value.Ads_Audio) {
-        if (HandleErrors_Ads.checkSize(value.Ads_Audio)) {
+        if (HandleErrors_Ads.checkSizeAudio(value.Ads_Audio)) {
             if (!HandleErrors_Ads.checkAudio(value.Ads_Audio)) {
                 Error["auido"] = "Audio not type audio";
                 status = true;
