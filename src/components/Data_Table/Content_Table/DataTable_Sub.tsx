@@ -16,7 +16,7 @@ export default function DataTableSub({ data, event }: Prop) {
     const lenght = data.length % 4 != 0 ? Math.floor(data.length / 4) + 1 : Math.floor(data.length / 4)
     return (
         <div className="table_data">
-            <div className="header_Table header_Table_user">
+            <div className="header_Table header_Table_sub">
                 {Column_Sub.map((column: Column_Sub_item__Type, i: number) =>
                     <div key={i}>{column.name}</div>
                 )}

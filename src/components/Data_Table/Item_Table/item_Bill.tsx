@@ -53,7 +53,7 @@ const ItemBill = ({ bill, event }: { bill: billType, event: any }) => {
 
             <div className="Name_Item ">
                 <h4 className='overflow__Text'>{infoUser?.User_Name}</h4>
-                <h6>{infoUser?.User_Id}</h6>
+                <h6>{bill?.Bill_Id}</h6>
             </div>
             <div className="subInfo">
                 <h4 className='overflow__Text'>{infoSub?.Sub_Title}</h4>

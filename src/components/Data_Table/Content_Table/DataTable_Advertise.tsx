@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import "../_table.scss";
 import {
+    Column_Ads,
+    Column_Ads_item__Type,
     Column_Song,
     Column_Song_item__Type,
 } from "@/configs/DataTable_Config";
@@ -25,7 +27,7 @@ export default function DataTableAdvertise({ data, event }: Prop) {
     return (
         <div className="table_data">
             <div className="header_Table header_Table_user">
-                {Column_Song.map((column: Column_Song_item__Type, i: number) => (
+                {Column_Ads.map((column: Column_Ads_item__Type, i: number) => (
                     <div key={i}>{column.name}</div>
                 ))}
             </div>

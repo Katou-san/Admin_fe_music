@@ -1,23 +1,22 @@
-
-.ContentMain{
+.ContentMain {
     width: 100%;
-    display:grid;
+    display: grid;
     grid-template-columns: 100% 0%;
-    transition:.2s;
-    overflow:hidden;
+    transition: .2s;
+    overflow: hidden;
 
-    .ContentLeft{
-        .Header_Content{
+    .ContentLeft {
+        .Header_Content {
             width: 100%;
             height: 40px;
             margin-bottom: 30px;
             display: grid;
             grid-template-columns: 30% 20% 20% 15%;
             column-gap: 10px;
-            .Select-form{
+
+            .Select-form {
                 max-height: 40px;
             }
         }
     }
 }
-

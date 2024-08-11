@@ -110,7 +110,7 @@ const UpdateFormPartner = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                     </div>
                                     <div className="frameLabel">
                                         <label htmlFor="LogoInput">Chosse logo</label>
-                                        <input type="file" name="" id="LogoInput" className="none" onChange={(e) => {
+                                        <input type="file" name="" id="LogoInput" className="none" accept="image/*" onChange={(e) => {
                                             Set_Change({ ...Change, Logo: e.target?.files ? e.target.files[0] : '' })
                                             set_Url(e.target?.files ? URL.createObjectURL(e.target.files[0]) : '')
                                         }} />

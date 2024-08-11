@@ -5,11 +5,14 @@ import React from 'react';
 import "./_Item.scss"
 const ItemSub = ({ sub, event, index }: { sub: sub_respone_type, event: any, index: number }) => {
     return (
-        <div className="Item_Table Item_Table_Song">
+        <div className="Item_Table Item_Table_Song Item_Table_Sub">
             <div className='indexItem' >{index + 1}</div>
             <div className="Name_Item ">
                 <h4 className='overflow__Text'>{sub.Sub_Title}</h4>
                 <h6>{sub.Create_Date}</h6>
+            </div>
+            <div className="Price_Item ">
+                <div className='' >{sub.Price.toLocaleString()} vnd</div>
             </div>
             <div className="Status_Item">
                 <span className={`${sub.Status}`}> {String(sub.Status)}</span>

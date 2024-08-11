@@ -82,7 +82,7 @@ const UpdateFormAds = ({ isOpen, onOpenChange, table, data }: Prop) => {
         }
 
 
-        if (!URLValidate.isUrl(data?.Ads_Audio)) {
+        if (URLValidate.isUrl(data?.Ads_Audio)) {
             Send.Audio_A(data?.Ads_Audio)
                 .then((res) => set_Audio(URL.createObjectURL(res)))
         } else {
@@ -173,24 +173,26 @@ const UpdateFormAds = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                         <div className="frameImg">
                                             <Image alt="" src={urlImage || errorImg} width={200} height={50} />
                                         </div>
-                                        <div className="lableBtn">
-                                            <label htmlFor="inputImgAds">Choose image</label>
-                                            <input type="file" name="" id="inputImgAds" className="none"
-                                                onChange={(e) => {
-                                                    set_Change({ ...change, Ads_Image: e.target.files ? e.target.files[0] : '' })
-                                                    set_Image(e.target.files ? URL.createObjectURL(e.target.files[0]) : '')
-                                                }}
-                                            />
-                                        </div>
+
+                                        <label htmlFor="inputImgAds">
+                                            <div className="lableBtn">
+                                                Choose image
+                                                <input type="file" name="" id="inputImgAds" className="none" accept="image/*"
+                                                    onChange={(e) => {
+                                                        set_Change({ ...change, Ads_Image: e.target.files ? e.target.files[0] : '' })
+                                                        set_Image(e.target.files ? URL.createObjectURL(e.target.files[0]) : '')
+                                                    }}
+                                                />
+                                            </div></label>
                                     </div>
                                     <div className="rightFrameFile">
                                         <div className="frameAudio">
                                             <audio src={urlAudio} controls />
-                                        </div>
-                                        <div className="lableBtn">
-                                            <label htmlFor="">Cant change</label>
-                                        </div>
-
+                                        </div> <label htmlFor="">
+                                            <div className="lableBtn">
+                                                Cant change
+                                            </div>
+                                        </label>
 
                                     </div>
                                 </div>

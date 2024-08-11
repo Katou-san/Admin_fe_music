@@ -11,7 +11,7 @@ const initSub = {
 
 const initCreate = {
     Sub_Title: "",
-    Price: "",
+    Price: 0,
     Content: "",
     Storage: 0,
     Duration: 0,

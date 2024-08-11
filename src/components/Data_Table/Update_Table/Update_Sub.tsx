@@ -17,6 +17,7 @@ import { RootState } from "@/hooks/redux/store";
 import { toast } from "react-toastify";
 import { Subcription } from "@/api/Subscription";
 import { Validate_Update_Sub } from "@/util/Validate/Sub";
+import { formatMBToGB, ListSizesByte } from "@/util/Convert/Byte";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
@@ -30,6 +31,8 @@ const UpdateFormSub = ({ isOpen, onOpenChange, table, data }: Prop) => {
     const [Title, Set_Title] = useState("");
     const [valueSub, set_ValueSub] = useState<subType>(data);
     const [change, set_Change] = useState<update_subType>({});
+    const [typeByte, set_TypeByte] = useState('MB')
+    const [storageTemp, set_storageTemp] = useState(valueSub.Storage)
     let Array_Status = [
         { label: "public", value: true },
         { label: "private", value: false },
@@ -68,6 +71,10 @@ const UpdateFormSub = ({ isOpen, onOpenChange, table, data }: Prop) => {
         }
 
     };
+
+    useEffect(() => {
+        set_storageTemp(formatMBToGB(valueSub.Storage, typeByte))
+    }, [typeByte])
     return (
         <>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -91,19 +98,17 @@ const UpdateFormSub = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                         set_Change({ ...change, Sub_Title: e.target.value })
                                     }}
                                 />
-                                <Input
-                                    type="number"
-                                    label="Price"
-                                    value={String(valueSub.Price)}
-                                    onChange={(e) => {
-                                        set_ValueSub({
-                                            ...valueSub,
-                                            Price: Number(e.target.value),
-                                        });
-                                        set_Change({ ...change, Price: Number(e.target.value) })
-                                    }}
-                                />
-                                <Input
+
+                                <div className="frameBox ">
+                                    <Input type="number" label="Price" value={String(valueSub.Price)} onChange={(e) => {
+                                        set_ValueSub({ ...valueSub, Price: Number(e.target.value) })
+                                        set_Change({ ...change, Storage: Number(e.target.value) })
+                                    }} />
+                                    <div className="boxDecimal">
+                                        <h1>vnd</h1>
+                                    </div>
+                                </div>
+                                {/* <Input
                                     type="number"
                                     label="Storage"
                                     value={String(valueSub.Storage)}
@@ -112,10 +117,10 @@ const UpdateFormSub = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                             ...valueSub,
                                             Storage: Number(e.target.value),
                                         });
-                                        set_Change({ ...change, Storage: Number(e.target.value) })
+                                        
                                     }}
-                                />
-                                <Input
+                                /> */}
+                                {/* <Input
                                     type="number"
                                     label="Duration"
                                     value={String(valueSub.Duration)}
@@ -126,16 +131,47 @@ const UpdateFormSub = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                         });
                                         set_Change({ ...change, Duration: Number(e.target.value) })
                                     }}
-                                />
-                                <Input
-                                    type="text"
-                                    label="Content"
-                                    value={valueSub.Content}
-                                    onChange={(e) => {
-                                        set_ValueSub({ ...valueSub, Content: e.target.value });
-                                        set_Change({ ...change, Content: e.target.value })
-                                    }}
-                                />
+                                /> */}
+
+                                <div className="frameStorage">
+                                    <Input type="number" label="Storage" value={String(storageTemp)} onChange={(e) => {
+                                        set_ValueSub({ ...valueSub, Storage: Number(e.target.value) })
+                                        set_storageTemp(Number(e.target.value))
+                                        set_Change({ ...change, Duration: Number(e.target.value) })
+                                    }} />
+                                    <Select
+                                        isRequired
+                                        label={Title}
+                                        placeholder="Select"
+                                        defaultSelectedKeys={['MB']}
+                                        className="w-full"
+                                        onChange={(e) => {
+                                            set_TypeByte(e.target.value)
+                                        }}
+                                    >
+                                        {ListSizesByte.map((item, i) => (
+                                            <SelectItem key={item} value={i} textValue={item}>
+                                                {item}
+                                            </SelectItem>
+                                        ))}
+                                    </Select>
+                                </div>
+
+
+                                <div className="frameBox ">
+                                    <Input type="number" label="Duration" value={String(valueSub.Duration)} onChange={(e) => {
+                                        set_ValueSub({ ...valueSub, Duration: Number(e.target.value) })
+                                        set_Change({ ...change, Duration: Number(e.target.value) })
+                                    }} />
+                                    <div className="boxDecimal">
+                                        <h1>month</h1>
+                                    </div>
+                                </div>
+                                <textarea name="" id="" placeholder='Content' value={valueSub.Content} onChange={(e) => {
+                                    set_ValueSub({ ...valueSub, Content: e.target.value })
+                                    set_Change({ ...change, Content: e.target.value })
+                                }}>
+                                </textarea>
 
                                 <Select
                                     isRequired

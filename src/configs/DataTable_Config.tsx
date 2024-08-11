@@ -52,6 +52,7 @@ export type Column_Bill_item__Type = typeof Column_Bill[0]
 
 export const Column_Sub = [
     { name: "INFO", uid: "info" },
+    { name: "PRICE", uid: "price" },
     { name: "STATUS", uid: "status" },
     { name: "DURATION", uid: "duration" },
     { name: "ACTIONS", uid: "actions" }
@@ -73,3 +74,11 @@ export const Column_Partner = [
     { name: "ACTIONS", uid: "actions" }
 ];
 export type Column_Partner_item__Type = typeof Column_Role[0]
+
+export const Column_Ads = [
+    { name: "INFO", uid: "info" },
+    { name: "DATE", uid: "date" },
+    { name: "ACTIVE", uid: "active" },
+    { name: "ACTIONS", uid: "actions" }
+];
+export type Column_Ads_item__Type = typeof Column_Ads[0]

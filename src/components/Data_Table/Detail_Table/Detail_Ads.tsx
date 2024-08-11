@@ -26,7 +26,7 @@ const DetailAds = ({ data, event, table }: { data: AdsType, event: any, table: s
 
         }
         if (data.Ads_Audio) {
-            if (!URLValidate.isUrl(data.Ads_Audio)) {
+            if (URLValidate.isUrl(data.Ads_Audio)) {
                 Send.Audio_A(data.Ads_Audio)
                     .then((res) => set_Audio(URL.createObjectURL(res)))
             } else {

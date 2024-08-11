@@ -319,6 +319,7 @@
         justify-content: center;
         grid-template-columns: 49% 49%;
         gap: 1%;
+        width: 100%;
 
         .leftFrameFile,
         .rightFrameFile {
@@ -352,17 +353,21 @@
             }
         }
 
-        .lableBtn {
 
-            margin-top: 5px;
-            padding: 10px 0;
-            border-radius: 10px;
-            width: 100%;
-            background-color: #0f172a;
-            text-align: center;
-            color: #c9c9c9;
-            font-size: 14px;
-            cursor: pointer;
+        label {
+
+            .lableBtn {
+                width: 100%;
+                margin-top: 5px;
+                padding: 10px 0;
+                border-radius: 10px;
+                width: 100%;
+                background-color: #002245;
+                text-align: center;
+                color: #c9c9c9;
+                font-size: 14px;
+                cursor: pointer;
+            }
         }
     }
 
@@ -411,6 +416,8 @@
             }
         }
     }
+
+
 }
 
 .showRightContentPartner {
@@ -425,4 +432,37 @@
             margin-top: 10px;
         }
     }
+}
+
+.frameBox,
+.frameStorage {
+    display: flex;
+    gap: 1%;
+
+    .boxDecimal {
+        width: 30%;
+        height: 100%;
+        min-height: 56px;
+        background-color: #f0f0f0;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        color: #323232;
+
+    }
+}
+
+textarea {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 90px;
+    max-height: 120px;
+    outline: none;
+    border: 1px solid #959595;
+    padding: 10px;
+    border-radius: 14px;
 }

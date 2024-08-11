@@ -34,8 +34,25 @@ export const Validate_CreatePartner = (data: create_PartnerType) => {
         status = true;
     }
 
-    if (!HandleErrors.lenghtInfo(data.Contract_num)) {
-        Error["contract"] = "Contract id need 10 characters";
+    if (!HandleErrors.CheckLenght(data.Contract_num)) {
+        Error["contract"] = "Contract id need 5 characters";
+        status = true;
+    }
+
+
+    if (data?.Logo != undefined && data?.Logo != '') {
+        const Logo = data.Logo as File
+        if (!Logo.type.includes('image')) {
+            Error["Logo"] = "Logo not type image";
+            status = true;
+        } else {
+            if (Logo.size > 2097152) {
+                Error["Logo"] = "Logo size must be under 2MB";
+                status = true;
+            }
+        }
+    } else {
+        Error["Logo"] = "Logo invalid";
         status = true;
     }
 
@@ -59,12 +76,19 @@ export const Validate_UpdatePartner = (data: update_PartnerType) => {
     }
 
 
-    if (data.Logo != undefined) {
-        // if (!HandleErrors.lenghtInfo(data.Logo)) {
-        //     Error["contract"] = "Contract id need 10 characters";
-        //     status = true;
-        // }
+    if (data?.Logo != undefined && data?.Logo != '') {
+        const Logo = data.Logo as File
+        if (!Logo.type.includes('image')) {
+            Error["Logo"] = "Logo not type image";
+            status = true;
+        } else {
+            if (Logo.size > 2097152) {
+                Error["Logo"] = "Logo size must be under 2MB";
+                status = true;
+            }
+        }
     }
+
 
 
     return { status, Error };

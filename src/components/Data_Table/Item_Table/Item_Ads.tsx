@@ -8,6 +8,7 @@ import imgTemp from "../../../../public/temp.jpg"
 import { cateModel, cateType } from '@/model/cateModel';
 import { Category } from '@/api/Category';
 import { AdsType } from '@/model/advserModel';
+import { URLValidate } from '@/util/Validate/Url';
 
 const ItemAds = ({ ads, event }: { ads: AdsType, event: any }) => {
     const [url, Set_url] = useState("")
@@ -17,10 +18,12 @@ const ItemAds = ({ ads, event }: { ads: AdsType, event: any }) => {
 
     useEffect(() => {
         if (ads?.Ads_Image != '') {
-            Promise.all([
+            if (URLValidate.isUrl(ads?.Ads_Image)) {
                 Send.Image_A(ads.Ads_Image)
-                    .then(res => Set_url(URL.createObjectURL(res))),
-            ])
+                    .then(res => Set_url(URL.createObjectURL(res)))
+            } else {
+                Set_url(ads?.Ads_Image)
+            }
         }
     }, [ads])
 

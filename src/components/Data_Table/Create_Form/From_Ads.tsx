@@ -13,7 +13,6 @@ import {
 } from "@nextui-org/react";
 import "./_Create_Form.scss";
 import Image from "next/image";
-import { Song } from "@/api/Song";
 import { toast } from "react-toastify";
 import { Form_Data } from "@/util/FormData/Form_Data";
 import { useReload } from "@/contexts/providerReload";
@@ -81,19 +80,6 @@ const CreateFormAds = ({ isOpen, onOpenChange, table, data }: Prop) => {
             const getKey = Object.keys(Error_Check.Error)
             toast.error(Error_Check.Error[getKey[0]])
         }
-        // if (!true) {
-        //     const formdata = Form_Data(valueAds);
-        //     Song.Create(formdata).then((res) => {
-        //         if (res.status == 200) {
-        //             set_ReloadSong()
-        //             toast.success(res.message);
-        //             onClose();
-        //         } else {
-        //             toast.error(res.message);
-        //         }
-        //     });
-        // } else {
-        // }
     };
     return (
         <>
@@ -145,29 +131,33 @@ const CreateFormAds = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                         <div className="frameImg">
                                             <Image alt="" src={Urlfile.img || errorImg} width={200} height={50} />
                                         </div>
-                                        <div className="lableBtn">
-                                            <label htmlFor="inputImgAds">Choose image</label>
-                                            <input type="file" name="" id="inputImgAds" className="none"
-                                                onChange={(e) => {
-                                                    set_ValueAds({ ...valueAds, Ads_Image: e.target.files ? e.target.files[0] : '' })
-                                                    set_Url({ ...Urlfile, img: e.target.files ? URL.createObjectURL(e.target.files[0]) : '' })
-                                                }}
-                                            />
-                                        </div>
+                                        <label htmlFor="inputImgAds">
+                                            <div className="lableBtn">
+                                                Choose image
+
+                                                <input type="file" name="" id="inputImgAds" className="none" accept="image/*"
+                                                    onChange={(e) => {
+                                                        set_ValueAds({ ...valueAds, Ads_Image: e.target.files ? e.target.files[0] : '' })
+                                                        set_Url({ ...Urlfile, img: e.target.files ? URL.createObjectURL(e.target.files[0]) : '' })
+                                                    }}
+                                                />
+                                            </div>
+                                        </label>
                                     </div>
                                     <div className="rightFrameFile">
                                         <div className="frameAudio">
                                             <audio src={Urlfile.audio} controls />
                                         </div>
-                                        <div className="lableBtn">
-                                            <label htmlFor="inputAudioAds">Choose audio</label>
-                                            <input type="file" name="" id="inputAudioAds" className="none"
-                                                onChange={(e) => {
-                                                    set_ValueAds({ ...valueAds, Ads_Audio: e.target.files ? e.target.files[0] : '' })
-                                                    set_Url({ ...Urlfile, audio: e.target.files ? URL.createObjectURL(e.target.files[0]) : '' })
-                                                }}
-                                            />
-                                        </div>
+                                        <label htmlFor="inputAudioAds">
+                                            <div className="lableBtn">
+                                                Choose audio
+                                                <input type="file" name="" id="inputAudioAds" className="none" accept="audio/*"
+                                                    onChange={(e) => {
+                                                        set_ValueAds({ ...valueAds, Ads_Audio: e.target.files ? e.target.files[0] : '' })
+                                                        set_Url({ ...Urlfile, audio: e.target.files ? URL.createObjectURL(e.target.files[0]) : '' })
+                                                    }}
+                                                />
+                                            </div></label>
 
 
                                     </div>

@@ -50,6 +50,12 @@
         }
     }
 
+    .header_Table_sub {
+        display: grid;
+        grid-template-columns: 35% 20% 20% 10% 15% !important;
+    }
+
+
     .header_Table_user {
         display: grid;
         grid-template-columns: 40% 25% 15% 20%;

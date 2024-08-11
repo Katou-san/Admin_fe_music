@@ -18,6 +18,7 @@ import { Validate_Playlist } from "@/util/Validate/Playlist";
 import { Playlist } from "@/api/Playlist";
 import { Send } from "@/api/Send";
 import { useReload } from "@/contexts/providerReload";
+import { create_Playlist, playlistModel } from "@/model/playlistModel";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
@@ -29,8 +30,8 @@ const CreateFormPlaylist = ({ isOpen, onOpenChange, table, data }: Prop) => {
     const { set_ReloadPlaylist } = useReload()
     const [Title, Set_Title] = useState("");
     const [status, Set_Status] = useState(true)
-    const [Value_playlist, Set_Value_playlist] = useState<Create_Playlist_Type>(
-        Init_Create_Playlist
+    const [Value_playlist, Set_Value_playlist] = useState<create_Playlist>(
+        playlistModel.init_create
     );
     const [url_load, Set_url] = useState<{ img: any, thumnail: any }>({ img: "", thumnail: "" })
 
@@ -43,20 +44,16 @@ const CreateFormPlaylist = ({ isOpen, onOpenChange, table, data }: Prop) => {
             })
     }, [table, data]);
 
-
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
-        const Error_Check = Validate_Playlist(
-            Value_playlist.Playlist_Name,
-            Value_playlist.Artist
-        );
-
+        const Error_Check = Validate_Playlist(Value_playlist);
         if (!Error_Check.status) {
             const formdata = Form_Data({ ...Value_playlist, is_Publish: status, Type: 1 });
             Playlist.Create(formdata).then((res) => {
                 if (res.status == 200) {
                     set_ReloadPlaylist()
                     toast.success(res.message);
+                    Set_Value_playlist(playlistModel.init_create)
                     onClose();
                 } else {
                     toast.error(res.message);
@@ -86,7 +83,8 @@ const CreateFormPlaylist = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                 <Input
                                     type="text"
                                     label="Playlist name"
-                                    value={Value_playlist?.Playlist_Name}
+
+                                    value={Value_playlist.Playlist_Name}
                                     onChange={(e) => {
                                         Set_Value_playlist({ ...Value_playlist, Playlist_Name: e.target.value })
 
@@ -116,15 +114,15 @@ const CreateFormPlaylist = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                 </div>
                                 <div className="btn_Form_Playlist">
                                     <label htmlFor="image_Playlist">Image</label>
-                                    <input type="file" name="image_Playlist" id="image_Playlist" className="none"
+                                    <input type="file" name="image_Playlist" id="image_Playlist" className="none" accept="image/*"
                                         onChange={(e) => {
-                                            Set_url({ ...url_load, img: e.target.files ? URL.createObjectURL(e.target.files[0]) : url_load.thumnail })
+                                            Set_url({ ...url_load, img: e.target.files ? URL.createObjectURL(e.target.files[0]) : url_load.img })
                                             Set_Value_playlist({ ...Value_playlist, Image: e.target.files ? e.target.files[0] : null })
                                         }}
                                     />
 
                                     <label htmlFor="thumnail_Playlist">Thumnail</label>
-                                    <input type="file" name="thumnail_Playlist" id="thumnail_Playlist" className="none"
+                                    <input type="file" name="thumnail_Playlist" id="thumnail_Playlist" className="none" accept="image/*"
                                         onChange={(e) => {
                                             Set_url({ ...url_load, thumnail: e.target.files ? URL.createObjectURL(e.target.files[0]) : url_load.thumnail })
                                             Set_Value_playlist({ ...Value_playlist, Thumbnail: e.target.files ? e.target.files[0] : null })

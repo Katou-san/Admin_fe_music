@@ -73,6 +73,15 @@
 
 }
 
+.Item_Table_Sub {
+    grid-template-columns: 10% 25% 20% 20% 10% 15% !important;
+
+    .Price_Item {
+        font-size: 16px;
+    }
+}
+
+
 .Item_Table_Bill {
     .subInfo {
         display: grid;
@@ -167,6 +176,7 @@
 
     }
 }
+
 
 .Status_Partner {
     width: min-content;

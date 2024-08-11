@@ -14,10 +14,11 @@ import {
 import { toast } from "react-toastify";
 import { Form_Data } from "@/util/FormData/Form_Data";
 import { Res_Playlist, Res_Playlist_Type } from "@/util/respone_Type/playlist-respone";
-import { Validate_Playlist } from "@/util/Validate/Playlist";
+import { Validate_Playlist, Validate_Playlist_Update } from "@/util/Validate/Playlist";
 import { Playlist } from "@/api/Playlist";
 import { Send } from "@/api/Send";
 import { useReload } from "@/contexts/providerReload";
+import { update_Playlist } from "@/model/playlistModel";
 type Prop = {
     isOpen: boolean;
     onOpenChange: () => void;
@@ -33,7 +34,7 @@ const UpdateFormPlaylist = ({ isOpen, onOpenChange, table, data }: Prop) => {
         Res_Playlist[0]
     );
     const [url_load, Set_url] = useState<{ img: any, thumnail: any }>({ img: "", thumnail: "" })
-    const [Change, Set_Change] = useState({})
+    const [Change, Set_Change] = useState<update_Playlist>({})
 
     useEffect(() => {
         Set_Title(table);
@@ -48,7 +49,7 @@ const UpdateFormPlaylist = ({ isOpen, onOpenChange, table, data }: Prop) => {
 
     const SubmitForm = (e: any, onClose: () => void) => {
         e.preventDefault();
-        const Error_Check = Validate_Playlist(Value_playlist.Playlist_Name, Value_playlist.Artist);
+        const Error_Check = Validate_Playlist_Update(Change);
 
         if (!Error_Check.status) {
             const formdata = Form_Data({ ...Change, is_Publish: status });
@@ -118,7 +119,7 @@ const UpdateFormPlaylist = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                 </div>
                                 <div className="btn_Form_Playlist">
                                     <label htmlFor="image_Playlist">Image</label>
-                                    <input type="file" name="image_Playlist" id="image_Playlist" className="none"
+                                    <input type="file" name="image_Playlist" id="image_Playlist" className="none" accept="image/*"
                                         onChange={(e) => {
                                             Set_url({ ...url_load, img: e.target.files ? URL.createObjectURL(e.target.files[0]) : url_load.thumnail })
                                             Set_Change({ ...Change, Image: e.target.files ? e.target.files[0] : null })
@@ -126,7 +127,7 @@ const UpdateFormPlaylist = ({ isOpen, onOpenChange, table, data }: Prop) => {
                                     />
 
                                     <label htmlFor="thumnail_Playlist">Thumnail</label>
-                                    <input type="file" name="thumnail_Playlist" id="thumnail_Playlist" className="none"
+                                    <input type="file" name="thumnail_Playlist" id="thumnail_Playlist" className="none" accept="image/*"
                                         onChange={(e) => {
                                             Set_url({ ...url_load, thumnail: e.target.files ? URL.createObjectURL(e.target.files[0]) : url_load.thumnail })
                                             Set_Change({ ...Change, Thumbnail: e.target.files ? e.target.files[0] : null })

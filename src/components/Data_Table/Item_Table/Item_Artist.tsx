@@ -9,6 +9,7 @@ import imgTemp from "../../../../public/errorImg.png";
 import { artistType } from "@/model/artistModel";
 import { User } from "@/api/User";
 import Image from "next/image";
+import { URLValidate } from "@/util/Validate/Url";
 
 type Prop = {
     artist: artistType;
@@ -37,9 +38,14 @@ const ItemArtist = ({ artist, event, type = "artist" }: Prop) => {
             infoUser?.User_Id != "" &&
             infoUser?.Avatar != ""
         ) {
-            Send.Avatar(infoUser?.Avatar).then((res) => {
-                Set_url(URL.createObjectURL(res))
-            });
+            if (URLValidate.isUrl(infoUser.Avatar)) {
+                Send.Avatar(infoUser?.Avatar).then((res) => {
+                    Set_url(URL.createObjectURL(res))
+                });
+            } else {
+                Set_url(infoUser.Avatar)
+            }
+
         }
     }, [infoUser]);
 
