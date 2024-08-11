@@ -12,8 +12,13 @@ import {
   dashboardType,
   dashboardTypeChar,
 } from "@/model/dashboard";
-import { Money_Icon, Sound_Icon, User_Icon, World_Icon } from "@/util/Icons/Icon_Figma";
-import { useEffect, useState } from "react";
+import {
+  Money_Icon,
+  Sound_Icon,
+  User_Icon,
+  World_Icon,
+} from "@/util/Icons/Icon_Figma";
+import React, { useEffect, useState } from "react";
 
 export default function Page() {
   const ArrayPie = [
@@ -23,10 +28,19 @@ export default function Page() {
     { name: "Group D", value: 200 },
   ];
 
+  const [value_date, set_value_date] = useState({
+    start_date: "",
+    end_date: "",
+  });
+
+  const [date_set, set_date_set] = useState(false);
   const [dashboard_1, set_dashboard_1] = useState<dashboardType>(
     dashboardModel.init
   );
   const [CharData_1, set_CharData_1] = useState<dashboardTypeChar>(
+    dashboardModelChar.init
+  );
+  const [CharData_2, set_CharData_2] = useState<dashboardTypeChar>(
     dashboardModelChar.init
   );
 
@@ -36,12 +50,51 @@ export default function Page() {
     Dashboard.Get_Dashboard_char_1().then((res) => set_CharData_1(res.data));
   }, []);
 
+  useEffect(() => {
+    Dashboard.Get_Dashboard_char_1().then((res) => set_CharData_1(res.data));
+  }, [CharData_1]);
+
+  const submitDate = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const smonth = new Date(value_date.start_date).getMonth() + 1;
+    const syear = new Date(value_date.start_date).getFullYear();
+
+    const emonth = new Date(value_date.end_date).getMonth() + 1;
+    const eyear = new Date(value_date.end_date).getFullYear();
+
+    if (!smonth || !syear || !emonth || !eyear) {
+      set_date_set(false);
+    } else {
+      let array: dashboardTypeChar = [];
+      CharData_1.forEach((e) => {
+        if (
+          e.month >= smonth &&
+          e.month <= emonth &&
+          e.year >= syear &&
+          e.year <= eyear
+        ) {
+          array.push(e);
+        }
+      });
+      set_CharData_2(array);
+      set_date_set(true);
+    }
+  };
+
   return (
     <div className="farme-home">
       <div className="header-content">
         <div className="content-1">
-          <ItemList title={"Visits"} num={dashboard_1.Visit_num} icon={<World_Icon color="#2f2c2c" w={30} />} />
-          <ItemList title={"Revenues"} num={dashboard_1.Revenue_num} icon={<Money_Icon color="#2f2c2c" w={30} />} />
+          <ItemList
+            title={"Visits"}
+            num={dashboard_1.Visit_num}
+            icon={<World_Icon color="#2f2c2c" w={30} />}
+          />
+          <ItemList
+            title={"Revenues"}
+            num={dashboard_1.Revenue_num}
+            icon={<Money_Icon color="#2f2c2c" w={30} />}
+          />
           <ItemList
             title={"Users"}
             num={dashboard_1.User_num}
@@ -54,10 +107,42 @@ export default function Page() {
           />
         </div>
       </div>
-
+      <div>
+        <form onSubmit={submitDate}>
+          <input
+            type="month"
+            id="start_date"
+            name="start"
+            max={
+              new Date().getFullYear() +
+              "-" +
+              ("0" + (new Date().getMonth() + 1)).slice(-2)
+            }
+            onChange={(e) => {
+              set_value_date({ ...value_date, start_date: e.target.value });
+            }}
+          />
+          <input
+            type="month"
+            id="end_date"
+            name="end"
+            max={
+              new Date().getFullYear() +
+              "-" +
+              ("0" + (new Date().getMonth() + 1)).slice(-2)
+            }
+            onChange={(e) => {
+              set_value_date({ ...value_date, end_date: e.target.value });
+            }}
+          />
+          <button type="submit" style={{ backgroundColor: "white" }}>
+            submit
+          </button>
+        </form>
+      </div>
       <div className="main-content">
         <div className="farme-chart">
-          <RenderBarChart data={CharData_1} />
+          <RenderBarChart data={date_set ? CharData_2 : CharData_1} />
         </div>
         <div className="farme-detail">
           <RenderPieChart data={ArrayPie} />
