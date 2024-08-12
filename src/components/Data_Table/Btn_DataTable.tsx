@@ -99,7 +99,7 @@ const BtnDataTable = ({ type, event, data, dropdown = () => { }, onReload }: Pro
                     <EditIcon />
                 </span>
             </Tooltip>}
-            {type != '' &&
+            {type != 'bill' && type != 'user' &&
                 <Tooltip color="danger" content="Delete">
                     <span className="text-lg text-danger cursor-pointer active:opacity-50"
                         onClick={onOpen}
