@@ -58,12 +58,9 @@ export default function Page() {
     } else {
       let array: dashboardTypeChar = [];
       CharData_1.forEach((e) => {
-        if (
-          e.month >= dateStart.getMonth() + 1 &&
-          e.month <= dateEnd.getMonth() + 1 &&
-          e.year >= dateEnd.getFullYear() &&
-          e.year <= dateStart.getFullYear()
-        ) {
+        const e_date = new Date(e.year + "-" + ("0" + e.month).slice(-2));
+
+        if (e_date >= dateStart && e_date <= dateEnd) {
           array.push(e);
         }
       });
