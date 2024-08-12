@@ -46,32 +46,23 @@ export default function Page() {
 
   useEffect(() => {
     Dashboard.Get_Dashboard_1().then((res) => set_dashboard_1(res.data));
-
     Dashboard.Get_Dashboard_char_1().then((res) => set_CharData_1(res.data));
   }, []);
 
   useEffect(() => {
-    Dashboard.Get_Dashboard_char_1().then((res) => set_CharData_1(res.data));
-  }, [CharData_1]);
+    const dateStart = new Date(value_date.start_date)
+    const dateEnd = new Date(value_date.end_date)
 
-  const submitDate = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const smonth = new Date(value_date.start_date).getMonth() + 1;
-    const syear = new Date(value_date.start_date).getFullYear();
-
-    const emonth = new Date(value_date.end_date).getMonth() + 1;
-    const eyear = new Date(value_date.end_date).getFullYear();
-
-    if (!smonth || !syear || !emonth || !eyear) {
+    if (!value_date.start_date || !value_date.end_date) {
       set_date_set(false);
     } else {
       let array: dashboardTypeChar = [];
       CharData_1.forEach((e) => {
         if (
-          e.month >= smonth &&
-          e.month <= emonth &&
-          e.year >= syear &&
-          e.year <= eyear
+          e.month >= dateStart.getMonth() + 1 &&
+          e.month <= dateEnd.getMonth() + 1 &&
+          e.year >= dateEnd.getFullYear() &&
+          e.year <= dateStart.getFullYear()
         ) {
           array.push(e);
         }
@@ -79,7 +70,7 @@ export default function Page() {
       set_CharData_2(array);
       set_date_set(true);
     }
-  };
+  }, [value_date])
 
   return (
     <div className="farme-home">
@@ -107,8 +98,9 @@ export default function Page() {
           />
         </div>
       </div>
-      <div>
-        <form onSubmit={submitDate}>
+      <div className="OptionDate">
+
+        <div className="frameInputDate">
           <input
             type="month"
             id="start_date"
@@ -122,6 +114,9 @@ export default function Page() {
               set_value_date({ ...value_date, start_date: e.target.value });
             }}
           />
+        </div>
+
+        <div className="frameInputDate">
           <input
             type="month"
             id="end_date"
@@ -135,10 +130,8 @@ export default function Page() {
               set_value_date({ ...value_date, end_date: e.target.value });
             }}
           />
-          <button type="submit" style={{ backgroundColor: "white" }}>
-            submit
-          </button>
-        </form>
+
+        </div>
       </div>
       <div className="main-content">
         <div className="farme-chart">
