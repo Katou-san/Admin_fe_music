@@ -50,8 +50,8 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    const dateStart = new Date(value_date.start_date)
-    const dateEnd = new Date(value_date.end_date)
+    const dateStart = new Date(value_date.start_date);
+    const dateEnd = new Date(value_date.end_date);
 
     if (!value_date.start_date || !value_date.end_date) {
       set_date_set(false);
@@ -70,7 +70,7 @@ export default function Page() {
       set_CharData_2(array);
       set_date_set(true);
     }
-  }, [value_date])
+  }, [value_date]);
 
   return (
     <div className="farme-home">
@@ -99,16 +99,17 @@ export default function Page() {
         </div>
       </div>
       <div className="OptionDate">
-
         <div className="frameInputDate">
           <input
             type="month"
             id="start_date"
             name="start"
             max={
-              new Date().getFullYear() +
-              "-" +
-              ("0" + (new Date().getMonth() + 1)).slice(-2)
+              value_date.end_date
+                ? value_date.end_date
+                : new Date().getFullYear() +
+                  "-" +
+                  ("0" + (new Date().getMonth() + 1)).slice(-2)
             }
             onChange={(e) => {
               set_value_date({ ...value_date, start_date: e.target.value });
@@ -121,6 +122,7 @@ export default function Page() {
             type="month"
             id="end_date"
             name="end"
+            min={value_date.start_date}
             max={
               new Date().getFullYear() +
               "-" +
@@ -130,7 +132,6 @@ export default function Page() {
               set_value_date({ ...value_date, end_date: e.target.value });
             }}
           />
-
         </div>
       </div>
       <div className="main-content">
